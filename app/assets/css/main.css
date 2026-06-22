@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap');
+
+:root {
+	--font-display: 'Great Vibes', cursive;
+	--font-body: 'Cormorant Garamond', Georgia, serif;
+}
+
+html,
+body,
+#__nuxt {
+	min-height: 100%;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background:
+		radial-gradient(circle at top, rgba(255, 214, 102, 0.06), transparent 24%),
+		radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.18), transparent 28%),
+		#040816;
+	color: #f8fafc;
+	font-family: var(--font-body);
+	text-rendering: optimizeLegibility;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+::selection {
+	background: rgba(255, 214, 102, 0.35);
+	color: #fff8dc;
+}
