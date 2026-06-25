@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	css: ["~/assets/css/main.css", "~/assets/css/tailwind.css"],
+	css: ["~/assets/css/main.css"],
+	postcss: {
+		plugins: {
+			"@tailwindcss/postcss": {},
+		},
+	},
 
 	compatibilityDate: "2025-07-15",
 	devtools: { enabled: false },
@@ -18,7 +23,19 @@ export default defineNuxtConfig({
 					content: "Galactic Gene - a Nuxt and Tailwind starter landing page.",
 				},
 			],
+			link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
 		},
 	},
-	modules: ["@nuxt/fonts", "@nuxt/icon", "@nuxtjs/tailwindcss"],
+	icon: {
+		mode: "css",
+		cssLayer: "base",
+	},
+	modules: [
+		"@nuxt/fonts",
+		"@nuxt/icon",
+		"@vueuse/nuxt",
+		"@nuxt/ui",
+		"@nuxtjs/color-mode",
+		"@nuxtjs/mdc",
+	],
 });

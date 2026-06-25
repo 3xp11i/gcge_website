@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap');
+@import "tailwindcss";
+@import "@nuxt/ui";
 
 :root {
-	--font-display: 'Great Vibes', cursive;
-	--font-body: 'Cormorant Garamond', Georgia, serif;
+	--font-body: "Quicksand";
+	/* --font-body: "Elms Sans"; */
 }
 
 html,
@@ -11,27 +12,110 @@ body,
 	min-height: 100%;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 html {
 	scroll-behavior: smooth;
 }
 
 body {
 	margin: 0;
-	background:
-		radial-gradient(circle at top, rgba(255, 214, 102, 0.06), transparent 24%),
-		radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.18), transparent 28%),
-		#040816;
-	color: #f8fafc;
+	/* background-color:#181818; */
+	background-color: #051320;
+	/* color: rgb(249, 221, 127); */
+	color:white;
+	font-weight: 500;
 	font-family: var(--font-body);
 	text-rendering: optimizeLegibility;
 }
 
+
+.light body {
+  background-color: rgb(255, 241, 205);
+  color: #051320;
+}
+
+.fancy {
+	font-family: "Lavishly Yours";
+	padding: 1rem;
+	color: goldenrod;
+	/* text-shadow: 0.1rem 0.1rem 0.3rem rgba(255, 255, 0, 0.42); */
+}
+.fancy2 {
+	color: goldenrod;
+	font-family: "Tangerine";
+}
+
 a {
-	color: inherit;
+	/* color: inherit; */
 	text-decoration: none;
+}
+a:hover {
+	transition: 0.2s ease;
+	color: goldenrod;
+	text-shadow: 0rem 0rem 0.2rem rgba(255, 255, 0, 0.482);
 }
 
 ::selection {
 	background: rgba(255, 214, 102, 0.35);
 	color: #fff8dc;
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* justify-content: center; */
+
+	padding: 2rem;
+	margin-block: 4rem;
+
+	height: fit-content;
+	max-width: 80%;
+
+}
+
+.separator {
+	display: block;
+	width: 80%;
+	height: 1px;
+	/* background-color: goldenrod; */
+	margin-block: 2rem;
+
+	border-top: .2rem solid rgba(78, 78, 78, 0.151);
+	border-radius: 100%;
+}
+
+.button{
+	background-color: goldenrod;
+	color: black;
+	transition: 0.2s ease;
+}
+.button:hover{
+	transform: scale(1.05);
+	transition: 0.2s ease;
+	background-color: goldenrod;
+	color: black;
+}
+
+h1 {
+	font-size: 6rem;
+	/* font-weight: 700; */
+}
+h2 {
+	font-size: 3rem;
+	font-family: "Cinzel Decorative";
+	font-weight: 600;
+	color: rgb(225, 174, 47);
+
+}
+h3 {
+	font-size: 2rem;
+	color: goldenrod;
+
+}
+h4 {
+	font-size: 1.5rem;
 }
