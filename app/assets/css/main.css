@@ -119,3 +119,33 @@ h3 {
 h4 {
 	font-size: 1.5rem;
 }
+
+@media (max-width: 768px) {
+	section {
+		max-width: 100%;
+		padding: 1.25rem;
+		margin-block: 2.5rem;
+	}
+
+	h2 {
+		font-size: clamp(2rem, 7vw, 2.5rem);
+	}
+
+	h3 {
+		font-size: 1.5rem;
+	}
+
+	h4 {
+		font-size: 1.25rem;
+	}
+}
+
+@media (max-width: 640px) {
+	body {
+		font-size: 0.98rem;
+	}
+
+	.fancy {
+		padding: 0.5rem;
+	}
+}

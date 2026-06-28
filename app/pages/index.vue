@@ -1,10 +1,10 @@
 <template>
-  <div class="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
+  <div class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
     <Navbar />
 
 
     <div ref="sunEl"
-         class="bg_art sun"
+         class="bg_art sun fixed! left-60 -top-4 w-20 h-20 rounded-full not-md:left-1/2 not-md:-top-1/12"
          :style="sunStyle"></div>
 
     <div class="stars"></div>
@@ -15,19 +15,19 @@
          :style="moonStyle"
          v-show="$colorMode.preference == 'dark'" />
 
-    <header class="h-screen flex flex-col items-center justify-start text-center relative w-full">
-      <h1 class="text-9xl! mt-6 fancy">Galactic Gene</h1>
+    <header class="relative flex h-[100svh] w-full flex-col items-center justify-start text-center">
+      <h1 class="mt-6 text-5xl sm:text-7xl lg:text-9xl! fancy">Galactic Gene</h1>
 
-      <p class="fancy2 text-5xl m-4">A place to find your cosmic path</p>
+      <p class="fancy2 m-4 text-4xl sm:text-3xl lg:text-5xl">A place to find your cosmic path</p>
 
 
       <img src="@/assets/images/mayur.png"
            alt="Peacock" :style="peacockStyle"
-           class="bg_art w-80 bottom-2/12 right-0" />
+           class="bg_art w-80 lg:bottom-2/12 lg:right-0  not-md:-right-1/3  not-md:opacity-30 -bottom-1/2" />
       <img src="@/assets/images/flower.png"
            alt="Flowers"
            :style="flowerStyle"
-           class="bg_art w-80 -bottom-20 -left-20 rotate-30" />
+           class="bg_art w-80 -bottom-20 -left-20 rotate-30 not-md:opacity-30" />
 
     </header>
 
@@ -36,7 +36,7 @@
 
 
     <section id="about"
-             class="flex md:flex-row! items-center justify-between gap-8 ">
+         class="flex flex-col items-center justify-between gap-8 md:flex-row!">
 
       <div class="textPart flex flex-col gap-4 w-fit">
 
@@ -51,7 +51,7 @@
       </div>
 
       <!-- arrows -->
-      <div class="mediaPart flex flex-col items-center w-full">
+      <div class="mediaPart flex w-full flex-col items-center">
         <UCarousel class-names
                    dots
                    :autoplay="{ delay: 2000 }"
@@ -166,7 +166,7 @@
       <img src="@/assets/images/birds.png"
            alt="Birds"
            :style="birdsStyle"
-           class="bg_art -top-3/4 -right-1/4" />
+           class="bg_art -top-3/4 -right-1/4 not-md:opacity-30" />
 
       <div class="upperText mb-4">
 
@@ -178,13 +178,13 @@
         </p>
       </div>
 
-      <div class="socialCards flex flex-col md:flex-row! items-center justify-center gap-8 w-full">
+            <div class="socialCards flex w-full flex-col items-center justify-center gap-8 md:flex-row!">
 
         <div
-             class="discordCard relative flex w-1/2 rounded-3xl  border-[#7289da] border-2 m-4 hover:scale-105 transition-transform">
+              class="discordCard relative m-4 flex w-full rounded-3xl border-2 border-[#7289da] transition-transform hover:scale-105 md:w-1/2">
           <img src="@/assets/images/discord_server.png"
                alt="Discord server image"
-               class="w-full object-cover blur-xs rounded-3xl select-none pointer-events-none" />
+               class="w-full object-cover blur-[2px] rounded-3xl select-none pointer-events-none" />
           <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full">
             <p class="">Connect, Talk & Learn! <br> We are waiting for you to join ♥️
             </p>
@@ -194,10 +194,10 @@
           </div>
         </div>
         <div
-             class="redditCard relative flex w-1/2 rounded-3xl  border-[#ff6314] border-2 m-4 hover:scale-105 transition-transform">
+             class="redditCard relative m-4 flex w-full rounded-3xl border-2 border-[#ff6314] transition-transform hover:scale-105 md:w-1/2">
           <img src="@/assets/images/reddit.png"
                alt="Reddit community image"
-               class="w-full object-cover blur-xs rounded-3xl select-none pointer-events-none" />
+               class="w-full object-cover blur-[2px] rounded-3xl select-none pointer-events-none" />
           <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full">
             <p class="">Feel free to ask any doubt or question 🌱
             </p>
@@ -212,15 +212,15 @@
 
     <hr class="separator">
 
-    <section id="faq"
-             class="flex flex-col md:flex-row! items-center justify-center gap-20">
+        <section id="faq"
+            class="flex flex-col items-center justify-center gap-20 md:flex-row!">
 
-      <div class="mediaPart flex items-center justify-center w-1/2">
+          <div class="mediaPart flex w-full items-center justify-center md:w-1/2">
         <img src="@/assets/images/sunflower.webp"
              alt="Sunflower photo by Cena"
-             class="rounded-2xl w-full object-cover shadow-md shadow-black" />
+             class="rounded-2xl w-full not-md:w-3/4 object-cover shadow-md shadow-black" />
       </div>
-      <div class="textPart flex flex-col gap-4 w-full">
+      <div class="textPart flex w-full flex-col gap-4">
 
         <h2 class="text-left">FAQs</h2>
         <UAccordion :items="faqItems"
@@ -483,7 +483,7 @@ const reviews = [
     name: "Aarav",
     role: "Community member",
     image: "https://picsum.photos/seed/review-1/160/160",
-    link: "https://www.example.com/review-1",
+    link: "#",
     quote:
       "The predictions and insights provided by Galactic Gene have been incredibly accurate and helpful in my personal growth journey.",
   },
@@ -491,7 +491,7 @@ const reviews = [
     name: "Meera",
     role: "First-time visitor",
     image: "https://picsum.photos/seed/review-2/160/160",
-    link: "https://www.example.com/review-1",
+    link: "#",
     quote:
       "I didn't believe in astrology but after joining Galactic Gene, I have understood that it works in magical ways!",
   },
@@ -499,7 +499,7 @@ const reviews = [
     name: "Kabir",
     role: "Returning learner",
     image: "https://picsum.photos/seed/review-3/160/160",
-    link: "https://www.example.com/review-1",
+    link: "#",
     quote:
       "There aren't many places online for a young person to talk peacefully about astrology, but Galactic Gene is one of the best communities I have found.",
   },
@@ -511,12 +511,6 @@ const reviews = [
 
 <style>
 .sun {
-  position: fixed !important;
-  top: -1rem;
-  left: 15rem;
-  width: 5rem;
-  height: 5rem;
-  border-radius: 100%;
   background: radial-gradient(circle at center, #fffacd, #f0e68c, #ffe343);
   /* filter: blur(0.1rem); */
 }
