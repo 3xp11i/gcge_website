@@ -30,6 +30,17 @@ export default defineNuxtConfig({
 		mode: "css",
 		cssLayer: "base",
 	},
+
+	fonts: {
+		families: [
+			{
+				name: "Disney",
+				provider: "local",
+				weights: [400],
+				styles: ["normal"],
+			},
+		],
+	},
 	modules: [
 		"@nuxt/fonts",
 		"@nuxt/icon",

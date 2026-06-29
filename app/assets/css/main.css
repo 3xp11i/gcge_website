@@ -2,9 +2,21 @@
 @import "@nuxt/ui";
 
 :root {
+	/* --font-body: "Disney"; */
 	--font-body: "Quicksand";
 	/* --font-body: "Elms Sans"; */
 }
+
+/* Then Nuxt fonts will add declarations that look like this at the beginning of the CSS file: */
+/* @font-face {
+  font-family: 'Disney';
+  src: local("Disney"), url("/_fonts/<hash>.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+} */
+/* ... plus more font-face declarations for other unicode ranges/weights */
+
 
 html,
 body,
@@ -38,7 +50,8 @@ body {
 }
 
 .fancy {
-	font-family: "Lavishly Yours";
+	/* font-family: "Lavishly Yours"; */
+	font-family: "Disney";
 	padding: 1rem;
 	color: goldenrod;
 	/* text-shadow: 0.1rem 0.1rem 0.3rem rgba(255, 255, 0, 0.42); */
