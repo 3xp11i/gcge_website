@@ -13,15 +13,15 @@
 
       <div class="mediaPart flex w-full flex-col items-center my-8 mt-10">
         <UCarousel class-names
-                   dots
-                   :autoplay="{ delay: 2000 }"
-                   wheel-gestures
+                   :auto-scroll="{speed:0.5}"
+                   loop
+                   arrows
                    :items="items"
                    @select="onCarouselSelect"
                    :ui="{
                     viewport: 'overflow-hidden ps-4',
                     container: 'items-center pl-2',
-                    item: 'basis-[88%] sm:basis-[80%] lg:basis-[40%] ps-2 p-4 sm:ps-0 transition-opacity duration-300 [&:not(.is-snapped)]:opacity-35 [&:not(.is-snapped)]:scale-90 [&:not(.is-snapped)]:grayscale [&.is-snapped]:opacity-100 [&.is-snapped]:scale-100 [&.is-snapped]:translate-y-0 [&.is-snapped]:grayscale-0 [&.is-snapped]:z-10 select-none',
+                    item: 'basis-1/3',
                     prev: 'left-2 sm:left-4 top-1/2 -translate-y-1/2',
                     next: 'right-2 sm:right-4 top-1/2 -translate-y-1/2'
                   }"
@@ -34,6 +34,8 @@
                      :src="item.src"
                      class="pointer-events-none aspect-video w-full object-cover"
                      muted
+                     autoplay
+                loop
                      playsinline
                      preload="metadata" />
               <Icon v-if="item.type === 'video'"
@@ -129,40 +131,66 @@
     <hr class="separator">
 
 
-    <section id="reviews">
+    <section id="reviews"
+             class="">
       <div class="upperText mb-4">
 
         <h2 class="text-left">Reviews</h2>
-        <p class="my-5">
+        <p class="my-1">
           Hear from our members about their experiences and the impact Galactic Gene has had on their cosmic journey.
         </p>
+      </div>
 
-        <div class="ReviewCards flex flex-col md:flex-row! items-center justify-center gap-8 w-full mt-5">
+      <div class="ReviewCards flex flex-col md:flex-row! items-center justify-center gap-8 w-full">
+
+        <UCarousel class-names
+                   :autoplay="{ delay: 5000 }"
+                   dots
+                   wheel-gestures
+                   :items="reviews"
+                   @select="onCarouselSelect"
+                   :ui="{
+                    viewport: 'overflow-hidden ps-4',
+                    container: 'items-center pl-2',
+                    item: 'basis-[88%] sm:basis-[80%] lg:basis-[60%] ps-2 p-4 sm:ps-0 transition-opacity duration-300 [&:not(.is-snapped)]:opacity-35 [&:not(.is-snapped)]:scale-90 [&:not(.is-snapped)]:grayscale [&.is-snapped]:opacity-100 [&.is-snapped]:scale-100 [&.is-snapped]:translate-y-0 [&.is-snapped]:grayscale-0 [&.is-snapped]:z-10 select-none',
+                    prev: 'left-2 sm:left-4 top-1/2 -translate-y-1/2',
+                    next: 'right-2 sm:right-4 top-1/2 -translate-y-1/2'
+                  }"
+                   class="mx-auto w-full ctive:cursor-grab touch-pan-y py-1">
+          <template #default="{ item }">
+            <article class="overflow-hidden rounded-3xl  shadow-2xl shadow-black/20 hover:cursor-pointer active:cursor-grab"
+                     @click="item.src ? openReviewMediaPreview(item) : null">
+              <div class="reviewCard flex flex-col items-start justify-center gap-4 rounded-3xl shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
+                   :class="{
+                    'p-4  border border-white/10 bg-white/15': !item.src,
+                  }">
+
+                <h4 class="text-lg font-semibold">{{ item.name }}</h4>
+                <p class="text-left text-base opacity-60"
+                   v-if="!item.src">"{{ item.quote }}"</p>
+
+                <img v-if="item.src"
+                     :src="item.src"
+                     :alt="item.alt || item.quote"
+                     class="aspect-auto rounded-xl w-full object-cover">
+
+                <UButton :to="item.link"
+                         v-if="item.link"
+                         class="w-fit hover:text-white! text-sm place-self-end self"
+                         size="xs"
+                         variant="ghost"
+                         target="_blank">
+                  Go to Review
+                  <Icon name="mdi:arrow-right" />
+                </UButton>
+
+              </div>
+            </article>
+          </template>
+        </UCarousel>
 
 
-          
 
-          <div class="reviewCard flex flex-col items-center justify-center gap-4 p-4 rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
-               v-for="(item, index) in reviews"
-               :key="index">
-            <!-- 
-            <img :src="item.image"
-                 :alt="item.name"
-                 class="w-20 h-20 rounded-full object-cover" /> -->
-            <h3 class="text-lg font-semibold">{{ item.name }}</h3>
-            <p class="text-sm opacity-70">{{ item.role }}</p>
-            <p class="text-center text-base opacity-60">"{{ item.quote }}"</p>
-            <UButton :to="item.link"
-                     class="w-fit hover:text-white! text-sm place-self-end self"
-                     size="xs"
-                     variant="ghost">
-              Go to Review
-              <Icon name="mdi:arrow-right" />
-            </UButton>
-
-          </div>
-
-        </div>
       </div>
 
     </section>
@@ -245,7 +273,7 @@
                     }"
                     :unmount-on-hide="false">
           <template #body="{ item }">
-            <MDC :value="item.content"
+            <MDC :value="item.content || ''"
                  unwrap="p" />
           </template>
         </UAccordion>
@@ -270,7 +298,20 @@ import showcase3 from '@/assets/images/showcase3.jpg'
 import showcase4 from '@/assets/images/showcase4.jpg'
 import showcase5 from '@/assets/images/showcase5.jpg'
 
+import sketch1 from '@/assets/images/sketch1.png'
+import sketch2 from '@/assets/images/sketch2.png'
+import sketch3 from '@/assets/images/sketch3.png'
+import sketch4 from '@/assets/images/sketch4.png'
+import sketch5 from '@/assets/images/sketch5.png'
 
+import review1 from '@/assets/images/review1.png'
+import review2 from '@/assets/images/review2.png'
+import review3 from '@/assets/images/review3.png'
+import review4 from '@/assets/images/review4.png'
+import review5 from '@/assets/images/review5.png'
+import review6 from '@/assets/images/review6.png'
+import review7 from '@/assets/images/review7.png'
+import review8 from '@/assets/images/review8.png'
 
 import { button } from '#build/ui'
 
@@ -278,6 +319,14 @@ type MediaItem = {
   type: 'image' | 'video'
   src: string
   alt: string
+}
+
+type ReviewItem = {
+  name: string
+  src?: string
+  link?: string
+  quote?: string
+  alt?: string
 }
 
 const mediaPreviewOpen = ref(false)
@@ -297,6 +346,26 @@ watch(activeCarouselIndex, (index) => {
       videoElement.currentTime = 0
     }
   })
+})
+
+watch(mediaPreviewOpen, async (isOpen) => {
+  if (isOpen) {
+    carouselVideoRefs.forEach((videoElement) => {
+      videoElement.pause()
+    })
+
+    return
+  }
+
+  const activeVideo = carouselVideoRefs.get(activeCarouselIndex.value)
+
+  if (activeVideo) {
+    try {
+      await activeVideo.play()
+    } catch {
+      // Ignore autoplay or visibility restrictions.
+    }
+  }
 })
 
 onMounted(() => {
@@ -325,8 +394,25 @@ function openMediaPreview(item: MediaItem) {
   mediaPreviewOpen.value = true
 }
 
+function openReviewMediaPreview(item: ReviewItem) {
+  if (!item.src) {
+    return
+  }
+
+  selectedMedia.value = {
+    type: 'image',
+    src: item.src,
+    alt: item.alt || item.quote || item.name || 'Review image',
+  }
+  mediaPreviewOpen.value = true
+}
+
 function onCarouselSelect(selectedIndex: number) {
   activeCarouselIndex.value = selectedIndex
+}
+
+function getFaqContent(content: string | undefined) {
+  return content ?? ''
 }
 
 function setCarouselVideoRef(element: unknown, item: MediaItem) {
@@ -360,19 +446,39 @@ const items: MediaItem[] = [
     alt: 'Featured community video'
   },
   {
+    type: 'image',
+    src: sketch1,
+    alt: 'Sketch 1'
+  },
+  {
+    type: 'image',
+    src: sketch2,
+    alt: 'Sketch 2'
+  },
+  {
     type: 'video',
     src: video2,
     alt: 'Another community video'
   },
-  // {
-  //   type: 'image',
-  //   src: discordImage,
-  //   alt: 'Discord server banner'
-  // },
+  {
+    type: 'image',
+    src: sketch3,
+    alt: 'Sketch 3'
+  },
+  {
+    type: 'image',
+    src: sketch4,
+    alt: 'Sketch 4'
+  },
   {
     type: 'image',
     src: showcase1,
     alt: 'Showcase image 1'
+  },
+  {
+    type: 'image',
+    src: sketch5,
+    alt: 'Sketch 5'
   },
   {
     type: 'image',
@@ -408,28 +514,102 @@ const faqItems = ref<AccordionItem[]>([
 
 const reviews = [
   {
-    name: "Aarav",
-    role: "Community member",
-    image: "https://picsum.photos/seed/review-1/160/160",
-    link: "#",
+    name: "Reddit user",
+    link: "https://www.reddit.com/r/AstrologyCharts/comments/1u3d7hg/comment/or4wly1/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button",
     quote:
-      "The predictions and insights provided by Galactic Gene have been incredibly accurate and helpful in my personal growth journey.",
+      "Thank you so much for your description! And you are spot on! I love astrology for this reason. I hope one day i can read a chart as well as you do🙏🏻",
   },
   {
-    name: "Meera",
-    role: "First-time visitor",
-    image: "https://picsum.photos/seed/review-2/160/160",
-    link: "#",
-    quote:
-      "I didn't believe in astrology but after joining Galactic Gene, I have understood that it works in magical ways!",
+    name: "",
+    src: review1,
+    link: "",
+    type: "image",
+    alt: "",
   },
   {
-    name: "Kabir",
-    role: "Returning learner",
-    image: "https://picsum.photos/seed/review-3/160/160",
-    link: "#",
+    name: "Reddit user",
+    link: "https://www.reddit.com/r/AstroSynastry/comments/1u8kz6d/comment/os9ruxl/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button",
     quote:
-      "There aren't many places online for a young person to talk peacefully about astrology, but Galactic Gene is one of the best communities I have found.",
+      "thank you SO MUCH! this all makes a lot of sense. we are still early days, but have had many talks about our intentions and the future. I feel that I can talk to him about anything and I'm met with such openness and a genuine commitment to understanding. it is wonderful.",
+  },
+  {
+    name: "",
+    src: review2,
+    link: "",
+    type: "image",
+    alt: "",
+  },
+  {
+    name: "Reddit user",
+    link: "https://www.reddit.com/r/AstrologyDiscovery/comments/1ugm5oc/comment/oua80ad/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button",
+    quote:
+      "wow thank you for the amazing and in depth analysis!! you described her perfectly! It’s so intriguing to me how much this impacts a persons character!",
+  },
+  {
+    name: "",
+    src: review3,
+    link: "",
+    type: "image",
+    alt: "",
+  },
+  {
+    name: "Reddit user",
+    link: "https://www.reddit.com/r/AstrologyDiscovery/comments/1ttcvmn/comment/opbikwe/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button",
+    quote:
+      "Wow! Honestly, you just read me like you’ve known me forever! Thank you. I have much to learn but I’m it’s fascinating how much my chart revealed to you 💖✨",
+  },
+  {
+    name: "",
+    src: review4,
+    link: "",
+    type: "image",
+    alt: "",
+  },
+  {
+    name: "Reddit user",
+    link: "https://www.reddit.com/r/AstrologyCharts/comments/1u3d7hg/comment/or4wly1/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button",
+    quote:
+      "Thank you so much for your description! And you are spot on! I love astrology for this reason. I hope one day i can read a chart as well as you do🙏🏻",
+  },
+  {
+    name: "",
+    src: review5,
+    link: "",
+    type: "image",
+    alt: "",
+  },
+  {
+    name: "",
+    src: review6,
+    link: "",
+    type: "image",
+    alt: "",
+  },
+  {
+    name: "Reddit user",
+    link: "https://www.reddit.com/r/palmistry/comments/1u9k15f/comment/oshsko0/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button",
+    quote:
+      "This is an awesome read, incredibly spot on! I really appreciate you mentioned routine, I always feel like I want it so bad but it just doesn’t work for me, no matter what I try. I’m trying to find what works for me there for sure, I need a lot of emotional and intellectual stimulation and often find myself growing bored of things I do often...",
+  },
+  {
+    name: "",
+    src: review7,
+    link: "",
+    type: "image",
+    alt: "",
+  },
+  {
+    name: "Reddit user",
+    link: "https://www.reddit.com/r/AstrologyCharts/comments/1ttymnr/comment/op6heh9/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button",
+    quote:
+      "Thank you so much for such a detailed reply! I can’t lie and say it’s given any closure but it’s still extremely interesting to read your work. I’m just stuck in this feeling because ive never dated and only experienced very traumatic situations involving romance. I’ve been afraid of romance because when I was young and naive I used to...",
+  },
+  {
+    name: "",
+    src: review8,
+    link: "",
+    type: "image",
+    alt: "",
   },
 ];
 
