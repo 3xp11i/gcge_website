@@ -1,4 +1,4 @@
-import razorpay from "razorpay";
+// import razorpay from "razorpay";
 
 
 type CreateOrderBody = {
@@ -56,30 +56,30 @@ export default defineEventHandler(async (event) => {
 			statusMessage: "Razorpay credentials are not configured.",
 		});
 	}
-	let instance = new razorpay({
-		key_id: "YOUR_KEY_ID",
-		key_secret: "YOUR_SECRET",
-	});
+	// let instance = new razorpay({
+	// 	key_id: "YOUR_KEY_ID",
+	// 	key_secret: "YOUR_SECRET",
+	// });
 
-	let data = {
-		amount: 50000,
-		currency: "INR",
-		receipt: "receipt#1",
-		line_items_total: 50000, // Mandatory for Magic Checkout
-		line_items: [
-			{
-				sku: "1g234",
-				variant_id: "12r34",
-				price: 50000,
-				offer_price: 50000,
-				quantity: 1,
-				name: "Product Name",
-				// ... other line item details
-			},
-		],
-	};
+	// let data = {
+	// 	amount: 50000,
+	// 	currency: "INR",
+	// 	receipt: "receipt#1",
+	// 	line_items_total: 50000, // Mandatory for Magic Checkout
+	// 	line_items: [
+	// 		{
+	// 			sku: "1g234",
+	// 			variant_id: "12r34",
+	// 			price: 50000,
+	// 			offer_price: 50000,
+	// 			quantity: 1,
+	// 			name: "Product Name",
+	// 			// ... other line item details
+	// 		},
+	// 	],
+	// };
 
-	instance.orders.create(data);
+	// instance.orders.create(data);
 
 
 	const authorization = toBase64(`${keyId}:${keySecret}`);
@@ -93,22 +93,22 @@ export default defineEventHandler(async (event) => {
 			amount,
 			currency,
 			receipt,
-			line_items_total: 1,
-			line_items: [
-				{
-					line_items: [
-						{
-							sku: "1g234",
-							variant_id: "12r34",
-							price: amount,
-							offer_price: amount - 100,
-							quantity: 1,
-							name: "Product Name",
-							description: "...",
-						},
-					],
-				},
-			],
+			// line_items_total: 1,
+			// line_items: [
+			// 	{
+			// 		line_items: [
+			// 			{
+			// 				sku: "1g234",
+			// 				variant_id: "12r34",
+			// 				price: amount,
+			// 				offer_price: amount - 100,
+			// 				quantity: 1,
+			// 				name: "Product Name",
+			// 				description: "...",
+			// 			},
+			// 		],
+			// 	},
+			// ],
 		}),
 	});
 

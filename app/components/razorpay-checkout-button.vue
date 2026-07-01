@@ -25,8 +25,8 @@
 useHead({
 	script: [
 		{
-			// src: "https://checkout.razorpay.com/v1/checkout.js",
-			src: "https://checkout.razorpay.com/v1/magic-checkout.js",
+			src: "https://checkout.razorpay.com/v1/checkout.js",
+			// src: "https://checkout.razorpay.com/v1/magic-checkout.js",
 			defer: true,
 		},
 	],
@@ -68,7 +68,7 @@ const startCheckout = async () => {
 		return
 	}
 
-	console.log(runtimeConfig.public.razorpayKeyId)
+	// console.log(runtimeConfig.public.razorpayKeyId)
 
 	loading.value = true
 	statusMessage.value = ""
@@ -96,8 +96,8 @@ const startCheckout = async () => {
 			currency: order.currency,
 			name: "Galactic Gene",
 			description: props.description,
-			show_coupons: true,
-			one_click_checkout: true,
+			// show_coupons: true,
+			// one_click_checkout: true,
 			theme: {
 				color: "#d4a017",
 			},

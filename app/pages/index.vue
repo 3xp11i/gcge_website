@@ -1,8 +1,12 @@
 <template>
   <div class=" flex min-h-screen flex-col items-center justify-center ">
 
-    <header class="relative flex h-[100svh] w-full flex-col items-center justify-start text-center">
-      <h1 class="mt-8 text-5xl sm:text-7xl lg:text-[10rem]! fancy relative">Galactic Gene <span class="text-2xl absolute -bottom-1 -right-3 font-bold">By Sid</span></h1>
+    <header class="relative flex min-h-screen w-full flex-col items-center justify-start text-center">
+      <h1 class="mt-8 text-5xl sm:text-7xl lg:text-[10rem]! fancy relative">Galactic Gene
+
+        <!-- <span class="text-2xl absolute -bottom-1 -right-3 font-bold">By Sid</span> -->
+
+      </h1>
 
       <p class="fancy2 m-4 text-4xl sm:text-3xl lg:text-5xl">Discover Authentic Astrology</p>
 
@@ -47,14 +51,21 @@
       </div>
 
 
+      <div class="buttons flex flex-row items-center justify-center gap-4 mt-8 text-2xl! my-10">
+
+
+        <UButton class="button w-fit"
+                 to="/consultation">Book a Consultation</UButton>
+
+        <UButton class="button w-fit"
+                 to="/resources">Explore Resources</UButton>
+      </div>
+
+
       <!-- <img src="@/assets/images/mayur.png"
            alt="Peacock"
            :style="peacockStyle"
-           class="bg_art w-80 lg:bottom-2/12 lg:right-0  not-md:-right-1/3  not-md:opacity-30 -bottom-1/2" />
-      <img src="@/assets/images/flower.png"
-           alt="Flowers"
-           :style="flowerStyle"
-           class="bg_art w-80 -bottom-20 -left-20 rotate-30 not-md:opacity-30" /> -->
+           class="bg_art w-80 lg:bottom-2/12 lg:right-0  not-md:-right-1/3  not-md:opacity-30 -bottom-1/2" /> -->
 
     </header>
 
@@ -63,9 +74,15 @@
 
 
     <section id="about"
-             class="flex flex-col items-center justify-between gap-8 md:flex-row!">
+             class="flex flex-col items-center justify-between gap-8 md:flex-row! relative">
 
-      <div class="textPart flex flex-col gap-4 w-fit">
+      <img src="@/assets/images/flower.png"
+           alt="Flowers"
+           :style="flowerStyle"
+           class="bg_art w-80 -bottom-40 -left-70 rotate-30 opacity-30" />
+
+
+      <div class="textPart flex flex-col gap-4 w-fit px-20">
 
         <h2>Who Are We?</h2>
         <p>
@@ -121,6 +138,9 @@
         </p>
 
         <div class="ReviewCards flex flex-col md:flex-row! items-center justify-center gap-8 w-full mt-5">
+
+
+          
 
           <div class="reviewCard flex flex-col items-center justify-center gap-4 p-4 rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
                v-for="(item, index) in reviews"
@@ -183,7 +203,7 @@
             </p>
             <UButton icon="ic:baseline-discord"
                      class="button w-fit bg-[#7289da]! text-white!"
-                     to="#">Join Discord</UButton>
+                     to="https://discord.gg/StDRRWxjd8">Join Discord</UButton>
           </div>
         </div>
         <div
@@ -196,7 +216,7 @@
             </p>
             <UButton icon="ic:baseline-reddit"
                      class="button w-fit bg-[#ff6314]! text-white!"
-                     to="#">Join Reddit</UButton>
+                     to="https://reddit.com/r/AstrologyDiscovery">Join Reddit</UButton>
           </div>
         </div>
       </div>
