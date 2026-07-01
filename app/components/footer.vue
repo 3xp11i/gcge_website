@@ -30,7 +30,7 @@
           <Icon name="mdi:instagram" />
 
         </a>
-        <a href="https://reddit.com/AstrologyDiscovery"
+        <a href="https://reddit.com/r/AstrologyDiscovery"
            target="_blank"
            rel="noopener noreferrer">
           <Icon name="mdi:reddit" />
