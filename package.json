@@ -18,8 +18,12 @@
     "@tailwindcss/postcss": "^4.3.1",
     "@vueuse/nuxt": "^14.3.0",
     "nuxt": "^4.4.8",
+    "razorpay": "^2.9.6",
     "tailwindcss": "^4.3.1",
     "vue": "^3.5.35",
     "vue-router": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.1"
   }
 }

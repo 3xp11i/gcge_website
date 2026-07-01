@@ -2,19 +2,59 @@
   <div class=" flex min-h-screen flex-col items-center justify-center ">
 
     <header class="relative flex h-[100svh] w-full flex-col items-center justify-start text-center">
-      <h1 class="mt-6 text-5xl sm:text-7xl lg:text-9xl! fancy">Galactic Gene</h1>
+      <h1 class="mt-8 text-5xl sm:text-7xl lg:text-[10rem]! fancy relative">Galactic Gene <span class="text-2xl absolute -bottom-1 -right-3 font-bold">By Sid</span></h1>
 
-      <p class="fancy2 m-4 text-4xl sm:text-3xl lg:text-5xl">A place to find your cosmic path</p>
+      <p class="fancy2 m-4 text-4xl sm:text-3xl lg:text-5xl">Discover Authentic Astrology</p>
 
 
-      <img src="@/assets/images/mayur.png"
+      <div class="mediaPart flex w-full flex-col items-center my-8 mt-10">
+        <UCarousel class-names
+                   dots
+                   :autoplay="{ delay: 2000 }"
+                   wheel-gestures
+                   :items="items"
+                   @select="onCarouselSelect"
+                   :ui="{
+                    viewport: 'overflow-hidden ps-4',
+                    container: 'items-center pl-2',
+                    item: 'basis-[88%] sm:basis-[80%] lg:basis-[40%] ps-2 p-4 sm:ps-0 transition-opacity duration-300 [&:not(.is-snapped)]:opacity-35 [&:not(.is-snapped)]:scale-90 [&:not(.is-snapped)]:grayscale [&.is-snapped]:opacity-100 [&.is-snapped]:scale-100 [&.is-snapped]:translate-y-0 [&.is-snapped]:grayscale-0 [&.is-snapped]:z-10 select-none',
+                    prev: 'left-2 sm:left-4 top-1/2 -translate-y-1/2',
+                    next: 'right-2 sm:right-4 top-1/2 -translate-y-1/2'
+                  }"
+                   class="mx-auto w-full ctive:cursor-grab touch-pan-y py-1">
+          <template #default="{ item }">
+            <article class="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
+                     @click="openMediaPreview(item)">
+              <video v-if="item.type === 'video'"
+                     :ref="(el) => setCarouselVideoRef(el, item)"
+                     :src="item.src"
+                     class="pointer-events-none aspect-video w-full object-cover"
+                     muted
+                     playsinline
+                     preload="metadata" />
+              <Icon v-if="item.type === 'video'"
+                    name="mdi:play-circle"
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl bg-gray-800 text-white/80 pointer-events-none" />
+
+              <img v-else
+                   :src="item.src"
+                   :alt="item.alt"
+                   class="aspect-video w-full object-cover"
+                   loading="lazy">
+            </article>
+          </template>
+        </UCarousel>
+      </div>
+
+
+      <!-- <img src="@/assets/images/mayur.png"
            alt="Peacock"
            :style="peacockStyle"
            class="bg_art w-80 lg:bottom-2/12 lg:right-0  not-md:-right-1/3  not-md:opacity-30 -bottom-1/2" />
       <img src="@/assets/images/flower.png"
            alt="Flowers"
            :style="flowerStyle"
-           class="bg_art w-80 -bottom-20 -left-20 rotate-30 not-md:opacity-30" />
+           class="bg_art w-80 -bottom-20 -left-20 rotate-30 not-md:opacity-30" /> -->
 
     </header>
 
@@ -38,44 +78,6 @@
       </div>
 
       <!-- arrows -->
-      <div class="mediaPart flex w-full flex-col items-center">
-        <UCarousel class-names
-                   dots
-                   :autoplay="{ delay: 2000 }"
-                   wheel-gestures
-                   :items="items"
-                   @select="onCarouselSelect"
-                   :ui="{
-                    viewport: 'overflow-hidden ps-4',
-                    container: 'items-center pl-2',
-                    item: 'basis-[88%] sm:basis-[80%] lg:basis-[75%] ps-0 sm:ps-0 transition-opacity duration-300 [&:not(.is-snapped)]:opacity-35 [&:not(.is-snapped)]:scale-90 [&:not(.is-snapped)]:grayscale [&.is-snapped]:opacity-100 [&.is-snapped]:scale-100 [&.is-snapped]:translate-y-0 [&.is-snapped]:grayscale-0 [&.is-snapped]:z-10 select-none',
-                    prev: 'left-2 sm:left-4 top-1/2 -translate-y-1/2',
-                    next: 'right-2 sm:right-4 top-1/2 -translate-y-1/2'
-                  }"
-                   class="mx-auto w-full max-w-4xl active:cursor-grab touch-pan-y py-1">
-          <template #default="{ item }">
-            <article class="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
-                     @click="openMediaPreview(item)">
-              <video v-if="item.type === 'video'"
-                     :ref="(el) => setCarouselVideoRef(el, item)"
-                     :src="item.src"
-                     class="pointer-events-none aspect-square w-full object-cover"
-                     muted
-                     playsinline
-                     preload="metadata" />
-              <Icon v-if="item.type === 'video'"
-                    name="mdi:play-circle"
-                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl bg-gray-800 text-white/80 pointer-events-none" />
-
-              <img v-else
-                   :src="item.src"
-                   :alt="item.alt"
-                   class="aspect-square w-full object-cover"
-                   loading="lazy">
-            </article>
-          </template>
-        </UCarousel>
-      </div>
 
       <UModal v-model:open="mediaPreviewOpen"
               :title="selectedMedia?.alt || 'Media preview'"

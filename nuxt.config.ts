@@ -1,9 +1,18 @@
+import { env } from "node:process"
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	css: ["~/assets/css/main.css"],
 	postcss: {
 		plugins: {
 			"@tailwindcss/postcss": {},
+		},
+	},
+	runtimeConfig: {
+		razorpayKeyId: process.env.NUXT_RAZORPAY_KEY_ID,
+		razorpayKeySecret: process.env.NUXT_RAZORPAY_KEY_SECRET,
+		public: {
+			razorpayKeyId: process.env.NUXT_PUBLIC_RAZORPAY_KEY_ID,
 		},
 	},
 
