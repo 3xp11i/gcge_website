@@ -43,6 +43,7 @@
       </div>
 
       <div class="w-full flex flex-col items-center gap-4 mt-4">
+        <span class="copyrightText text-xs opacity-50">+91 7678698072 | support@galacticgene.com</span>
         <span class="copyrightText text-sm opacity-80">© {{ new Date().getFullYear() }} Galactic Gene. All rights reserved.</span>
       </div>
     </div>

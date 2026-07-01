@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center p-5">
+  <div class="flex flex-col items-center justify-center p-5 min-h-screen">
     <h1 class="fancy">About Galactic Gene</h1>
     <h2 class="text-2xl">Welcome to Galactic Gene!</h2>
 
