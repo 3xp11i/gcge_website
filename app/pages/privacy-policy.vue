@@ -15,7 +15,7 @@ useHead({
   <div class="space-y-8 px-6 py-8 md:px-10 md:py-10">
     <div class="border-b border-amber-300/15 px-0 pb-8">
       <p class="text-sm uppercase tracking-[0.35em] text-amber-200/80">Privacy Policy</p>
-      <h1 class="mt-4 text-4xl font-semibold text-amber-200 md:text-6xl">How we handle your information</h1>
+      <h1 class="mt-4 text-4xl! font-semibold text-amber-200 md:text-6xl!">How we handle your information</h1>
       <p class="mt-4 max-w-3xl text-base leading-7 text-white/80 md:text-lg">
         At Galactic Gene, we keep privacy simple. We only use the information you willingly provide for astrology consultations and
         service delivery, and we do not sell, rent, or share your personal data for marketing purposes.

@@ -1,5 +1,5 @@
 <template>
-  <nav class="relative z-50 mx-auto flex w-full items-center justify-between px-12 py-4 sm:px-6"
+  <nav class="relative z-50 mx-auto flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-12"
        :class="colorTheme ? 'text-white' : ''">
 
     <NuxtLink to="/"
@@ -46,8 +46,8 @@
            @click.self="menuOpen = false">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
-        <aside id="mobile-navigation"
-               class="relative ml-auto flex h-full w-[min(85vw,20rem)] flex-col border-l border-white/10 bg-[#071625] px-6 py-5 text-white shadow-2xl"
+         <aside id="mobile-navigation"
+           class="relative ml-auto flex h-full w-[min(88vw,20rem)] flex-col border-l border-white/10 bg-[#071625] px-5 py-5 text-white shadow-2xl"
                role="dialog"
                aria-modal="true"
                aria-label="Mobile navigation">

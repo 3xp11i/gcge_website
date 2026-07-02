@@ -1,7 +1,7 @@
 <template>
   <div class=" flex min-h-screen flex-col items-center justify-center ">
 
-    <header class="relative flex min-h-screen w-full flex-col items-center justify-start text-center">
+    <header class="relative flex w-full flex-col items-center justify-start text-center">
       <h1 class="mt-8 text-5xl sm:text-7xl lg:text-[10rem]! fancy relative">Galactic Gene
 
         <!-- <span class="text-2xl absolute -bottom-1 -right-3 font-bold">By Sid</span> -->
@@ -21,7 +21,7 @@
                    :ui="{
                     viewport: 'overflow-hidden ps-4',
                     container: 'items-center pl-2',
-                    item: 'basis-1/3',
+                    item: 'lg:basis-1/3',
                     prev: 'left-2 sm:left-4 top-1/2 -translate-y-1/2',
                     next: 'right-2 sm:right-4 top-1/2 -translate-y-1/2'
                   }"
@@ -53,7 +53,7 @@
       </div>
 
 
-      <div class="buttons flex flex-row items-center justify-center gap-4 mt-8 text-2xl! my-10">
+      <div class="buttons flex flex-row items-center justify-center gap-4 mt-8 text-2xl! lg:my-10">
 
 
         <UButton class="button w-fit"
@@ -84,7 +84,7 @@
            class="bg_art w-80 -bottom-40 -left-70 rotate-30 opacity-30" />
 
 
-      <div class="textPart flex flex-col gap-4 w-fit px-20">
+      <div class="textPart flex flex-col gap-4 w-fit px-10">
 
         <h2>Who Are We?</h2>
         <p>
@@ -437,16 +437,6 @@ function setCarouselVideoRef(element: unknown, item: MediaItem) {
 const items: MediaItem[] = [
   {
     type: 'image',
-    src: showcase5,
-    alt: 'Showcase image 5'
-  },
-  {
-    type: 'video',
-    src: video1,
-    alt: 'Featured community video'
-  },
-  {
-    type: 'image',
     src: sketch1,
     alt: 'Sketch 1'
   },
@@ -472,29 +462,9 @@ const items: MediaItem[] = [
   },
   {
     type: 'image',
-    src: showcase1,
-    alt: 'Showcase image 1'
-  },
-  {
-    type: 'image',
     src: sketch5,
     alt: 'Sketch 5'
   },
-  {
-    type: 'image',
-    src: showcase2,
-    alt: 'Showcase image 2'
-  },
-  {
-    type: 'image',
-    src: showcase3,
-    alt: 'Showcase image 3'
-  },
-  {
-    type: 'image',
-    src: showcase4,
-    alt: 'Showcase image 4'
-  }
 ]
 
 const faqItems = ref<AccordionItem[]>([

@@ -17,6 +17,7 @@
 
 <style>
 section{
-    align-items: flex-start;
+    align-items: start !important;
+    justify-content: flex-start !important;
 }
 </style>

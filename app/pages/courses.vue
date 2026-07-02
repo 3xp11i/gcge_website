@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-screen">
+  <div class="flex min-h-screen flex-col items-center justify-center px-4 py-10 text-center">
     <h2>Courses</h2>
 
     <div>

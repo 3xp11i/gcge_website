@@ -41,6 +41,7 @@ body {
 	font-weight: 500;
 	font-family: var(--font-body);
 	text-rendering: optimizeLegibility;
+	overflow-x: clip;
 }
 
 
@@ -74,6 +75,14 @@ a:hover {
 	text-shadow: 0rem 0rem 0.2rem rgba(255, 255, 0, 0.482);
 }
 
+img,
+video,
+canvas,
+svg {
+	max-width: 100%;
+	height: auto;
+}
+
 ::selection {
 	background: rgba(255, 214, 102, 0.35);
 	color: #fff8dc;
@@ -89,7 +98,8 @@ section {
 	margin-block: 4rem;
 
 	height: fit-content;
-	max-width: 80%;
+	width: min(100%, 80rem);
+	max-width: calc(100vw - 2rem);
 
 }
 
@@ -117,42 +127,29 @@ section {
 }
 
 h1 {
-	font-size: 6rem;
+	font-size: clamp(4.5rem, 8vw, 6rem);
 	/* font-weight: 700; */
 }
 h2 {
-	font-size: 3rem;
+	font-size: clamp(1.75rem, 5vw, 3rem);
 	font-family: "Cinzel Decorative";
 	font-weight: 600;
 	color: rgb(225, 174, 47);
 
 }
 h3 {
-	font-size: 2rem;
+	font-size: clamp(1.25rem, 4vw, 2rem);
 	color: goldenrod;
 
 }
 h4 {
-	font-size: 1.5rem;
+	font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 @media (max-width: 768px) {
 	section {
-		max-width: 100%;
 		padding: 1.25rem;
 		margin-block: 2.5rem;
-	}
-
-	h2 {
-		font-size: clamp(2rem, 7vw, 2.5rem);
-	}
-
-	h3 {
-		font-size: 1.5rem;
-	}
-
-	h4 {
-		font-size: 1.25rem;
 	}
 }
 

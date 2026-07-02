@@ -9,7 +9,7 @@
     <div
          class="footerLinks w-full text-md flex flex-col justify-between items-end gap-4 p-4 text-white relative z-10 mt-5">
 
-      <div class="siteLinks w-full flex flex-row items-end justify-end gap-4">
+      <div class="siteLinks w-full flex flex-col items-end justify-end gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-end">
 
         <div class="flex flex-col items-end gap-4">
           <NuxtLink to="/consultation">Book Consultation</NuxtLink>
