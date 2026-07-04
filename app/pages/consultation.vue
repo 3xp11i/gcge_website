@@ -12,7 +12,7 @@
         </p>
       </div>
 
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-6">
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-6 max-w-full">
         <div class="flex flex-col gap-4 border-b border-white/10 pb-5 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-2xl">
             <!-- <p class="text-sm uppercase tracking-[0.28em] text-white/45">
