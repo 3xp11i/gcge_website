@@ -1,6 +1,6 @@
 <template>
   <main class="min-h-screen px-4 py-10 sm:px-6 lg:px-8">
-    <article class="mx-auto flex w-full max-w-6xl flex-col gap-8 sm:gap-10">
+    <article class="mx-auto flex w-full max-w-6xl flex-col gap-1 sm:gap-2">
       <header class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8 lg:p-6">
         <h1 class="fancy px-0 pt-2">About Galactic Gene</h1>
         <p class="max-w-3xl text-base leading-7 text-white/85 sm:text-lg">
@@ -9,9 +9,9 @@
         </p>
       </header>
 
-      <section aria-labelledby="who-we-are" class="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
+      <section aria-labelledby="who-we-are" class="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-3">
         <h2 id="who-we-are">Who We Are</h2>
-        <div class="mt-4 max-w-4xl space-y-4 text-base leading-7 text-white/85 sm:text-lg">
+        <div class="mt-2 max-w-4xl space-y-4 text-base leading-7 text-white/85 sm:text-lg">
           <p>
             We started as a handful of chart readings shared online and grew into a full community centered on
             consultations, teaching, and a space where people come to actually understand themselves and their

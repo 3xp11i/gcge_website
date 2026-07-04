@@ -52,7 +52,7 @@
               <article
                 v-for="service in personalRelationshipServices"
                 :key="service.title"
-                class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 hover:border-[rgb(225,174,47)]/40"
+                class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm"
               >
                 <div class="mb-5 flex items-start justify-between gap-4">
                   <div>
@@ -70,7 +70,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       {{ regionPriceLabel }}
                     </p>
-                    <p class="mt-1 text-3xl font-semibold text-[rgb(225,174,47)]">
+                    <p class="mt-1 text-3xl font-semibold text-white">
                       {{ getDisplayedPrice(service) }}
                     </p>
                   </div>
@@ -78,7 +78,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
-                    <p class="mt-1 text-3xl font-semibold text-white">
+                    <p class="mt-1 text-3xl font-semibold text-[rgb(225,174,47)]">
                       {{ service.badge || 'Included' }}
                     </p>
                   </div>
@@ -114,7 +114,7 @@
               <article
                 v-for="service in careerBusinessServices"
                 :key="service.title"
-                class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 hover:border-[rgb(225,174,47)]/40"
+                class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm"
               >
                 <div class="mb-5 flex items-start justify-between gap-4">
                   <div>
@@ -132,7 +132,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       {{ regionPriceLabel }}
                     </p>
-                    <p class="mt-1 text-3xl font-semibold text-[rgb(225,174,47)]">
+                    <p class="mt-1 text-3xl font-semibold text-white">
                       {{ getDisplayedPrice(service) }}
                     </p>
                   </div>
@@ -140,7 +140,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
-                    <p class="mt-1 text-3xl font-semibold text-white">
+                    <p class="mt-1 text-3xl font-semibold text-[rgb(225,174,47)]">
                       {{ service.badge || 'Included' }}
                     </p>
                   </div>
@@ -176,7 +176,7 @@
               <article
                 v-for="service in otherServices"
                 :key="service.title"
-                class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 hover:border-[rgb(225,174,47)]/40"
+                class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm"
               >
                 <div class="mb-5 flex items-start justify-between gap-4">
                   <div>
@@ -194,7 +194,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       {{ regionPriceLabel }}
                     </p>
-                    <p class="mt-1 text-3xl font-semibold text-[rgb(225,174,47)]">
+                    <p class="mt-1 text-3xl font-semibold text-white">
                       {{ getDisplayedPrice(service) }}
                     </p>
                   </div>
@@ -202,7 +202,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
-                    <p class="mt-1 text-3xl font-semibold text-white">
+                    <p class="mt-1 text-3xl font-semibold text-[rgb(225,174,47)]">
                       {{ service.badge || 'Included' }}
                     </p>
                   </div>
