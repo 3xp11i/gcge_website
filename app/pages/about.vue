@@ -1,9 +1,8 @@
 <template>
   <main class="min-h-screen px-4 py-10 sm:px-6 lg:px-8">
     <article class="mx-auto flex w-full max-w-6xl flex-col gap-8 sm:gap-10">
-      <header class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8 lg:p-10">
-        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-[goldenrod]">About Galactic Gene</p>
-        <h1 class="fancy px-0 pt-3">About Galactic Gene</h1>
+      <header class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8 lg:p-6">
+        <h1 class="fancy px-0 pt-2">About Galactic Gene</h1>
         <p class="max-w-3xl text-base leading-7 text-white/85 sm:text-lg">
           Galactic Gene is a Vedic astrology and allied-sciences community built on one simple belief: your birth chart
           is a map, and everyone deserves a real guide to read it.
