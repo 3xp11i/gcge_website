@@ -1,13 +1,13 @@
 <template>
   <div class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
      <div ref="sunEl"
-         class="bg_art sun fixed! left-60 md:-top-4 w-20 h-20 rounded-full not-md:left-1/2 not-md:-top-1/12"
+         class="bg_art sun left-60 md:-top-4 w-20 h-20 rounded-full not-md:left-1/2 not-md:-top-1/12"
          :style="sunStyle"></div>
 
 
     <img src="@/assets/images/moon.png"
          alt="The Moon (Chandra)"
-         class="moon absolute z-50 w-6 pointer-events-none rounded-full select-none"
+         class="moon absolute z-50 w-6 pointer-events-none rounded-full select-none opacity-60"
          :style="moonStyle"
          v-show="$colorMode.preference == 'dark'" />
 

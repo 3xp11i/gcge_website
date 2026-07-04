@@ -47,8 +47,8 @@ export default defineEventHandler(async (event) => {
 	const keyId = runtimeConfig.razorpayKeyId;
 	const keySecret = runtimeConfig.razorpayKeySecret;
 
-	console.log("Razorpay Key ID:", keyId);
-	console.log("Razorpay Key Secret:", keySecret);
+	// console.log("Razorpay Key ID:", keyId);
+	// console.log("Razorpay Key Secret:", keySecret);
 
 	if (!keyId || !keySecret) {
 		throw createError({

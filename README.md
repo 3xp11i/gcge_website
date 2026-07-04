@@ -2,6 +2,8 @@
 
 TODO
 
+- [ ] Discord webhook integration for consultation form data receival
+
 - [] Tabs in Courses & Fill in with the content, make separate page for each course
 - [] Auto play video in the header carousel media
 - [x] Fill the Reviews for both Discord and Reddit (image & text boxes)

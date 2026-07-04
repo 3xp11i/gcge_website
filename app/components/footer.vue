@@ -40,6 +40,11 @@
            rel="noopener noreferrer">
           <Icon name="mdi:discord" />
         </a>
+        <a href="https://wa.me/7678698072?text=Hi%2C%20I%20am%20here%20from%20the%20Galactic%20Gene%20website%2C%20and%20I%20need%20to%20know%20about%20your%20services."
+           target="_blank"
+           rel="noopener noreferrer">
+          <Icon name="mdi:whatsapp" />
+        </a>
       </div>
 
       <div class="w-full flex flex-col items-center gap-4 mt-4">

@@ -27,6 +27,10 @@ function timingSafeEqualStrings(expected: string, actual: string) {
 
 export default defineEventHandler(async (event) => {
 	const body = await readBody<VerifyPaymentBody>(event)
+
+	console.log("Body received", body);
+	
+
 	const orderId = body.order_id ?? body.razorpay_order_id
 	const paymentId = body.payment_id ?? body.razorpay_payment_id
 	const signature = body.signature ?? body.razorpay_signature

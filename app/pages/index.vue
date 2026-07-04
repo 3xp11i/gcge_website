@@ -303,6 +303,7 @@ import sketch2 from '@/assets/images/sketch2.png'
 import sketch3 from '@/assets/images/sketch3.png'
 import sketch4 from '@/assets/images/sketch4.png'
 import sketch5 from '@/assets/images/sketch5.png'
+import blank_chart from '@/assets/images/blank_chart.jpg'
 
 import review1 from '@/assets/images/review1.png'
 import review2 from '@/assets/images/review2.png'
@@ -439,6 +440,11 @@ const items: MediaItem[] = [
     type: 'image',
     src: sketch1,
     alt: 'Sketch 1'
+  },
+  {
+    type: 'image',
+    src: blank_chart,
+    alt: 'Blank Chart Predictions'
   },
   {
     type: 'image',
