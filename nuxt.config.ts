@@ -29,10 +29,17 @@ export default defineNuxtConfig({
 				{ name: "viewport", content: "width=device-width, initial-scale=1" },
 				{
 					name: "description",
-					content: "Galactic Gene - a Nuxt and Tailwind starter landing page.",
+					content: "Galactic Gene is a Vedic astrology community and content space with a premium, calm, space-inspired visual identity. We provide resources, discussions, and insights for those interested in exploring their cosmic path.",
 				},
+				{ name: "apple-mobile-web-app-title", content: "Galactic Gene" },
 			],
-			link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+			link: [
+				{ rel: "icon", type: "image/png", href: "/favicon-96x96.png", sizes: "96x96" },
+				{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+				{ rel: "shortcut icon", href: "/favicon.ico" },
+				{ rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+				{ rel: "manifest", href: "/site.webmanifest" },
+			],
 		},
 	},
 	icon: {
