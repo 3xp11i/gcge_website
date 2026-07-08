@@ -5,11 +5,11 @@
          :style="sunStyle"></div>
 
 
-    <img src="@/assets/images/moon.png"
+    <!-- <img src="@/assets/images/moon.png"
          alt="The Moon (Chandra)"
          class="moon absolute z-50 w-6 pointer-events-none rounded-full select-none opacity-60"
          :style="moonStyle"
-         v-show="$colorMode.preference == 'dark'" />
+         v-show="$colorMode.preference == 'dark'" /> -->
 
     <Navbar />
 

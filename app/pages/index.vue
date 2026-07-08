@@ -484,7 +484,7 @@ const faqItems = ref<AccordionItem[]>([
   },
   {
     label: 'What do I get from joining the community?',
-    content: 'You get access to a community of like-minded individuals, discussions, resources, and insights related to Vedic astrology. You can ask questions, share your experiences, and learn from others.'
+    content: 'You get access to a community of like-minded individuals, discussions, resources, and insights related to astrology. You can ask questions, share your experiences, and learn from others.'
   }
 ])
 

@@ -72,8 +72,11 @@ a {
 a:hover {
 	transition: 0.2s ease;
 	color: goldenrod;
-	text-shadow: 0rem 0rem 0.2rem rgba(255, 255, 0, 0.482);
+	/* text-shadow: 0rem 0rem 0.2rem rgba(255, 255, 0, 0.482); */
 }
+
+
+
 
 img,
 video,
@@ -96,7 +99,6 @@ section {
 
 	padding: 2rem;
 	margin-block: 4rem;
-
 	height: fit-content;
 	width: min(100%, 80rem);
 	max-width: calc(100vw - 2rem);
@@ -144,6 +146,30 @@ h3 {
 }
 h4 {
 	font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+
+.lines-on-sides:before,
+.lines-on-sides:after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  border-radius:15px;
+  border-bottom: 1px solid goldenrod;
+  border-top: 1px solid goldenrod;
+  background-color:goldenrod;
+  opacity: 0.6;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+.lines-on-sides:before {
+  right: 100%;
+  margin-right: 15px;
+}
+.lines-on-sides:after {
+  left: 100%;
+  margin-left: 15px;
 }
 
 @media (max-width: 768px) {

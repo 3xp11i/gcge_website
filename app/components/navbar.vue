@@ -12,7 +12,7 @@
     </NuxtLink>
 
     <div class="hidden items-center gap-10 md:flex">
-      <NuxtLink to="/#about">About</NuxtLink>
+      <NuxtLink to="/about">About</NuxtLink>
       <NuxtLink to="/#community">Community</NuxtLink>
       <NuxtLink to="/consultation">Consultation</NuxtLink>
       <NuxtLink to="/courses">Courses</NuxtLink>

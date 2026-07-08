@@ -6,10 +6,14 @@ type BirthDetailsPayload = {
 		dateOfBirth?: string
 		timeOfBirth?: string
 		location?: string
+		consultationMethod?: string
+		instagramUsername?: string
+		needsBtr?: boolean
 		amountPaise?: number
 		description?: string
 		receipt?: string
 	}
+	paymentProvider: "dodo" | "razorpay"
 }
 
 const formatAmount = (amountPaise?: number) => {
@@ -30,6 +34,9 @@ const formatBirthDetailsMessage = (payload: BirthDetailsPayload) => {
 		`**Date of birth:** ${details.dateOfBirth ?? "N/A"}`,
 		`**Time of birth:** ${details.timeOfBirth ?? "N/A"}`,
 		`**Location:** ${details.location ?? "N/A"}`,
+		`**Consultation preference:** ${details.consultationMethod ?? "N/A"}`,
+		`**Instagram username:** ${details.instagramUsername ?? "N/A"}`,
+		`**BTR required:** ${details.needsBtr ? "Yes" : "No"}`,
 		`**Consultation:** ${details.description ?? "N/A"}`,
 		`**Receipt:** ${details.receipt ?? "N/A"}`,
 		`**Amount:** ${formatAmount(details.amountPaise)}`,
@@ -38,7 +45,7 @@ const formatBirthDetailsMessage = (payload: BirthDetailsPayload) => {
 
 export async function sendToDiscord(message: string | BirthDetailsPayload) {
 	try {
-		const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL
+		const DISCORD_WEBHOOK_URL = process.env[typeof message === "string" ? "DODO_DISCORD_WEBHOOK_URL" : message.paymentProvider === "dodo" ? "DODO_DISCORD_WEBHOOK_URL" : "RAZORPAY_DISCORD_WEBHOOK_URL"]
 
 		if (!DISCORD_WEBHOOK_URL) {
 			throw new Error("Discord webhook URL is not configured")

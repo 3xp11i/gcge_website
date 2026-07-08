@@ -1,13 +1,10 @@
 <template>
   <main class="min-h-screen px-4 py-10 sm:px-6 lg:px-8">
     <article class="mx-auto flex w-full max-w-6xl flex-col gap-1 sm:gap-2">
-      <header class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8 lg:p-6">
-        <h1 class="fancy px-0 pt-2">About Galactic Gene</h1>
-        <p class="max-w-3xl text-base leading-7 text-white/85 sm:text-lg">
-          Galactic Gene is a Vedic astrology and allied-sciences community built on one simple belief: your birth chart
-          is a map, and everyone deserves a real guide to read it.
-        </p>
-      </header>
+
+      <img src="/og_image.jpg"
+           alt="About banner"
+           class="mx-auto w-2/3 rounded-3xl border border-white/10 bg-black/20 shadow-2xl shadow-black/20 backdrop-blur-sm" />
 
       <section aria-labelledby="who-we-are" class="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-3">
         <h2 id="who-we-are">Who We Are</h2>
@@ -61,7 +58,9 @@
           </p>
           <ul class="grid gap-3 sm:grid-cols-2">
             <li class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
-              <strong>Vedic Astrology</strong> — the foundational system for chart analysis and life guidance
+              <strong>Vedic Astrology</strong> — using different ayanamsa like raman and pushya for unique analysis. And
+              different dasha systems like tribhagi variations etc.
+
             </li>
             <li class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
               <strong>Bhrigu Nandi Nadi</strong> — a precise, nakshatra-based branch of astrology known for detailed
@@ -76,8 +75,7 @@
               homes and living spaces
             </li>
             <li class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
-              <strong>Industrial Vastu</strong> — the same principles adapted for offices, factories, and commercial
-              spaces
+              <strong>Western Astrology</strong> — using Pluto, Neptune, and the other concepts of Western astrology to complement Vedic readings 
             </li>
             <li class="rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
               <strong>Graphology</strong> — handwriting analysis used to understand personality and behavioral patterns
@@ -87,7 +85,7 @@
             </li>
           </ul>
           <p>
-            Galactic Gene exists to bring that same level of care real analysis, real conversation, real depth to more
+            Galactic Gene exists to bring that same level of care, real analysis, real conversation, and real depth to more
             people, in a more structured way, through both <strong>one-on-one consultations</strong> and
             <strong>structured teaching</strong> for those who want to learn these systems themselves.
           </p>
@@ -148,17 +146,18 @@
         </p>
       </section>
 
-      <section aria-labelledby="join-us" class="rounded-3xl border border-[goldenrod]/30 bg-[radial-gradient(circle_at_top,rgba(218,165,32,0.18),transparent_52%),rgba(255,255,255,0.05)] p-6 sm:p-8">
-        <h2 id="join-us">Join Us</h2>
-        <p class="mt-4 max-w-4xl text-base leading-7 text-white/85 sm:text-lg">
-          Whether you're looking for a personalized reading, want to learn Vedic astrology properly, or just want to be
-          part of a community that takes the subject seriously, Galactic Gene is built for you.
-        </p>
-      </section>
     </article>
   </main>
 </template>
 
 <script lang="ts" setup>
 
+
 </script>
+
+<style scoped>
+section{
+  margin-block: 2rem;
+}
+
+</style>

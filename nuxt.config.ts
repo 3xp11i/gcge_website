@@ -1,5 +1,8 @@
 import { env } from "node:process";
 
+const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const ogImageUrl = `${siteUrl}/og_image.jpg`;
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	css: ["~/assets/css/main.css"],
@@ -11,8 +14,10 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		razorpayKeyId: process.env.NUXT_RAZORPAY_KEY_ID,
 		razorpayKeySecret: process.env.NUXT_RAZORPAY_KEY_SECRET,
+		dodopaymentApiKey: process.env.NUXT_DODO_PAYMENTS_API_KEY,
 		public: {
 			razorpayKeyId: process.env.NUXT_PUBLIC_RAZORPAY_KEY_ID,
+			siteUrl,
 		},
 	},
 
@@ -29,15 +34,29 @@ export default defineNuxtConfig({
 				{ name: "viewport", content: "width=device-width, initial-scale=1" },
 				{
 					name: "description",
-					content: "Galactic Gene is a Vedic astrology community and content space with a premium, calm, space-inspired visual identity. We provide resources, discussions, and insights for those interested in exploring their cosmic path.",
+					content:
+						"Galactic Gene is an astrology community and content space with a premium, calm, space-inspired visual identity. We provide resources, discussions, and insights for those interested in exploring their cosmic path.",
 				},
 				{ name: "apple-mobile-web-app-title", content: "Galactic Gene" },
+				{ property: "og:image", content: ogImageUrl },
+				{ property: "og:image:secure_url", content: ogImageUrl },
+				{ property: "twitter:image", content: ogImageUrl },
+				{ property: "twitter:card", content: "summary_large_image" },
 			],
 			link: [
-				{ rel: "icon", type: "image/png", href: "/favicon-96x96.png", sizes: "96x96" },
+				{
+					rel: "icon",
+					type: "image/png",
+					href: "/favicon-96x96.png",
+					sizes: "96x96",
+				},
 				{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
 				{ rel: "shortcut icon", href: "/favicon.ico" },
-				{ rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+				{
+					rel: "apple-touch-icon",
+					sizes: "180x180",
+					href: "/apple-touch-icon.png",
+				},
 				{ rel: "manifest", href: "/site.webmanifest" },
 			],
 		},
@@ -66,4 +85,12 @@ export default defineNuxtConfig({
 		"@nuxtjs/mdc",
 		"@nuxtjs/seo",
 	],
+	vite: {
+		optimizeDeps: {
+			include: ["@unhead/schema-org/vue"],
+		},
+		server: {
+			allowedHosts: [".ngrok-free.app"], //ngrok http --url=relative-only-whale.ngrok-free.app localhost:3000
+		},
+	},
 });
