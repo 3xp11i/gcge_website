@@ -77,6 +77,9 @@ useHead({
           acknowledgement from our side. Payment gateway fees, taxes, or bank charges, where applicable, may be levied by the payment
           provider or deducted in case of refunds as described in the Refund Policy.
         </p>
+        <p>
+          Prices may vary depending on the selected market due to payment processing, taxes, currency handling, and regional pricing.
+        </p>
       </div>
     </section>
 

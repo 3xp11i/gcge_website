@@ -1,7 +1,7 @@
 <template>
-  <div class="relative flex min-h-screen w-full flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+  <div class="flex min-h-screen w-full flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
     <div
-         class="bg_art pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full opacity-40 blur-3xl" />
+         class="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full opacity-40 blur-3xl" />
 
     <!-- Birth Details Modal -->
     <UModal v-model:open="birthDetailsOpen"
@@ -405,7 +405,7 @@ const personalRelationshipServices: ConsultationService[] = [
     receipt: 'relationship-consultation',
     ctaLabel: 'Book Relationship Consultation',
     category: 'Personal & Relationships',
-    dodoProductID: 'pdt_0NifmXPQ0wgrs7sfPOHtT'
+    dodoProductID: 'pdt_0Nif7NpelxSATp0uIQ6l9'
   },
   {
     kicker: 'Core reading',
@@ -565,6 +565,8 @@ const activeReceipt = ref<string | null>(null)
 const formKey = ref(0)
 
 const handleCheckoutClick = (receipt: string) => {
+  // Clear any previously submitted details so checkout starts only after fresh form submit.
+  birthDetails.value = null
   activeReceipt.value = receipt
   birthDetailsOpen.value = true
 }
@@ -620,7 +622,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.bg_art {
-  background: radial-gradient(circle at center, rgba(225, 174, 47, 0.28), rgba(225, 174, 47, 0.08) 40%, transparent 72%);
-}
+
+
 </style>
