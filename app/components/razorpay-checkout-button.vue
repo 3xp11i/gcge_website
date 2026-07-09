@@ -4,7 +4,7 @@
 				 class="button w-full justify-center"
 				 size="lg"
 				 :loading="loading"
-				 @click="handleButtonClick()">
+				 @click="handleButtonClick">
 			{{ label }}
 		</UButton>
 
@@ -21,15 +21,6 @@
 
 <script setup lang="ts">
 import type { BirthDetails } from './birth-details-form.vue'
-
-useHead({
-	script: [
-		{
-			src: "https://checkout.razorpay.com/v1/checkout.js",
-			defer: true,
-		},
-	],
-})
 
 type CreateOrderResponse = {
 	order_id: string
@@ -48,6 +39,39 @@ type RazorpayInstance = {
 
 type RazorpayConstructor = new (options: Record<string, unknown>) => RazorpayInstance
 
+let razorpayScriptPromise: Promise<void> | null = null
+
+const loadRazorpayScript = () => {
+	if (!import.meta.client) {
+		return Promise.resolve()
+	}
+
+	const existingRazorpay = (window as Window & { Razorpay?: RazorpayConstructor }).Razorpay
+	if (existingRazorpay) {
+		return Promise.resolve()
+	}
+
+	if (razorpayScriptPromise) {
+		return razorpayScriptPromise
+	}
+
+	razorpayScriptPromise = new Promise((resolve, reject) => {
+		const script = document.createElement("script")
+		script.src = "https://checkout.razorpay.com/v1/checkout.js"
+		script.async = true
+
+		script.onload = () => resolve()
+		script.onerror = () => {
+			razorpayScriptPromise = null
+			reject(new Error("Unable to load payment gateway. Please try again."))
+		}
+
+		document.head.appendChild(script)
+	})
+
+	return razorpayScriptPromise
+}
+
 const emit = defineEmits<{
 	needDetails: []
 	checkoutStarted: []
@@ -56,6 +80,9 @@ const emit = defineEmits<{
 }>()
 
 const handleButtonClick = () => {
+	if (import.meta.client) {
+		void loadRazorpayScript()
+	}
 	emit('needDetails')
 }
 
@@ -125,6 +152,8 @@ const startCheckout = async (details: BirthDetails | null = props.birthDetails) 
 	errorMessage.value = ""
 
 	try {
+		await loadRazorpayScript()
+
 		const Razorpay = (window as Window & { Razorpay?: RazorpayConstructor }).Razorpay
 
 		if (!Razorpay) {

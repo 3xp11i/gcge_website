@@ -24,6 +24,8 @@ export default defineEventHandler(async (event) => {
 		// Initialize Dodo Payments client
 		const apiKey = process.env.DODO_PAYMENTS_API_KEY
 		const productId = dodoProductId
+		const dodoMode = (process.env.NUXT_PUBLIC_DODO_MODE || 'test').toLowerCase()
+		const environment = (dodoMode === 'live' || dodoMode === 'live_mode') ? 'live_mode' : 'test_mode'
 
 		if (!apiKey) {
 			throw createError({
@@ -41,7 +43,7 @@ export default defineEventHandler(async (event) => {
 
 		const client = new DodoPayments({
 			bearerToken: apiKey,
-			environment: "test_mode",
+			environment,
 		});
 
 		// Create a checkout session with birth details metadata

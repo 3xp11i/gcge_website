@@ -4,7 +4,7 @@
 				 class="button w-full justify-center"
 				 size="lg"
 				 :loading="loading"
-				 @click="handleButtonClick()">
+				 @click="handleButtonClick">
 			{{ label }}
 		</UButton>
 
