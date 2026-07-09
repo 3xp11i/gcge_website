@@ -42,25 +42,6 @@
            class="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-6 max-w-full">
 
 
-
-      <div class="flex flex-col gap-4 border-b border-white/10 pb-5 lg:flex-row lg:items-end lg:justify-between">
-        <div class="max-w-2xl">
-        </div>
-        <div class="w-full max-w-sm">
-          <p class="mb-2 text-xs uppercase tracking-[0.24em] text-white/45">
-            Region
-          </p>
-          <USelectMenu v-model="selectedRegion"
-                       :items="regionOptions"
-                       color="neutral"
-                       variant="subtle"
-                       trailing-icon="i-lucide-chevron-down"
-                       class="w-full" />
-        </div>
-
-      </div>
-
-
         <UTabs :items="consultationTabs"
                variant="link"
                color="neutral"
@@ -387,10 +368,7 @@ type ConsultationDetail = {
   copy: string
 }
 
-type RegionOption = 'India' | 'International'
-
-const regionOptions: RegionOption[] = ['India', 'International']
-const selectedRegion = ref<RegionOption>('India')
+const { selectedRegion, initRegion } = useRegionSelection()
 
 const personalRelationshipServices: ConsultationService[] = [
   {
@@ -601,21 +579,8 @@ const handlePaymentDismissed = () => {
   activeReceipt.value = null
 }
 
-
-onMounted(async () => {
-  console.log('Consultation page mounted.')
-
-  // Check from Local Storage for the region first, if not found then send api request
-  const storedRegion = useLocalStorage('selectedRegion', null)
-
-  if (storedRegion.value) {
-    selectedRegion.value = storedRegion.value
-  } else {
-    const response = await $fetch<{ country_name: string }>('https://ipapi.co/json/')
-    response.country_name === 'India' ? selectedRegion.value = 'India' : selectedRegion.value = 'International'
-    console.log('User region determined:', selectedRegion.value)
-    useLocalStorage('selectedRegion', selectedRegion)
-  }
+onMounted(() => {
+  initRegion()
 })
 
 

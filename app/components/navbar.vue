@@ -90,7 +90,6 @@
 <script lang="ts" setup>
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
 
-const colorTheme = ref(true)
 const menuOpen = ref(false)
 const menuButton = ref<HTMLButtonElement | null>(null)
 const closeButton = ref<HTMLButtonElement | null>(null)
@@ -104,6 +103,7 @@ const links = [
 
 
 const colorMode = useColorMode()
+const colorTheme = ref(colorMode.value === 'dark' || true)
 
 watch(menuOpen, async (isOpen) => {
   if (!import.meta.client) {

@@ -9,6 +9,7 @@
     <div
          class="footerLinks w-full text-md flex flex-col justify-between items-end gap-4 p-4 text-white relative z-10 mt-5">
 
+
       <div class="siteLinks w-full flex flex-col items-end justify-end gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-end">
 
         <div class="flex flex-col items-end gap-4">
@@ -23,11 +24,39 @@
         </div>
       </div>
 
+       <div class="flex w-full max-w-sm self-end mt-4 justify-end">
+        <div class="relative h-12 w-full max-w-56">
+          <button
+              v-if="!showRegionSelector"
+            type="button"
+              class="absolute right-0 top-1/2 w-56 -translate-y-1/2 text-right text-xs uppercase tracking-[0.24em] text-white/45 cursor-pointer hover:text-white/75 transition-colors"
+            @click="showRegionSelector = true"
+          >
+            Change Region
+          </button>
+          <USelectMenu
+              v-else
+            v-model="selectedRegionModel"
+            :items="regionOptions"
+            color="neutral"
+            variant="subtle"
+            trailing-icon="i-lucide-chevron-down"
+            class="absolute right-0 top-1/2 w-56 -translate-y-1/2"
+          />
+        </div>
+      </div>
+
       <div class="socialLinks w-full flex flex-row gap-4 justify-center items-center text-4xl mt-4">
         <a href="https://www.instagram.com/galacticgeneastro/"
            target="_blank"
            rel="noopener noreferrer">
           <Icon name="mdi:instagram" />
+
+        </a>
+        <a href="https://www.youtube.com/@galacticgene"
+           target="_blank"
+           rel="noopener noreferrer">
+          <Icon name="mdi:youtube" />
 
         </a>
         <a href="https://reddit.com/r/AstrologyDiscovery"
@@ -47,6 +76,7 @@
         </a>
       </div>
 
+
       <div class="w-full flex flex-col items-center gap-4 mt-4">
         <span class="copyrightText text-xs opacity-50">+91 7678698072 | support@galacticgene.com</span>
         <span class="copyrightText text-sm opacity-80">© {{ new Date().getFullYear() }} Galactic Gene. All rights reserved.</span>
@@ -59,6 +89,21 @@
 </template>
 
 <script lang="ts" setup>
+const { selectedRegion, initRegion, persistRegion } = useRegionSelection()
+const showRegionSelector = ref(false)
+
+const selectedRegionModel = computed({
+  get: () => selectedRegion.value,
+  set: (value) => {
+    selectedRegion.value = value
+    persistRegion(value)
+    showRegionSelector.value = false
+  },
+})
+
+onMounted(() => {
+  initRegion()
+})
 
 </script>
 

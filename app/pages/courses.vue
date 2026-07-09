@@ -99,6 +99,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import video1 from '@/assets/media/video1.mp4'
 import video2 from '@/assets/media/video2.mp4'
 import showcase1 from '@/assets/images/showcase1.jpg'
@@ -279,16 +280,22 @@ const courseGroups: CourseGroup[] = [
     ],
   },
 ]
+
+const totalCourses = computed(() => courseGroups.reduce((total, group) => total + group.courses.length, 0))
+const pageTitle = computed(() => `Courses (${totalCourses.value})`)
+
+useHead(() => ({
+  title: pageTitle.value
+}))
+
+useSeoMeta({
+  title: pageTitle,
+  ogTitle: computed(() => `${pageTitle.value} | Galactic Gene`),
+  twitterTitle: computed(() => `${pageTitle.value} | Galactic Gene`)
+})
 </script>
 
 <style scoped>
-.courses-page {
-  /* background:
-    radial-gradient(circle at 7% 12%, rgba(212, 175, 55, 0.22), transparent 33%),
-    radial-gradient(circle at 90% 10%, rgba(14, 165, 233, 0.2), transparent 34%),
-    radial-gradient(circle at 50% 100%, rgba(20, 184, 166, 0.15), transparent 36%); */
-}
-
 @media (max-width: 640px) {
   .courses-page {
     padding-top: 1.5rem;
