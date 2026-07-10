@@ -383,7 +383,7 @@ const personalRelationshipServices: ConsultationService[] = [
     receipt: 'relationship-consultation',
     ctaLabel: 'Book Relationship Consultation',
     category: 'Personal & Relationships',
-    dodoProductID: 'pdt_0Nif7NpelxSATp0uIQ6l9'
+    dodoProductID: 'pdt_0NifmXPQ0wgrs7sfPOHtT'
   },
   {
     kicker: 'Core reading',
