@@ -1,6 +1,6 @@
 <template>
-  <nav class="relative z-50 mx-auto flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-12"
-       :class="colorTheme ? 'text-white' : ''">
+  <nav class="site-navbar relative z-50 mx-auto flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-12"
+       :class="colorTheme ? 'text-white' : 'text-slate-900'">
 
     <NuxtLink to="/"
                class="flex items-center gap-3">
@@ -19,15 +19,13 @@
 
       <UColorModeSwitch v-model="colorTheme"
                         title="Toggle Dark/Light Theme"
-                        color="neutral"
-                        default-value
-                        @change="colorMode.preference = colorTheme ? 'dark' : 'light'"
+                        color="secondary"
                         class="cursor-pointer!" />
     </div>
 
     <button type="button"
           ref="menuButton"
-            class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 p-3 text-inherit transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300 md:hidden fixed right-4 top-4 z-50"
+            class="navbar-menu-button inline-flex items-center justify-center rounded-full p-3 text-inherit transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300 md:hidden fixed right-4 top-4 z-50"
             :aria-expanded="menuOpen"
             aria-controls="mobile-navigation"
             aria-label="Open navigation menu"
@@ -47,15 +45,15 @@
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
          <aside id="mobile-navigation"
-           class="relative ml-auto flex h-full w-[min(88vw,20rem)] flex-col border-l border-white/10 bg-[#071625] px-5 py-5 text-white shadow-2xl"
+           class="navbar-drawer relative ml-auto flex h-full w-[min(88vw,20rem)] flex-col border-l px-5 py-5 shadow-2xl"
                role="dialog"
                aria-modal="true"
                aria-label="Mobile navigation">
           <div class="flex items-center justify-between gap-4">
-            <span class="text-sm uppercase tracking-[0.25em] text-white/60">Menu</span>
+            <span class="navbar-muted text-sm uppercase tracking-[0.25em]">Menu</span>
             <button type="button"
                   ref="closeButton"
-                    class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 p-2 transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
+                    class="navbar-close-button inline-flex items-center justify-center rounded-full border p-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
                     aria-label="Close navigation menu"
                     @click="menuOpen = false">
               <Icon name="mdi:close" class="text-xl" />
@@ -66,18 +64,16 @@
             <NuxtLink v-for="link in links"
                       :key="link.to"
                       :to="link.to"
-                      class="rounded-2xl px-4 py-3 text-lg transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
+                      class="navbar-link rounded-2xl px-4 py-3 text-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
                       @click="menuOpen = false">
               {{ link.label }}
             </NuxtLink>
           </nav>
 
-          <div class="mt-auto border-t border-white/10 pt-6">
+          <div class="navbar-footer mt-auto border-t pt-6">
             <UColorModeSwitch v-model="colorTheme"
                               title="Toggle Dark/Light Theme"
                               color="neutral"
-                              default-value
-                              @change="colorMode.preference = colorTheme ? 'dark' : 'light'"
                               class="cursor-pointer!" />
           </div>
         </aside>
@@ -88,7 +84,7 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 
 const menuOpen = ref(false)
 const menuButton = ref<HTMLButtonElement | null>(null)
@@ -103,7 +99,12 @@ const links = [
 
 
 const colorMode = useColorMode()
-const colorTheme = ref(colorMode.value === 'dark' || true)
+const colorTheme = computed({
+  get: () => colorMode.value === 'dark',
+  set: (isDark: boolean) => {
+    colorMode.preference = isDark ? 'dark' : 'light'
+  }
+})
 
 watch(menuOpen, async (isOpen) => {
   if (!import.meta.client) {
@@ -135,4 +136,19 @@ onBeforeUnmount(() => {
 
 </script>
 
-<style></style>
+<style scoped>
+
+a{
+  color: white;
+}
+
+.light a {
+  color: black;
+  text-decoration: none;
+}
+.light a:hover {
+  color: goldenrod;
+  text-decoration: none;
+}
+
+</style>

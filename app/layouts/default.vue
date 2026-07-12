@@ -129,6 +129,15 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
+.bg_art {
+  position: absolute;
+  /* top: 0;
+  right: 0; */
+  /* width: 100%; */
+  /* height: auto; */
+  z-index: -1;
+  user-select: none;
+}
 .sun {
   background: radial-gradient(circle at center, #fffacd, #f0e68c, #ffe343);
   /* filter: blur(0.1rem); */

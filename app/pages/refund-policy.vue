@@ -14,9 +14,9 @@ useHead({
 <template>
   <div class="space-y-8 px-6 py-8 md:px-10 md:py-10">
     <div class="border-b border-amber-300/15  px-0 pb-8">
-      <p class="text-sm uppercase tracking-[0.35em] text-amber-200/80">Refund Policy</p>
+      <p class="text-sm uppercase tracking-[0.35em] text-amber-200">Refund Policy</p>
       <h1 class="mt-4 text-4xl! font-semibold text-amber-200 md:text-6xl!">Clear refund terms for our services</h1>
-      <p class="mt-4 max-w-3xl text-base leading-7 text-white/80 md:text-lg">
+      <p class="mt-4 max-w-3xl text-base leading-7 text-white md:text-lg">
         Our refund rules are designed to be straightforward. Consultation services may be refunded only in the limited situations
         described below. Courses are non-refundable.
       </p>

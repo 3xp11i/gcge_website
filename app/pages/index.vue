@@ -1,5 +1,5 @@
 <template>
-  <div class=" flex min-h-screen flex-col items-center justify-center ">
+  <div class="home-page flex min-h-screen flex-col items-center justify-center ">
 
     <header class="relative flex w-full flex-col items-center justify-start text-center">
       <h1 class="mt-8 text-5xl sm:text-7xl lg:text-[10rem]! fancy relative">Galactic Gene
@@ -27,7 +27,7 @@
                   }"
                    class="mx-auto w-full ctive:cursor-grab touch-pan-y py-1">
           <template #default="{ item }">
-            <article class="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
+            <article class="home-media-card overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
                      @click="openMediaPreview(item)">
               <video v-if="item.type === 'video'"
                      :ref="(el) => setCarouselVideoRef(el, item)"
@@ -154,15 +154,17 @@
                     container: 'items-center pl-2',
                     item: 'basis-[88%] sm:basis-[80%] lg:basis-[60%] ps-2 p-4 sm:ps-0 transition-opacity duration-300 [&:not(.is-snapped)]:opacity-35 [&:not(.is-snapped)]:scale-90 [&:not(.is-snapped)]:grayscale [&.is-snapped]:opacity-100 [&.is-snapped]:scale-100 [&.is-snapped]:translate-y-0 [&.is-snapped]:grayscale-0 [&.is-snapped]:z-10 select-none',
                     prev: 'left-2 sm:left-4 top-1/2 -translate-y-1/2',
-                    next: 'right-2 sm:right-4 top-1/2 -translate-y-1/2'
+                    next: 'right-2 sm:right-4 top-1/2 -translate-y-1/2',
+                    dots: 'pt-3',
+                    dot: 'theme-carousel-dot size-2.5 rounded-full transition-all duration-200'
                   }"
-                   class="mx-auto w-full ctive:cursor-grab touch-pan-y py-1">
+                   class="home-reviews-carousel mx-auto w-full ctive:cursor-grab touch-pan-y py-1">
           <template #default="{ item }">
             <article class="overflow-hidden rounded-3xl  shadow-2xl shadow-black/20 hover:cursor-pointer active:cursor-grab"
                      @click="item.src ? openReviewMediaPreview(item) : null">
-              <div class="reviewCard flex flex-col items-start justify-center gap-4 rounded-3xl shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
+                <div class="reviewCard home-review-card flex flex-col items-start justify-center gap-4 rounded-3xl shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
                    :class="{
-                    'p-4  border border-white/10 bg-white/15': !item.src,
+                  'home-review-text-card p-4 border border-white/10 bg-white/15': !item.src,
                   }">
 
                 <h4 class="text-lg font-semibold">{{ item.name }}</h4>
@@ -226,7 +228,7 @@
           <img src="@/assets/images/discord_server.png"
                alt="Discord server image"
                class="w-full object-cover blur-[2px] rounded-3xl select-none pointer-events-none" />
-          <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full">
+          <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full text-white">
             <p class="">Connect, Talk & Learn! <br> We are waiting for you to join ♥️
             </p>
             <UButton icon="ic:baseline-discord"
@@ -239,7 +241,7 @@
           <img src="@/assets/images/reddit.png"
                alt="Reddit community image"
                class="w-full object-cover blur-[2px] rounded-3xl select-none pointer-events-none" />
-          <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full">
+          <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full text-white">
             <p class="">Feel free to ask any doubt or question 🌱
             </p>
             <UButton icon="ic:baseline-reddit"
@@ -268,6 +270,7 @@
                     class="flex flex-col gap-4 w-full"
                     type="multiple"
                     :ui="{
+                      item: 'theme-accordion-item border-b last:border-b-0',
                       label: 'text-left text-lg font-semibold',
                       content: 'text-left text-base opacity-60',
                     }"
@@ -594,13 +597,31 @@ const reviews = [
 </script>
 
 <style>
-.bg_art {
-  position: absolute;
-  /* top: 0;
-  right: 0; */
-  /* width: 100%; */
-  /* height: auto; */
-  z-index: -1;
-  user-select: none;
+.light .home-page {
+  color: #11202f;
 }
+
+.light .home-page .home-media-card {
+  background-color: rgba(255, 255, 255, 0.82);
+  border-color: rgba(17, 32, 47, 0.16);
+}
+
+.light .home-page .home-review-card {
+  box-shadow: 0 20px 35px -20px rgba(14, 30, 47, 0.4);
+}
+
+.light .home-page .home-review-text-card {
+  background-color: rgba(255, 255, 255, 0.72);
+  border-color: rgba(17, 32, 47, 0.2);
+}
+
+.light .home-page .reviewCard p {
+  color: rgba(17, 32, 47, 0.78);
+}
+
+.light .home-page .discordCard,
+.light .home-page .redditCard {
+  box-shadow: 0 18px 30px -18px rgba(17, 32, 47, 0.45);
+}
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen overflow-hidden">
+  <div class="course-layout relative min-h-screen overflow-hidden">
     <Navbar />
 
     <main class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">

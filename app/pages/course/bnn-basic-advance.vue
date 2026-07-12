@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto w-full max-w-6xl">
+  <div class="course-detail-page mx-auto w-full max-w-6xl">
     <div>
       <img
         src="@/assets/images/bnn.png"
@@ -90,6 +90,7 @@
           :items="faqItems"
           type="multiple"
           :ui="{
+            item: 'theme-accordion-item border-b last:border-b-0',
             trigger: 'py-4',
             label: 'text-left text-lg font-semibold',
             content: 'text-left text-base leading-7 text-white/75 pb-4'

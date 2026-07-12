@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen w-full flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+  <div class="consultation-page flex min-h-screen w-full flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
     <div
          class="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full opacity-40 blur-3xl" />
 
@@ -75,7 +75,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
-                    <p class="mt-1 text-2xl! font-semibold text-[rgb(225,174,47)]">
+                    <p class="mt-1 text-2xl! font-semibold text-[rgb(237,178,28)] light:text-gray-800">
                       {{ service.badge || 'Included' }}
                     </p>
                   </div>
@@ -150,7 +150,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
-                    <p class="mt-1 text-2xl! font-semibold text-[rgb(225,174,47)]">
+                    <p class="mt-1 text-2xl! font-semibold text-[rgb(237,178,28)] light:text-gray-800">
                       {{ service.badge || 'Included' }}
                     </p>
                   </div>
@@ -225,7 +225,7 @@
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
-                    <p class="mt-1 text-2xl! font-semibold text-[rgb(225,174,47)]">
+                    <p class="mt-1 text-2xl! font-semibold text-[rgb(225,174,47)] light:text-gray-800">
                       {{ service.badge || 'Included' }}
                     </p>
                   </div>

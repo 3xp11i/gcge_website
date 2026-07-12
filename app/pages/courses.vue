@@ -2,7 +2,7 @@
   <div class="courses-page min-h-screen w-full px-4 py-10 sm:px-6 lg:px-8">
     <section
              class="flex flex-col justify-center items-center mx-auto mb-8 mt-2 w-full max-w-7xl rounded-3xl border border-white/10 bg-white/5 p-6 text-center shadow-xl shadow-black/20 sm:p-8">
-      <p class="w-full mb-2 text-sm font-semibold tracking-[0.2em] text-amber-300/80 uppercase">Galactic Gene Academy</p>
+      <p class="w-full mb-2 text-sm font-semibold tracking-[0.2em] text-amber-300 uppercase">Galactic Gene Academy</p>
       <h1 class="w-full fancy text-5xl sm:text-6xl lg:text-7xl">Courses</h1>
       <p class="mx-auto mt-3 max-w-3xl text-base text-white/80 sm:text-lg">
         Learn astrology and related sciences through structured programs with practical guidance. Choose your track,
@@ -65,7 +65,7 @@
                 <NuxtLink :to="course.href"
                           class="text-2xl font-bold text-amber-400 opacity-90 hover:opacity-100 hover:text-amber-500  text-left leading-tight">
                   {{ course.title }}</NuxtLink>
-                <span class="py-1 text-xs font-semibold tracking-wide text-amber-100">
+                <span class="course-price-tag py-1 text-xs font-semibold tracking-wide text-amber-100">
                   {{ course.price }}
                 </span>
               </div>
@@ -75,13 +75,13 @@
               </p>
 
               <div class="mb-1 flex flex-wrap gap-2 text-xs font-semibold">
-                <span class="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-white/90">{{
+                <span class="course-chip rounded-full border border-white/15 bg-white/10 px-3 py-1 text-white/90">{{
                   course.duration }}</span>
                 <span
-                      class="rounded-full border border-emerald-300/30 bg-emerald-500/15 px-3 py-1 text-emerald-100">Part
+                      class="course-chip rounded-full border border-emerald-300/30 bg-emerald-500/15 px-3 py-1 text-emerald-100">Part
                   payment
                   available</span>
-                <span class="rounded-full border px-3 py-1"
+                <span class="course-chip rounded-full border px-3 py-1"
                       :class="course.level.includes('Fill')
                         ? 'border-sky-300/35 bg-sky-500/15 text-sky-100'
                         : 'border-amber-300/35 bg-amber-500/15 text-amber-100'">
@@ -149,7 +149,7 @@ const courseGroups: CourseGroup[] = [
         title: 'BNN - Basic & Advance',
         level: 'Combined Program',
         description: 'A complete BNN journey from foundation to advanced application with guided practice and deep concept clarity.',
-        price: 'INR 35,000',
+        price: 'INR 25,000',
         duration: '5 months',
         href: '/course/bnn-basic-advance',
         media: [
