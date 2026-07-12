@@ -24,9 +24,16 @@ export default defineEventHandler(async (event) => {
 		// Initialize Dodo Payments client
 		const apiKey = process.env.DODO_PAYMENTS_API_KEY
 		const productId = dodoProductId
-		const dodoMode = (process.env.NUXT_PUBLIC_DODO_MODE || 'test').toLowerCase()
+		const runtimeConfig = useRuntimeConfig(event)
+		const dodoMode = String(runtimeConfig.public.dodoMode || 'test').toLowerCase()
 		const environment = (dodoMode === 'live' || dodoMode === 'live_mode') ? 'live_mode' : 'test_mode'
 
+
+		console.log("Dodo Payments API Key:", apiKey)
+		console.log("Dodo Mode:", dodoMode)
+		console.log("Dodo Environment:", environment)
+
+		
 		if (!apiKey) {
 			throw createError({
 				statusCode: 500,

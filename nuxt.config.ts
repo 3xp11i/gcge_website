@@ -14,9 +14,9 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		razorpayKeyId: process.env.NUXT_RAZORPAY_KEY_ID,
 		razorpayKeySecret: process.env.NUXT_RAZORPAY_KEY_SECRET,
-		dodopaymentApiKey: process.env.NUXT_DODO_PAYMENTS_API_KEY,
 		public: {
 			razorpayKeyId: process.env.NUXT_PUBLIC_RAZORPAY_KEY_ID,
+			dodoMode: process.env.NUXT_PUBLIC_DODO_MODE || "test",
 			siteUrl,
 		},
 	},
