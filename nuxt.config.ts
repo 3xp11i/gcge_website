@@ -1,5 +1,3 @@
-import { env } from "node:process";
-
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || "http://localhost:3000";
 const ogImageUrl = `${siteUrl}/og_image.jpg`;
 
@@ -35,7 +33,7 @@ export default defineNuxtConfig({
 				{
 					name: "description",
 					content:
-						"Galactic Gene is an astrology community and content space with a premium, calm, space-inspired visual identity. We provide resources, discussions, and insights for those interested in exploring their cosmic path.",
+						"Galactic Gene is an astrology community of wonderful people who are eager to learn and grow. We provide resources, discussions, and insights for those interested in exploring their cosmic path.",
 				},
 				{ name: "apple-mobile-web-app-title", content: "Galactic Gene" },
 				{ property: "og:image", content: ogImageUrl },
@@ -84,13 +82,27 @@ export default defineNuxtConfig({
 		"@nuxtjs/color-mode",
 		"@nuxtjs/mdc",
 		"@nuxtjs/seo",
+		"@nuxtjs/supabase",
+		"@nuxt/image",
 	],
+
+	supabase: {
+		redirect: false,
+		redirectOptions: {
+			login: "/",
+			callback: "",
+			include: undefined,
+			exclude: [],
+			saveRedirectToCookie: false,
+		},
+		types: "~/shared/types/database.types.ts",
+	},
 	vite: {
 		optimizeDeps: {
 			include: ["@unhead/schema-org/vue"],
 		},
 		server: {
-			allowedHosts: [".ngrok-free.app"], //ngrok http --url=relative-only-whale.ngrok-free.app localhost:3000
+			allowedHosts: [".ngrok-free.app", ".shares.zrok.io"], //ngrok http --url=relative-only-whale.ngrok-free.app localhost:3000
 		},
 	},
 });

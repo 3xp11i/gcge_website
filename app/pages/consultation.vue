@@ -1,20 +1,29 @@
 <template>
   <div class="consultation-page flex min-h-screen w-full flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+
+
     <div
-         class="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full opacity-40 blur-3xl" />
+         class="pointer-events-none absolute left-1/2 top-0 h-80 w-80 not-md:w-full -translate-x-1/2 rounded-full opacity-40 blur-3xl" />
 
     <!-- Birth Details Modal -->
-    <UModal v-model:open="birthDetailsOpen"
-    @close:prevent="closeBirthDetailsModal"
-            title="Share birth details"
-            description="Fill in the person's details. This information is needed for your consultation."
-            scrollable>
+    <UModal v-model:open="purchase.formOpen.value"
+            @close:prevent="closeBirthDetailsModal"
+            :title="title"
+            :description="description"
+            class="rounded-2xl"
+            scrollable
+            :ui="{
+              header: 'bg-black/20 rounded-t-2xl py-8',
+              title: 'text-3xl! font-semibold',
+            }">
       <template #body>
         <BirthDetailsForm :key="formKey"
                           :loading="birthDetailsLoading"
                           submit-label="Continue to Payment"
                           @submit="handleBirthDetailsSubmit"
-                          @cancel="closeBirthDetailsModal" />
+                          @cancel="closeBirthDetailsModal"
+                          @slotBookingFormActive="val => slotBookingFormActive = val"
+                          class="" />
       </template>
     </UModal>
 
@@ -23,7 +32,9 @@
 
       <div class="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 text-center">
         <!-- Header banner image -->
-         <img src="@/assets/images/consultations_banner.png" alt="Consultation banner" class="mx-auto w-full max-h-44 rounded-3xl border border-white/10 bg-black/20 shadow-2xl shadow-black/20 backdrop-blur-sm object-cover" />
+        <img src="@/assets/images/consultations_banner.png"
+             alt="Consultation banner"
+             class="mx-auto w-full max-h-44 rounded-3xl border border-white/10 bg-black/20 shadow-2xl shadow-black/20 backdrop-blur-sm object-cover" />
         <h1 class="text-4xl! leading-tight sm:text-5xl! lg:text-6xl!">
           Our Services
         </h1>
@@ -32,7 +43,8 @@
           payment page. After your payment is confirmed, we'll contact you via your email or Instagram (if provided)
           within 24 hours.
 
-          No need to worry about scheduling, we'll personally coordinate a convenient consultation date and time with you
+          No need to worry about scheduling, we'll personally coordinate a convenient consultation date and time with
+          you
           through email or Instagram.
         </p>
       </div>
@@ -94,7 +106,7 @@
                   </p>
                 </div>
 
-                <RazorpayCheckoutButton v-if="selectedRegion === 'India'"
+                <!-- <RazorpayCheckoutButton v-if="selectedRegion === 'India'"
                                         class="mt-6"
                                         :amount-paise="service.amountPaise"
                                         :description="service.title"
@@ -116,7 +128,13 @@
                                     :birth-details="birthDetails"
                                     :active-receipt="activeReceipt"
                                     @need-details="handleCheckoutClick(service.receipt)"
-                                    @checkout-started="handleCheckoutStarted" />
+                                    @checkout-started="handleCheckoutStarted" /> -->
+
+                <PurchaseButton :label="service.ctaLabel"
+                                :loading="checkout.loading.value && purchase.activeItemId.value === service.receipt"
+                                :status-message="purchase.activeItemId.value === service.receipt ? checkout.statusMessage.value : ''"
+                                :error-message="purchase.activeItemId.value === service.receipt ? checkout.errorMessage.value : ''"
+                                @click="purchase.openForm(service.receipt)" />
               </article>
             </div>
           </template>
@@ -169,29 +187,11 @@
                   </p>
                 </div>
 
-                <RazorpayCheckoutButton v-if="selectedRegion === 'India'"
-                                        class="mt-6"
-                                        :amount-paise="service.amountPaise"
-                                        :description="service.title"
-                                        :receipt="service.receipt"
-                                        :label="service.ctaLabel"
-                                        :birth-details="birthDetails"
-                                        :active-receipt="activeReceipt"
-                                        @need-details="handleCheckoutClick(service.receipt)"
-                                        @checkout-started="handleCheckoutStarted"
-                                        @payment-success="handlePaymentSuccess"
-                                        @payment-dismissed="handlePaymentDismissed" />
-                <DodoCheckoutButton v-else
-                                    class="mt-6"
-                                    :amount-usd="parseFloat(service.priceUsd.replace(/[^\d.]/g, ''))"
-                                    :description="service.title"
-                                    :receipt="service.receipt"
-                                    :dodo-product-id="getDodoProductId(service)"
-                                    :label="service.ctaLabel"
-                                    :birth-details="birthDetails"
-                                    :active-receipt="activeReceipt"
-                                    @need-details="handleCheckoutClick(service.receipt)"
-                                    @checkout-started="handleCheckoutStarted" />
+                <PurchaseButton :label="service.ctaLabel"
+                                :loading="checkout.loading.value && purchase.activeItemId.value === service.receipt"
+                                :status-message="purchase.activeItemId.value === service.receipt ? checkout.statusMessage.value : ''"
+                                :error-message="purchase.activeItemId.value === service.receipt ? checkout.errorMessage.value : ''"
+                                @click="purchase.openForm(service.receipt)" />
               </article>
             </div>
           </template>
@@ -244,29 +244,11 @@
                   </p>
                 </div>
 
-                <RazorpayCheckoutButton v-if="selectedRegion === 'India'"
-                                        class="mt-6"
-                                        :amount-paise="service.amountPaise"
-                                        :description="service.title"
-                                        :receipt="service.receipt"
-                                        :label="service.ctaLabel"
-                                        :birth-details="birthDetails"
-                                        :active-receipt="activeReceipt"
-                                        @need-details="handleCheckoutClick(service.receipt)"
-                                        @checkout-started="handleCheckoutStarted"
-                                        @payment-success="handlePaymentSuccess"
-                                        @payment-dismissed="handlePaymentDismissed" />
-                <DodoCheckoutButton v-else
-                                    class="mt-6"
-                                    :amount-usd="parseFloat(service.priceUsd.replace(/[^\d.]/g, ''))"
-                                    :description="service.title"
-                                    :receipt="service.receipt"
-                                    :dodo-product-id="getDodoProductId(service)"
-                                    :label="service.ctaLabel"
-                                    :birth-details="birthDetails"
-                                    :active-receipt="activeReceipt"
-                                    @need-details="handleCheckoutClick(service.receipt)"
-                                    @checkout-started="handleCheckoutStarted" />
+                <PurchaseButton :label="service.ctaLabel"
+                                :loading="checkout.loading.value && purchase.activeItemId.value === service.receipt"
+                                :status-message="purchase.activeItemId.value === service.receipt ? checkout.statusMessage.value : ''"
+                                :error-message="purchase.activeItemId.value === service.receipt ? checkout.errorMessage.value : ''"
+                                @click="purchase.openForm(service.receipt)" />
               </article>
             </div>
           </template>
@@ -276,7 +258,7 @@
       <div class="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
         <article
                  class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
-          <h2 class="text-3xl sm:text-4xl">Consultation Details</h2>
+          <h3 class="text-3xl sm:text-4xl">Consultation Details</h3>
 
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
             <div v-for="detail in consultationDetails"
@@ -300,7 +282,7 @@
 
         <article
                  class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
-          <h2 class="text-3xl sm:text-4xl">Contact Us</h2>
+          <h3 class="text-3xl sm:text-4xl">Contact Us</h3>
           <p class="mt-4 text-sm leading-6 text-white/70">
             Reach out directly for support, booking help, and consultation-related questions.
           </p>
@@ -336,11 +318,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { BirthDetails } from '~/components/birth-details-form.vue'
+import type { BirthDetails } from '~/shared/types/form.types';
+import { serializeCalendarDate, serializeTime } from '~/shared/utils/dateSerializers';
 
-import { personalRelationshipServices, careerBusinessServices, otherServices } from '#imports'
-import type { ConsultationService } from '#imports'
-
+import { personalRelationshipServices, careerBusinessServices, otherServices } from '~/shared/utils/dodoProducts';
+import type { ConsultationService } from '~/shared/utils/dodoProducts';
 
 useHead({
   title: 'Consultation Packages | Galactic Gene',
@@ -358,9 +340,73 @@ type ConsultationDetail = {
 }
 
 const { selectedRegion, initRegion } = useRegionSelection()
+
+
+const purchase = usePurchaseFlow<BirthDetails>()
+const checkout = usePaymentCheckout()
+
+
+const currentService = computed(() =>
+  [...personalRelationshipServices, ...careerBusinessServices, ...otherServices]
+    .find(s => s.receipt === purchase.activeItemId.value)
+)
+
+function handleBirthDetailsSubmit(details: BirthDetails) {
+  purchase.submitForm(details)
+}
+
+watch(() => [purchase.formData.value, purchase.activeItemId.value] as const, ([details, itemId]) => {
+  const service = currentService.value
+  if (!details || !itemId || !service) return
+
+  purchase.consumeActiveItem() // guard against refire
+
+  const metadata = {
+    fullName: details.fullName,
+    email: details.email,
+    phone: details.phone,
+    dateOfBirth: serializeCalendarDate(details.dateOfBirth),
+    timeOfBirth: serializeTime(details.timeOfBirth),
+    location: details.location,
+    zipcode: details.zipcode,
+    consultationMethod: details.consultationMethod,
+    instagramUsername: details.instagramUsername,
+    needsBtr: details.needsBtr,
+    message: details.message,
+    orderType: 'consultation',
+  }
+
+  if (selectedRegion.value === 'India') {
+    checkout.startCheckout({
+      provider: 'razorpay',
+      amountPaise: service.amountPaise,
+      description: service.title,
+      receipt: service.receipt,
+      customerName: details.fullName,
+      customerEmail: details.email,
+      metadata,
+    })
+  } else {
+    checkout.startCheckout({
+      provider: 'dodo',
+      amountUsd: parseFloat(service.priceUsd.replace(/[^\d.]/g, '')),
+      description: service.title,
+      receipt: service.receipt,
+      dodoProductId: getDodoProductId(service),
+      customerName: details.fullName,
+      customerEmail: details.email,
+      metadata,
+    })
+  }
+})
+
+
 const runtimeConfig = useRuntimeConfig()
 
+const slotBookingFormActive = ref(false)
 
+const title = computed(() => slotBookingFormActive.value ? 'Book your Slot' : 'Share birth details')
+const description = computed(() => slotBookingFormActive.value ? 'Select the best slot according to your convenience.' : 'Fill in the person\'s details. This information is needed for your consultation.')
 
 
 const consultationTabs = [
@@ -418,11 +464,14 @@ const getDodoProductId = (service: ConsultationService) => {
 }
 
 // Birth details state management
-const birthDetailsOpen = ref(false)
 const birthDetailsLoading = ref(false)
 const birthDetails = ref<BirthDetails | null>(null)
 const activeReceipt = ref<string | null>(null)
-const formKey = ref(0)
+const formKey = computed(() => purchase.formKey.value)
+
+
+
+
 
 const handleCheckoutClick = (receipt: string) => {
   // Clear any previously submitted details so checkout starts only after fresh form submit.
@@ -432,16 +481,15 @@ const handleCheckoutClick = (receipt: string) => {
 }
 
 const closeBirthDetailsModal = () => {
-  birthDetailsOpen.value = false
+  purchase.closeForm()
   birthDetails.value = null
   activeReceipt.value = null
-  formKey.value++
 }
 
-const handleBirthDetailsSubmit = (details: BirthDetails) => {
-  birthDetails.value = details
-  birthDetailsOpen.value = false
-}
+// const handleBirthDetailsSubmit = (details: BirthDetails) => {
+//   birthDetails.value = details
+//   birthDetailsOpen.value = false
+// }
 
 // Reset activeReceipt immediately so the watcher cannot re-fire
 const handleCheckoutStarted = () => {
@@ -474,6 +522,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
-
+div[data-slot="header"] h2 {
+  font-size: 3rem;
+}
 </style>

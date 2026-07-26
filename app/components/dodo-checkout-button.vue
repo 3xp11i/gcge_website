@@ -23,7 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import type { BirthDetails } from './birth-details-form.vue'
+import type { BirthDetails } from '~/shared/types/form.types';
+import { serializeCalendarDate, serializeTime } from '~/shared/utils/dateSerializers';
+
 import { DodoPayments, type CheckoutEvent } from "dodopayments-checkout";
 
 
@@ -66,53 +68,49 @@ const getDodoMode = (): "test" | "live" => {
 	return mode === "live" || mode === "live_mode" ? "live" : "test"
 }
 
-const sendBirthDetailsToDiscord = async (details: BirthDetails) => {
-	if (loading.value) {
-		return
-	}
+// const sendBirthDetailsToDiscord = async (details: BirthDetails) => {
+// 	if (loading.value) {
+// 		return
+// 	}
 
-	errorMessage.value = ""
+// 	errorMessage.value = ""
 
-	try {
-		await $fetch("/api/discord", {
-			method: "POST",
-			body: {
-				type: "birth-details",
-				data: {
-					fullName: details.fullName,
-					email: details.email,
-					dateOfBirth: details.dateOfBirth,
-					timeOfBirth: details.timeOfBirth,
-					location: details.location,
-					consultationMethod: details.consultationMethod,
-					instagramUsername: details.instagramUsername,
-					needsBtr: details.needsBtr,
-					amountUsd: props.amountUsd,
-					description: props.description,
-					receipt: props.receipt,
-					paymentGateway: "Dodo Payments",
-				},
-			},
-		})
-	} catch (error) {
-		errorMessage.value = error instanceof Error ? error.message : "Unable to save birth details."
-		throw error
-	}
-}
+// 	try {
+// 		await $fetch("/api/discord", {
+// 			method: "POST",
+// 			body: {
+// 				type: "birth-details",
+// 				data: {
+// 					fullName: details.fullName,
+// 					email: details.email,
+// 					dateOfBirth: details.dateOfBirth,
+// 					timeOfBirth: details.timeOfBirth,
+// 					location: details.location,
+// 					consultationMethod: details.consultationMethod,
+// 					instagramUsername: details.instagramUsername,
+// 					needsBtr: details.needsBtr,
+// 					amountUsd: props.amountUsd,
+// 					description: props.description,
+// 					receipt: props.receipt,
+// 					paymentGateway: "Dodo Payments",
+// 				},
+// 			},
+// 		})
+// 	} catch (error) {
+// 		errorMessage.value = error instanceof Error ? error.message : "Unable to save birth details."
+// 		throw error
+// 	}
+// }
 
 const startCheckout = async (details: BirthDetails | null = props.birthDetails) => {
 
 	console.log("Payment Button clicked");
 	console.log("Dodo Mode: ", getDodoMode())
 
-	
-
-
 	if (loading.value || !import.meta.client || !details) {
 		return
 	}
 
-	
 
 	DodoPayments.Initialize({
 		mode: getDodoMode(),
@@ -159,16 +157,21 @@ const startCheckout = async (details: BirthDetails | null = props.birthDetails) 
 				metadata: {
 					fullName: details.fullName,
 					email: details.email,
-					dateOfBirth: details.dateOfBirth,
-					timeOfBirth: details.timeOfBirth,
+					phone: details.phone,
+					dateOfBirth: serializeCalendarDate(details.dateOfBirth),
+					timeOfBirth: serializeTime(details.timeOfBirth),
 					location: details.location,
+					zipcode: details.zipcode,
 					consultationMethod: details.consultationMethod,
 					instagramUsername: details.instagramUsername,
 					needsBtr: details.needsBtr,
+					message: details.message,
 				},
 			},
 		})
 
+
+		
 		if (!response.checkout_url) {
 			throw new Error("Failed to generate checkout URL")
 		}

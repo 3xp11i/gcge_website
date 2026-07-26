@@ -53,7 +53,7 @@
           <Icon name="mdi:instagram" />
 
         </a>
-        <a href="https://www.youtube.com/@galacticgene"
+        <a href="https://www.youtube.com/@galacticgeneastro"
            target="_blank"
            rel="noopener noreferrer">
           <Icon name="mdi:youtube" />

@@ -104,9 +104,7 @@
           <p class="mt-3 text-3xl font-semibold text-white">{{ displayedPrice }}</p>
           <!-- <p class="mt-1 text-lg text-white/75">{{ regionPriceLabel }}</p> -->
 
-          <UButton class="button mt-5 w-full justify-center" to="/consultation">
-            Buy This Course
-          </UButton>
+          <BuyCourseButton :course="course" />
 
           <p class="mt-4 text-sm leading-6 text-white/75">
             Price is same for everyone, no matter which country you are from. You can pay in easy monthly installments.
@@ -128,21 +126,34 @@ import { reactive, computed } from 'vue'
 import type { AccordionItem } from '@nuxt/ui'
 import video1 from '@/assets/media/video1.mp4'
 import video2 from '@/assets/media/video2.mp4'
+import type { CourseProduct } from '~/shared/utils/dodoProducts'
 
 definePageMeta({
   layout: 'course'
 })
 
-const course = reactive({
-  title: 'BNN - Basic & Advance',
-  slug: 'bnn-basic-advance',
-  priceInr: 'INR 25,000',
-  priceUsd: '$300'
-})
+// const course = reactive({
+//   title: 'BNN - Basic & Advance',
+//   slug: 'bnn-basic-advance',
+//   priceInr: 'INR 25,000',
+//   priceUsd: '$300'
+// })
 
 const { selectedRegion, initRegion } = useRegionSelection()
 
-const displayedPrice = computed(() => (selectedRegion.value === 'India' ? course.priceInr : course.priceUsd))
+
+const course = reactive<CourseProduct & { title: string; slug: string; priceInr: string }>({
+  id: 'bnn-basic-advance',
+  slug: 'bnn-basic-advance',
+  title: 'BNN - Basic & Advance',
+  priceInr: 'INR 25,000',
+  priceUsd: 300,
+  amountPaise: 2500000, // ₹25,000 in paise
+  dodoProductID: 'pdt_0Nk1cjlGlDkg5zdezYRUp',
+  dodoProductIDLive: 'your_dodo_live_product_id',
+})
+
+// const displayedPrice = computed(() => (selectedRegion.value === 'India' ? course.priceInr : course.priceUsd))
 const regionPriceLabel = computed(() => (selectedRegion.value === 'India' ? 'India pricing' : 'International pricing'))
 
 const pageTitle = computed(() => `${course.title} Course`)
@@ -150,6 +161,10 @@ const pageTitle = computed(() => `${course.title} Course`)
 useHead(() => ({
   title: pageTitle.value
 }))
+
+const displayedPrice = computed(() =>
+  selectedRegion.value === 'India' ? course.priceInr : `$${course.priceUsd}`
+)
 
 useSeoMeta({
   title: pageTitle,

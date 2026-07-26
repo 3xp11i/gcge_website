@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import type { BirthDetails } from './birth-details-form.vue'
+import type { BirthDetails } from '~/shared/types/form.types';
+import { serializeCalendarDate, serializeTime } from '~/shared/utils/dateSerializers';
 
 type CreateOrderResponse = {
 	order_id: string
@@ -31,17 +32,57 @@ type CreateOrderResponse = {
 type VerifyPaymentResponse = {
 	success: boolean
 }
-
-type RazorpayInstance = {
-	open: () => void
-	on: (eventName: "payment.failed", callback: (response: any) => void) => void
+interface RazorpayOptions {
+	key: string
+	amount: number
+	currency: string
+	name: string
+	order_id: string
+	description?: string
+	image?: string
+	notes?: Record<string, string | boolean | undefined>
+	theme?: { color?: string }
+	prefill?: {
+		name?: string
+		email?: string
+		contact?: string
+	}
+	modal?: {
+		ondismiss?: () => void
+		confirm_close?: boolean
+	}
+	handler: (response: RazorpayPaymentResponse) => void
 }
 
-type RazorpayConstructor = new (options: Record<string, unknown>) => RazorpayInstance
+interface RazorpayPaymentResponse {
+	razorpay_payment_id: string
+	razorpay_order_id: string
+	razorpay_signature: string
+}
+
+interface RazorpayFailureResponse {
+	error: {
+		code: string
+		description: string
+		source: string
+		step: string
+		reason: string
+		order_id?: string
+		payment_id?: string
+	}
+}
+
+interface RazorpayInstance {
+	open: () => void
+	on: (event: 'payment.failed', callback: (response: RazorpayFailureResponse) => void) => void
+	close?: () => void
+}
+
+type RazorpayConstructor = new (options: RazorpayOptions) => RazorpayInstance
 
 let razorpayScriptPromise: Promise<void> | null = null
 
-const loadRazorpayScript = () => {
+const loadRazorpayScript = async () => {
 	if (!import.meta.client) {
 		return Promise.resolve()
 	}
@@ -80,20 +121,20 @@ const emit = defineEmits<{
 }>()
 
 const handleButtonClick = () => {
-	if (import.meta.client) {
-		void loadRazorpayScript()
-	}
 	emit('needDetails')
 }
 
-const props = withDefaults(defineProps<{
+
+interface Props {
 	amountPaise: number
 	description: string
 	receipt: string
 	label?: string
 	birthDetails: BirthDetails | null
 	activeReceipt?: string | null
-}>(), {
+}
+
+const props = withDefaults(defineProps<Props>(), {
 	label: "Pay with Razorpay",
 	birthDetails: null,
 	activeReceipt: null,
@@ -104,43 +145,6 @@ const statusMessage = ref("")
 const errorMessage = ref("")
 const runtimeConfig = useRuntimeConfig()
 
-const sendBirthDetailsToDiscord = async (details: BirthDetails, paymentId?: string) => {
-	console.log("Sending details to discord")
-	if (loading.value) {
-		console.log("Loading is true, returning")
-		return
-	}
-
-	errorMessage.value = ""
-
-	try {
-		await $fetch("/api/discord", {
-			method: "POST",
-			body: {
-				type: "birth-details",
-				data: {
-					fullName: details.fullName,
-					email: details.email,
-					dateOfBirth: details.dateOfBirth,
-					timeOfBirth: details.timeOfBirth,
-					location: details.location,
-					consultationMethod: details.consultationMethod,
-					instagramUsername: details.instagramUsername,
-					needsBtr: details.needsBtr,
-					amountPaise: props.amountPaise,
-					description: props.description,
-					receipt: props.receipt,
-					paymentId: paymentId,
-					// paymentGateway: "Razorpay",
-				},
-				paymentProvider: "razorpay",
-			},
-		})
-	} catch (error) {
-		errorMessage.value = error instanceof Error ? error.message : "Unable to save birth details."
-		throw error
-	}
-}
 
 const startCheckout = async (details: BirthDetails | null = props.birthDetails) => {
 	if (loading.value || !import.meta.client || !details) {
@@ -180,12 +184,18 @@ const startCheckout = async (details: BirthDetails | null = props.birthDetails) 
 			notes: {
 				fullName: details.fullName,
 				email: details.email,
-				dateOfBirth: details.dateOfBirth,
-				timeOfBirth: details.timeOfBirth,
+				phone: details.phone,
+				dateOfBirth: serializeCalendarDate(details.dateOfBirth),
+				timeOfBirth: serializeTime(details.timeOfBirth),
 				location: details.location,
+				zipcode: details.zipcode,
 				consultationMethod: details.consultationMethod,
 				instagramUsername: details.instagramUsername,
-				needsBtr: details.needsBtr,
+				needsBtr: String(details.needsBtr),
+				message: details.message,
+				receipt: props.receipt,
+				amountPaise: String(props.amountPaise),
+				description: props.description,
 			},
 			theme: {
 				color: "#d4a017",
@@ -202,39 +212,14 @@ const startCheckout = async (details: BirthDetails | null = props.birthDetails) 
 				razorpay_order_id: string
 				razorpay_signature: string
 			}) => {
-				if (!response.razorpay_payment_id || !response.razorpay_order_id || !response.razorpay_signature) {
-					throw new Error("Payment response is incomplete. Please try again.")
-				}
-
-				statusMessage.value = "Verifying payment..."
-
-				try {
-					const verification = await $fetch<VerifyPaymentResponse>("/api/verify-payment", {
-						method: "POST",
-						body: {
-							order_id: response.razorpay_order_id,
-							payment_id: response.razorpay_payment_id,
-							signature: response.razorpay_signature,
-						},
-					})
-
-					if (verification.success && details) {
-						loading.value = false
-						statusMessage.value = "Payment verified successfully."
-						// const discordMessageDetails = {...details, paymentId: response.razorpay_payment_id}
-						await sendBirthDetailsToDiscord(details, response.razorpay_payment_id)
-						statusMessage.value = "Payment verified. Birth details sent."
-						emit('paymentSuccess')
-						return
-					}
-
-					throw new Error("Payment verification failed.")
-				} catch (verificationError) {
-					const message = verificationError instanceof Error ? verificationError.message : "Payment verification failed."
-					errorMessage.value = message
-					statusMessage.value = ""
+				if (!response.razorpay_payment_id) {
+					errorMessage.value = "Payment response is incomplete. Please try again."
 					loading.value = false
+					return
 				}
+				loading.value = false
+				statusMessage.value = "Payment received. We'll confirm shortly."
+				emit('paymentSuccess')
 			},
 		})
 

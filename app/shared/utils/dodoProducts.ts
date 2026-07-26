@@ -15,6 +15,19 @@ export type ConsultationService = {
 	// testDodoProductID?: string;
 };
 
+
+export interface CourseProduct {
+	id: string;
+	title: string;
+	priceInr: string; // display only
+	priceUsd: number; // used for Dodo charge
+	amountPaise: number; // used for Razorpay charge
+	dodoProductID: string;
+	dodoProductIDLive?: string;
+}
+
+
+
 export const personalRelationshipServices: ConsultationService[] = [
 	{
 		kicker: "Relationship life guidance",
