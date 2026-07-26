@@ -150,7 +150,7 @@ const course = reactive<CourseProduct & { title: string; slug: string; priceInr:
   priceUsd: 300,
   amountPaise: 2500000, // ₹25,000 in paise
   dodoProductID: 'pdt_0Nk1cjlGlDkg5zdezYRUp',
-  dodoProductIDLive: 'your_dodo_live_product_id',
+  dodoProductIDLive: 'pdt_0Nk1phjDpyHN5r4AsQ5lV',
 })
 
 // const displayedPrice = computed(() => (selectedRegion.value === 'India' ? course.priceInr : course.priceUsd))
