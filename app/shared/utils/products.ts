@@ -15,7 +15,6 @@ export type ConsultationService = {
 	// testDodoProductID?: string;
 };
 
-
 export interface CourseProduct {
 	id: string;
 	title: string;
@@ -25,8 +24,6 @@ export interface CourseProduct {
 	dodoProductID: string;
 	dodoProductIDLive?: string;
 }
-
-
 
 export const personalRelationshipServices: ConsultationService[] = [
 	{
@@ -162,3 +159,15 @@ export const otherServices: ConsultationService[] = [
 		dodoProductID: "pdt_0NiilwGMQfzEqzbdxkeMt",
 	},
 ];
+
+export const courses: Record<string, CourseProduct> = {
+	"bnn-basic-advance": {
+		id: "bnn-basic-advance",
+		title: "Bhrigu Nandi Nadi",
+		priceInr: "INR 15,000",
+		priceUsd: 300,
+		amountPaise: 1500000,
+		dodoProductID: "pdt_0Nk1cjlGlDkg5zdezYRUp",
+		dodoProductIDLive: "pdt_0Nk1phjDpyHN5r4AsQ5lV",
+	},
+};

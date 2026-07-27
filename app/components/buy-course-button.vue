@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import type { StudentDetails } from '~/shared/types/form.types'
-import type { CourseProduct } from '~/shared/utils/dodoProducts';
+import type { CourseProduct } from '~/shared/utils/products';
 
 
 const props = defineProps<{

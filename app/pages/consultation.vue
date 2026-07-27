@@ -321,8 +321,8 @@
 import type { BirthDetails } from '~/shared/types/form.types';
 import { serializeCalendarDate, serializeTime } from '~/shared/utils/dateSerializers';
 
-import { personalRelationshipServices, careerBusinessServices, otherServices } from '~/shared/utils/dodoProducts';
-import type { ConsultationService } from '~/shared/utils/dodoProducts';
+import { personalRelationshipServices, careerBusinessServices, otherServices } from '~/shared/utils/products';
+import type { ConsultationService } from '~/shared/utils/products';
 
 useHead({
   title: 'Consultation Packages | Galactic Gene',

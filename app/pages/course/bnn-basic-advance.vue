@@ -126,32 +126,19 @@ import { reactive, computed } from 'vue'
 import type { AccordionItem } from '@nuxt/ui'
 import video1 from '@/assets/media/video1.mp4'
 import video2 from '@/assets/media/video2.mp4'
-import type { CourseProduct } from '~/shared/utils/dodoProducts'
+import type { CourseProduct } from '~/shared/utils/products'
+import { courses } from '~/shared/utils/products'
 
 definePageMeta({
   layout: 'course'
 })
 
-// const course = reactive({
-//   title: 'BNN - Basic & Advance',
-//   slug: 'bnn-basic-advance',
-//   priceInr: 'INR 25,000',
-//   priceUsd: '$300'
-// })
-
 const { selectedRegion, initRegion } = useRegionSelection()
 
+const courseId = 'bnn-basic-advance'
 
-const course = reactive<CourseProduct & { title: string; slug: string; priceInr: string }>({
-  id: 'bnn-basic-advance',
-  slug: 'bnn-basic-advance',
-  title: 'BNN - Basic & Advance',
-  priceInr: 'INR 25,000',
-  priceUsd: 300,
-  amountPaise: 2500000, // ₹25,000 in paise
-  dodoProductID: 'pdt_0Nk1cjlGlDkg5zdezYRUp',
-  dodoProductIDLive: 'pdt_0Nk1phjDpyHN5r4AsQ5lV',
-})
+
+const course = courses[courseId] as CourseProduct
 
 // const displayedPrice = computed(() => (selectedRegion.value === 'India' ? course.priceInr : course.priceUsd))
 const regionPriceLabel = computed(() => (selectedRegion.value === 'India' ? 'India pricing' : 'International pricing'))
@@ -167,11 +154,11 @@ const displayedPrice = computed(() =>
 )
 
 useSeoMeta({
-  title: pageTitle,
+  title: pageTitle.value,
   ogTitle: computed(() => `${pageTitle.value} | Galactic Gene`),
   twitterTitle: computed(() => `${pageTitle.value} | Galactic Gene`),
   ogType: 'article',
-  ogUrl: computed(() => `/course/${course.slug}`)
+  ogUrl: computed(() => `/course/${course.id}`)
 })
 
 const videoRecordings = [
