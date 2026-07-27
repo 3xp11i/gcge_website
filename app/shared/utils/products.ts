@@ -35,7 +35,7 @@ export const personalRelationshipServices: ConsultationService[] = [
 		description:
 			"This consultation is focused on relationship guidance, compatibility, and understanding the dynamics of the relationship.",
 		includes: "30 minutes for one horoscope, individually reviewed.",
-		amountPaise: 50,
+		amountPaise: 5000,
 		receipt: "relationship-consultation",
 		ctaLabel: "Book Relationship Consultation",
 		category: "Personal & Relationships",
@@ -166,7 +166,7 @@ export const courses: Record<string, CourseProduct> = {
 		title: "Bhrigu Nandi Nadi",
 		priceInr: "INR 50",
 		priceUsd: 1,
-		amountPaise: 50,
+		amountPaise: 5000,
 		dodoProductID: "pdt_0Nk1cjlGlDkg5zdezYRUp",
 		dodoProductIDLive: "pdt_0Nk5Z5qbqZVbNkEjRJBDq",
 	},
