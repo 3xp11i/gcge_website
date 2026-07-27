@@ -164,9 +164,9 @@ export const courses: Record<string, CourseProduct> = {
 	"bnn-basic-advance": {
 		id: "bnn-basic-advance",
 		title: "Bhrigu Nandi Nadi",
-		priceInr: "INR 15,000",
-		priceUsd: 300,
-		amountPaise: 1500000,
+		priceInr: "INR 35,000",
+		priceUsd: 370,
+		amountPaise: 3500000,
 		dodoProductID: "pdt_0Nk1cjlGlDkg5zdezYRUp",
 		dodoProductIDLive: "pdt_0Nk1phjDpyHN5r4AsQ5lV",
 	},

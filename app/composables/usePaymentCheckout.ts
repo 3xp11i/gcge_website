@@ -16,7 +16,6 @@ export type CheckoutProvider = "razorpay" | "dodo";
 // 	dodoProductId?: string;
 // }
 
-
 export interface StartCheckoutOptions {
 	provider: CheckoutProvider;
 	receipt: string;
@@ -30,7 +29,6 @@ export interface StartCheckoutOptions {
 	onSuccess?: () => void; // razorpay only — dodo confirms via webhook
 	onDismiss?: () => void; // razorpay only
 }
-
 
 let razorpayScriptPromise: Promise<void> | null = null;
 
@@ -109,64 +107,67 @@ export function usePaymentCheckout() {
 		DodoPayments.Checkout.open({ checkoutUrl: response.checkout_url });
 	}
 
+	async function startRazorpay(opts: StartCheckoutOptions) {
+		await loadRazorpayScript();
+		const Razorpay = (window as any).Razorpay;
+		if (!Razorpay)
+			throw new Error(
+				"Payment gateway is still loading. Please try again in a moment.",
+			);
 
-async function startRazorpay(opts: StartCheckoutOptions) {
-	await loadRazorpayScript();
-	const Razorpay = (window as any).Razorpay;
-	if (!Razorpay)
-		throw new Error(
-			"Payment gateway is still loading. Please try again in a moment.",
-		);
+		const order = await $fetch<{
+			order_id: string;
+			amount: number;
+			currency: string;
+		}>("/api/create-order", {
+			method: "POST",
+			body: {
+				amount: opts.amountPaise,
+				currency: "INR",
+				receipt: opts.receipt,
+			},
+		});
 
-	const order = await $fetch<{
-		order_id: string;
-		amount: number;
-		currency: string;
-	}>("/api/create-order", {
-		method: "POST",
-		body: { amount: opts.amountPaise, currency: "INR", receipt: opts.receipt },
-	});
+		return new Promise<void>((resolve) => {
+			const instance = new Razorpay({
+				key: runtimeConfig.public.razorpayKeyId,
+				amount: order.amount,
+				currency: order.currency,
+				name: "Galactic Gene",
+				order_id: order.order_id,
+				description: opts.description,
+				notes: { ...opts.metadata, receipt: opts.receipt },
+				theme: { color: "#d4a017" },
 
-	return new Promise<void>((resolve) => {
-		const instance = new Razorpay({
-			key: runtimeConfig.public.razorpayKeyId,
-			amount: order.amount,
-			currency: order.currency,
-			name: "Galactic Gene",
-			order_id: order.order_id,
-			description: opts.description,
-			notes: { ...opts.metadata, receipt: opts.receipt },
-			theme: { color: "#d4a017" },
-
-			modal: {
-				ondismiss: () => {
-					statusMessage.value =
-						"Checkout was closed before payment was completed.";
+				modal: {
+					ondismiss: () => {
+						statusMessage.value =
+							"Checkout was closed before payment was completed.";
+						loading.value = false;
+						opts.onDismiss?.();
+						resolve();
+					},
+				},
+				handler: () => {
 					loading.value = false;
-					opts.onDismiss?.();
+					statusMessage.value = "Payment received. We'll confirm shortly.";
+					opts.onSuccess?.();
 					resolve();
 				},
-			},
-			handler: () => {
+				// -->
+			});
+
+			instance.on("payment.failed", (response: any) => {
+				errorMessage.value =
+					response?.error?.description ?? "Payment failed. Please try again.";
+				statusMessage.value = "";
 				loading.value = false;
-				statusMessage.value = "Payment received. We'll confirm shortly.";
-				opts.onSuccess?.();
 				resolve();
-			},
-			// -->
-		});
+			});
 
-		instance.on("payment.failed", (response: any) => {
-			errorMessage.value =
-				response?.error?.description ?? "Payment failed. Please try again.";
-			statusMessage.value = "";
-			loading.value = false;
-			resolve();
+			instance.open();
 		});
-
-		instance.open();
-	});
-}
+	}
 
 	async function startCheckout(opts: StartCheckoutOptions) {
 		if (loading.value || !import.meta.client) return;
