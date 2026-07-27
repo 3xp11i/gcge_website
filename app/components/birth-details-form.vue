@@ -133,6 +133,7 @@
 						class="sm:col-span-2 w-full">
 				<USelectMenu v-model="state.consultationMethod"
 							 :items="Object.entries(consultationMethodOptions).map(([value, label]) => ({ value, label }))"
+							 value-key="value"
 							 required
 							 class=" w-full"
 							 placeholder="Choose a consultation format" />
