@@ -470,42 +470,9 @@ const activeReceipt = ref<string | null>(null)
 const formKey = computed(() => purchase.formKey.value)
 
 
-
-
-
-const handleCheckoutClick = (receipt: string) => {
-  // Clear any previously submitted details so checkout starts only after fresh form submit.
-  birthDetails.value = null
-  activeReceipt.value = receipt
-  birthDetailsOpen.value = true
-}
-
 const closeBirthDetailsModal = () => {
   purchase.closeForm()
   birthDetails.value = null
-  activeReceipt.value = null
-}
-
-// const handleBirthDetailsSubmit = (details: BirthDetails) => {
-//   birthDetails.value = details
-//   birthDetailsOpen.value = false
-// }
-
-// Reset activeReceipt immediately so the watcher cannot re-fire
-const handleCheckoutStarted = () => {
-  activeReceipt.value = null
-}
-
-// Full reset + form remount after successful payment
-const handlePaymentSuccess = () => {
-  birthDetails.value = null
-  activeReceipt.value = null
-  formKey.value++
-  window.location.reload()
-}
-
-// Keep birthDetails for retry (user doesn't have to re-fill the form)
-const handlePaymentDismissed = () => {
   activeReceipt.value = null
 }
 
