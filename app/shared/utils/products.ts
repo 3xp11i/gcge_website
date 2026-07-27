@@ -29,18 +29,18 @@ export const personalRelationshipServices: ConsultationService[] = [
 	{
 		kicker: "Relationship life guidance",
 		title: "Relationship consultation",
-		priceInr: "₹5,100",
-		priceUsd: "$60",
+		priceInr: "₹50",
+		priceUsd: "$1",
 		badge: "30 mins",
 		description:
 			"This consultation is focused on relationship guidance, compatibility, and understanding the dynamics of the relationship.",
 		includes: "30 minutes for one horoscope, individually reviewed.",
-		amountPaise: 510000,
+		amountPaise: 50,
 		receipt: "relationship-consultation",
 		ctaLabel: "Book Relationship Consultation",
 		category: "Personal & Relationships",
 		dodoProductID: "pdt_0Nif7NpelxSATp0uIQ6l9",
-		dodoProductIDLive: "pdt_0NifmXPQ0wgrs7sfPOHtT",
+		dodoProductIDLive: "pdt_0Nk5YteUbqzAc74qiaRoC",
 	},
 	{
 		kicker: "Core reading",
@@ -164,10 +164,10 @@ export const courses: Record<string, CourseProduct> = {
 	"bnn-basic-advance": {
 		id: "bnn-basic-advance",
 		title: "Bhrigu Nandi Nadi",
-		priceInr: "INR 15,000",
-		priceUsd: 300,
-		amountPaise: 1500000,
+		priceInr: "INR 50",
+		priceUsd: 1,
+		amountPaise: 50,
 		dodoProductID: "pdt_0Nk1cjlGlDkg5zdezYRUp",
-		dodoProductIDLive: "pdt_0Nk1phjDpyHN5r4AsQ5lV",
+		dodoProductIDLive: "pdt_0Nk5Z5qbqZVbNkEjRJBDq",
 	},
 };
