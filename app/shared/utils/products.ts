@@ -10,9 +10,11 @@ export type ConsultationService = {
 	receipt: string;
 	ctaLabel: string;
 	category: string;
+	durationMinutes: number;
 	dodoProductID?: string;
 	dodoProductIDLive?: string;
 	// testDodoProductID?: string;
+	serviceTypeId: string;
 };
 
 export interface CourseProduct {
@@ -39,8 +41,10 @@ export const personalRelationshipServices: ConsultationService[] = [
 		receipt: "relationship-consultation",
 		ctaLabel: "Book Relationship Consultation",
 		category: "Personal & Relationships",
+		durationMinutes: 30,
 		dodoProductID: "pdt_0Nif7NpelxSATp0uIQ6l9",
 		dodoProductIDLive: "pdt_0NifmXPQ0wgrs7sfPOHtT",
+		serviceTypeId: "028f9a7e-d96a-46cf-845a-f2d64b8702dc",
 	},
 	{
 		kicker: "Core reading",
@@ -56,8 +60,10 @@ export const personalRelationshipServices: ConsultationService[] = [
 		receipt: "full-consultation",
 		ctaLabel: "Book Full Consultation",
 		category: "Personal & Relationships",
+		durationMinutes: 50,
 		dodoProductID: "pdt_0NifVK4Y2guWyrLy198AP",
 		dodoProductIDLive: "pdt_0Nifo2LAvDWRAazs4XpHB",
+		serviceTypeId: "18ae2650-c00d-4758-9379-4b28259bc070",
 	},
 	{
 		kicker: "Deep karmic work",
@@ -73,7 +79,9 @@ export const personalRelationshipServices: ConsultationService[] = [
 		receipt: "pending-karma-consultation",
 		ctaLabel: "Book Pending Karma Consultation",
 		category: "Personal & Relationships",
+		durationMinutes: 80,
 		dodoProductID: "pdt_0Nifq3eBI1gYiPOgZ41LD",
+		serviceTypeId: "9c82482e-1e0c-4892-af1b-e4cb5bf67071",
 	},
 ];
 
@@ -91,7 +99,9 @@ export const careerBusinessServices: ConsultationService[] = [
 		receipt: "career-consultation",
 		ctaLabel: "Book Career Consultation",
 		category: "Career & Business",
+		durationMinutes: 30,
 		dodoProductID: "pdt_0Nifn35LmCYTBU9e9QUcf",
+		serviceTypeId: "1e8f0976-7704-47f1-8931-7c53b76e8fc5",
 	},
 	{
 		// Logo Designing package
@@ -107,7 +117,9 @@ export const careerBusinessServices: ConsultationService[] = [
 		receipt: "logo-designing-consultation",
 		ctaLabel: "Book Logo Designing Consultation",
 		category: "Career & Business",
+		durationMinutes: 30,
 		dodoProductID: "pdt_0NikaCuFP49yGzjsWdQuU",
+		serviceTypeId: "f78a94ec-f4d0-46c1-9c2c-aae2be90324c",
 	},
 ];
 
@@ -125,7 +137,9 @@ export const otherServices: ConsultationService[] = [
 		receipt: "muhurat-consultation",
 		ctaLabel: "Book Muhurat Consultation",
 		category: "Other Services",
+		durationMinutes: 30,
 		dodoProductID: "pdt_0NifpgQ602a1fBWWw5FhQ",
+		serviceTypeId: "64371c1d-62b5-46f4-82e4-36ccce7e41b8",
 	},
 	{
 		kicker: "Quick guidance",
@@ -140,10 +154,12 @@ export const otherServices: ConsultationService[] = [
 		receipt: "gemstone-recommendation",
 		ctaLabel: "Book Gemstone Recommendation",
 		category: "Other Services",
+		durationMinutes: 10,
 		dodoProductID: "pdt_0NifpwfBeMjuROhFO4qjs",
+		serviceTypeId: "d9a952bd-2015-43c4-acca-83f6159f0426",
 	},
 	{
-		kicker: "",
+		kicker: "Vastu guidance",
 		title: "Property & Real Estate",
 		priceInr: "₹11,000",
 		priceUsd: "$129",
@@ -156,7 +172,9 @@ export const otherServices: ConsultationService[] = [
 		receipt: "property-real-estate-consultation",
 		ctaLabel: "Book Property & Real Estate Consultation",
 		category: "Other Services",
+		durationMinutes: 50,
 		dodoProductID: "pdt_0NiilwGMQfzEqzbdxkeMt",
+		serviceTypeId: "ef50f90f-aa68-4255-9288-6840858777fd",
 	},
 ];
 

@@ -14,15 +14,113 @@ export type Database = {
   }
   public: {
     Tables: {
+      availability_exceptions: {
+        Row: {
+          date: string
+          end_time: string | null
+          id: string
+          reason: string | null
+          start_time: string | null
+          type: string
+        }
+        Insert: {
+          date: string
+          end_time?: string | null
+          id?: string
+          reason?: string | null
+          start_time?: string | null
+          type: string
+        }
+        Update: {
+          date?: string
+          end_time?: string | null
+          id?: string
+          reason?: string | null
+          start_time?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
+      availability_rules: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          end_time: string
+          id: string
+          start_time: string
+          weekday: number
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          end_time: string
+          id?: string
+          start_time: string
+          weekday: number
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          end_time?: string
+          id?: string
+          start_time?: string
+          weekday?: number
+        }
+        Relationships: []
+      }
+      bookings: {
+        Row: {
+          consultation_id: string
+          created_at: string
+          ends_at: string
+          hold_expires_at: string | null
+          id: string
+          service_type_id: string
+          starts_at: string
+          status: string
+        }
+        Insert: {
+          consultation_id: string
+          created_at?: string
+          ends_at: string
+          hold_expires_at?: string | null
+          id?: string
+          service_type_id: string
+          starts_at: string
+          status?: string
+        }
+        Update: {
+          consultation_id?: string
+          created_at?: string
+          ends_at?: string
+          hold_expires_at?: string | null
+          id?: string
+          service_type_id?: string
+          starts_at?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "consultations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       consultations: {
         Row: {
+          birth_date: string
+          birth_location: string
+          birth_time: string
+          birth_zipcode: string
           client_name: string
           consultationMethod: string
           created_at: string
           email: string
           id: string
           instagramUsername: string | null
-          location: string
           message: string | null
           needsBtr: boolean
           package: string
@@ -30,16 +128,18 @@ export type Database = {
           payment_provider: string
           payment_status: string
           phone: string
-          zipcode: string
         }
         Insert: {
+          birth_date: string
+          birth_location: string
+          birth_time: string
+          birth_zipcode: string
           client_name: string
           consultationMethod: string
           created_at?: string
           email: string
           id?: string
           instagramUsername?: string | null
-          location: string
           message?: string | null
           needsBtr: boolean
           package: string
@@ -47,16 +147,18 @@ export type Database = {
           payment_provider: string
           payment_status?: string
           phone: string
-          zipcode: string
         }
         Update: {
+          birth_date?: string
+          birth_location?: string
+          birth_time?: string
+          birth_zipcode?: string
           client_name?: string
           consultationMethod?: string
           created_at?: string
           email?: string
           id?: string
           instagramUsername?: string | null
-          location?: string
           message?: string | null
           needsBtr?: boolean
           package?: string
@@ -64,7 +166,6 @@ export type Database = {
           payment_provider?: string
           payment_status?: string
           phone?: string
-          zipcode?: string
         }
         Relationships: []
       }
@@ -101,53 +202,43 @@ export type Database = {
         }
         Relationships: []
       }
-      slots: {
+      service_types: {
         Row: {
-          consultation_id: string | null
-          created_at: string | null
-          ends_at: string
-          hold_expires_at: string | null
+          active: boolean
+          duration_minutes: number
           id: string
-          starts_at: string
-          status: string
+          name: string
         }
         Insert: {
-          consultation_id?: string | null
-          created_at?: string | null
-          ends_at: string
-          hold_expires_at?: string | null
+          active: boolean
+          duration_minutes: number
           id?: string
-          starts_at: string
-          status?: string
+          name: string
         }
         Update: {
-          consultation_id?: string | null
-          created_at?: string | null
-          ends_at?: string
-          hold_expires_at?: string | null
+          active?: boolean
+          duration_minutes?: number
           id?: string
-          starts_at?: string
-          status?: string
+          name?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "slots_consultation_id_fkey"
-            columns: ["consultation_id"]
-            isOneToOne: false
-            referencedRelation: "consultations"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
-      [_ in never]: never
+      daily_open_windows: {
+        Row: {
+          date: string | null
+          end_time: string | null
+          start_time: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      "Slot Status": "available" | "pending" | "booked"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -274,6 +365,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      "Slot Status": ["available", "pending", "booked"],
+    },
   },
 } as const

@@ -125,7 +125,6 @@ export default defineEventHandler(async (event) => {
 					experience: notes.experience || "",
 					courseTitle: notes.courseTitle || notes.description || "",
 					amountPaise: payment.amount,
-					receipt: notes.receipt || "",
 				},
 				payment.id,
 			);
@@ -140,26 +139,30 @@ export default defineEventHandler(async (event) => {
 		}
 
 		return { status: "success" };
-	}
-
-	// --- Consultation flow (unchanged) ---
+	} // --- Consultation flow (unchanged) ---
 	console.log("[razorpay-webhook] processing consultation");
 
-	const { error } = await supabase.from("consultations").insert({
-		client_name: notes.fullName || "",
-		email: notes.email || payment.email || "",
-		phone: notes.phone || payment.contact || "",
-		location: notes.location || "",
-		zipcode: notes.zipcode || "",
-		consultationMethod: notes.consultationMethod || "email",
-		instagramUsername: notes.instagramUsername || "",
-		needsBtr: notes.needsBtr === "true" || notes.needsBtr === true,
-		message: notes.message || null,
-		payment_id: payment.id,
-		payment_provider: "razorpay",
-		payment_status: payment.status,
-		package: notes.description || "consultation",
-	});
+	const { data: consultationData, error } = await supabase
+		.from("consultations")
+		.insert({
+			client_name: notes.fullName || "",
+			email: notes.email || payment.email || "",
+			phone: notes.phone || payment.contact || "",
+			birth_location: notes.location || "",
+			birth_zipcode: notes.zipcode || "",
+			birth_time: notes.timeOfBirth || "",
+			birth_date: notes.dateOfBirth || "",
+			consultationMethod: notes.consultationMethod || "email",
+			instagramUsername: notes.instagramUsername || "",
+			needsBtr: notes.needsBtr === "true" || notes.needsBtr === true,
+			message: notes.message || null,
+			payment_id: payment.id,
+			payment_provider: "razorpay",
+			payment_status: payment.status,
+			package: notes.description || "consultation",
+		})
+		.select("id")
+		.single();
 	if (error) {
 		console.error(
 			"[razorpay-webhook] failed to insert into consultations",
@@ -168,7 +171,53 @@ export default defineEventHandler(async (event) => {
 	} else {
 		console.log("[razorpay-webhook] inserted into consultations", {
 			paymentId: payment.id,
+			consultationId: consultationData.id,
 		});
+	}
+
+	if (
+		consultationData?.id &&
+		notes.serviceTypeId &&
+		notes.slotStart &&
+		notes.slotEnd
+	) {
+		const { error: bookingError } = await supabase.from("bookings").insert({
+			consultation_id: consultationData.id,
+			service_type_id: notes.serviceTypeId,
+			starts_at: notes.slotStart,
+			ends_at: notes.slotEnd,
+			status: "booked",
+			hold_expires_at: null,
+		});
+		if (bookingError) {
+			console.error(
+				"[razorpay-webhook] failed to insert into bookings",
+				bookingError,
+			);
+		} else {
+			console.log("[razorpay-webhook] inserted into bookings", {
+				consultationId: consultationData.id,
+			});
+		}
+	}
+
+	// --- Fetch service type name for Discord notification ---
+	let serviceTypeName = notes.description || "";
+	if (notes.serviceTypeId) {
+		const { data: serviceTypeData, error: serviceTypeError } = await supabase
+			.from("service_types")
+			.select("name")
+			.eq("id", notes.serviceTypeId)
+			.single();
+
+		if (serviceTypeError) {
+			console.error(
+				"[razorpay-webhook] failed to fetch service type name",
+				serviceTypeError,
+			);
+		} else if (serviceTypeData?.name) {
+			serviceTypeName = serviceTypeData.name;
+		}
 	}
 
 	try {
@@ -187,7 +236,7 @@ export default defineEventHandler(async (event) => {
 				message: notes.message || "",
 				amountPaise: payment.amount,
 				description: notes.description || "",
-				receipt: notes.receipt || "",
+				serviceTypeName,
 			},
 			payment.id,
 		);
@@ -203,6 +252,7 @@ export default defineEventHandler(async (event) => {
 
 	return { status: "success" };
 });
+
 
 const sendBirthDetailsToDiscord = async (details: any, paymentId: string) => {
 	await $fetch("/api/discord", {

@@ -100,14 +100,16 @@ export default defineEventHandler(async (event) => {
 			}
 
 			// --- Consultation flow (unchanged) ---
-			const { error: insertError } = await supabase
+			const { data: consultationData, error: insertError } = await supabase
 				.from("consultations")
 				.insert({
 					client_name: md.fullName || data?.customer?.name || "",
 					email: md.email || data?.customer?.email || "",
 					phone: md.phone || "",
-					location: md.location || "",
-					zipcode: md.zipcode || "",
+					birth_location: md.location || "",
+					birth_zipcode: md.zipcode || "",
+					birth_time: md.timeOfBirth || "",
+					birth_date: md.dateOfBirth || "",
 					consultationMethod: md.consultationMethod || "email",
 					instagramUsername: md.instagramUsername || "",
 					needsBtr: md.needsBtr || false,
@@ -116,7 +118,9 @@ export default defineEventHandler(async (event) => {
 					payment_provider: "dodo_payments",
 					payment_status: status,
 					package: md.description || "consultation",
-				});
+				})
+				.select("id")
+				.single();
 
 			if (insertError) {
 				console.error(
@@ -126,7 +130,24 @@ export default defineEventHandler(async (event) => {
 			} else {
 				console.log("[verify-dodo-payment] inserted into consultations", {
 					paymentId,
+					consultationId: consultationData.id,
 				});
+			}
+
+			if (consultationData?.id && md.serviceTypeId && md.slotStart && md.slotEnd) {
+				const { error: bookingError } = await supabase.from("bookings").insert({
+					consultation_id: consultationData.id,
+					service_type_id: md.serviceTypeId,
+					starts_at: md.slotStart,
+					ends_at: md.slotEnd,
+					status: "booked",
+					hold_expires_at: null,
+				});
+				if (bookingError) {
+					console.error("[verify-dodo-payment] failed to insert into bookings", bookingError);
+				} else {
+					console.log("[verify-dodo-payment] inserted into bookings", { consultationId: consultationData.id });
+				}
 			}
 
 			try {

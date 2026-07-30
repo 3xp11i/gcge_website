@@ -1,6 +1,7 @@
 type BirthDetailsPayload = {
 	type?: "birth-details";
 	data?: {
+		serviceTypeName?: string;
 		fullName?: string;
 		email?: string;
 		phone?: string;
@@ -81,7 +82,7 @@ const formatBirthDetailsMessage = (payload: BirthDetailsPayload) => {
 		`**Instagram username:** ${details.instagramUsername ?? "N/A"}`,
 		`**BTR required:** ${details.needsBtr ? "Yes" : "No"}`,
 		`**Consultation notes:** ${details.message ?? "N/A"}`,
-		`**Receipt:** ${details.receipt ?? "N/A"}`,
+		`**Receipt:** ${details.receipt ?? details.serviceTypeName ?? "N/A"}`,
 		`**Amount:** ${formatAmount(details)}`,
 	].join("\n");
 };

@@ -41,6 +41,7 @@ export const useRegionSelection = () => {
 
   return {
     selectedRegion,
+    regionInitialized,
     initRegion,
     persistRegion,
   }

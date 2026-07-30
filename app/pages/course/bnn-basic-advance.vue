@@ -101,7 +101,9 @@
       <aside class="lg:pt-2">
         <div class="lg:sticky lg:top-24">
           <p class="text-sm uppercase tracking-[0.2em] text-white/60">Pricing</p>
-          <p class="mt-3 text-3xl font-semibold text-white">{{ displayedPrice }}</p>
+          <p class="mt-3 text-3xl font-semibold text-white">
+            <RegionPrice :inr="course.priceInr" :usd="`$${course.priceUsd}`" />
+          </p>
           <!-- <p class="mt-1 text-lg text-white/75">{{ regionPriceLabel }}</p> -->
 
           <BuyCourseButton :course="course" />
@@ -133,7 +135,7 @@ definePageMeta({
   layout: 'course'
 })
 
-const { selectedRegion, initRegion } = useRegionSelection()
+const { selectedRegion, regionInitialized, initRegion } = useRegionSelection()
 
 const courseId = 'bnn-basic-advance'
 

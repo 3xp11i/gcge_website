@@ -174,10 +174,97 @@
 
 		</div>
 
+		<div v-show="formStep === 'slotBooking'"
+			 class="space-y-5">
+			<div class="text-sm text-white/50">
+				All times are shown in your local timezone:
+				<span class="text-white/80 font-medium">{{ localTz }}</span>
+			</div>
 
+			<div v-if="availabilityStatus === 'error'"
+				 class="text-sm text-red-400 pt-1">
+				Failed to load slots. <button type="button" class="underline" @click="fetchMonthSlots(calendarPage)">Retry</button>
+			</div>
+
+			<div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+				<!-- Calendar -->
+				<div class="shrink-0">
+					<div v-if="availabilityStatus === 'idle' || availabilityStatus === 'pending'"
+						 class="space-y-3">
+						<div class="flex items-center justify-between">
+							<USkeleton class="h-6 w-6 rounded-md" />
+							<USkeleton class="h-5 w-28 rounded-md" />
+							<USkeleton class="h-6 w-6 rounded-md" />
+						</div>
+						<div class="grid grid-cols-7 gap-1">
+							<USkeleton v-for="i in 7" :key="i" class="h-5 rounded" />
+						</div>
+						<div class="grid grid-cols-7 gap-1">
+							<USkeleton v-for="i in 35" :key="i" class="h-8 w-8 rounded-full" />
+						</div>
+					</div>
+					<UCalendar v-else
+							   v-model="selectedDate"
+							   v-model:placeholder="calendarPage"
+							   color="neutral"
+							   :is-date-disabled="isDateDisabled"
+							   :min-value="calendarMinDate"
+							   :max-value="calendarMaxDate" />
+				</div>
+
+				<!-- Slots -->
+				<div class="flex-1 min-w-40 overflow-y-auto max-h-52 sm:max-h-[22rem]">
+					<div v-if="availabilityStatus === 'idle' || availabilityStatus === 'pending'"
+						 class="space-y-3 pr-4">
+						<USkeleton class="h-5 w-20 rounded-md" />
+						<USkeleton v-for="i in 6" :key="i" class="h-14 rounded-xl" />
+					</div>
+					<template v-else>
+						<div v-if="!selectedDate"
+							 class="text-sm text-white/40 pt-1">
+							Select a date to see available slots.
+						</div>
+						<div v-else-if="slotsForSelectedDate.length === 0"
+							 class="text-sm text-white/40 pt-1">
+							No slots available on this date.
+						</div>
+						<div v-else
+							 class="space-y-4">
+							<div v-for="period in slotsByPeriod"
+								 :key="period.key"
+								 class="space-y-2">
+								<span class="text-lg font-semibold uppercase tracking-wider text-white/50">{{ period.label
+									}}</span>
+								<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-2 pr-4">
+									<button v-for="slot in period.slots"
+											:key="slot.start.toISOString()"
+											type="button"
+											@click="selectedSlot = slot"
+											:class="[
+												'rounded-xl border px-3 py-2.5 text-sm text-left transition-colors',
+												selectedSlot?.start.toISOString() === slot.start.toISOString()
+													? 'border-white/50 bg-white/10 text-white'
+													: 'border-white/10 bg-black/20 text-white/70 hover:border-white/25 hover:text-white'
+											]">
+										<div class="font-medium">{{ formatSlotTime(slot.start) }}</div>
+										<div class="text-xs text-white/40 mt-0.5">{{ formatSlotTime(slot.end) }}</div>
+									</button>
+								</div>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
 
 
 		<div class="flex flex-col gap-3 sm:flex-row sm:justify-end">
+			<UButton type="button"
+					 v-if="formStep === 'birthDetails'"
+					 @click="continueToNextStep"
+					 class="button justify-center">
+				{{ 'Next' }}
+			</UButton>
 			<UButton type="button"
 					 color="neutral"
 					 variant="outline"
@@ -186,13 +273,13 @@
 					 v-if="formStep === 'birthDetails'">
 				Cancel
 			</UButton>
-			<UButton type="button"
-					 v-if="formStep === 'birthDetails'"
-					 @click="continueToNextStep"
-					 class="button justify-center">
-				{{ 'Next' }}
+			<!-- TODO: Slot booking step - temporarily skipped -->
+			<UButton type="submit"
+					 v-if="formStep === 'slotBooking'"
+					 class="button justify-center"
+					 :loading="loading">
+				{{ submitLabel || 'Submit' }}
 			</UButton>
-			<!-- TODO: Slot booking step - temporarily skipped
 			<UButton type="button"
 					 color="neutral"
 					 variant="outline"
@@ -201,38 +288,178 @@
 					 v-if="formStep === 'slotBooking'">
 				Back
 			</UButton>
-			<UButton type="submit"
-					 v-if="formStep === 'slotBooking'"
-					 class="button justify-center"
-					 :loading="loading">
-				{{ submitLabel || 'Submit' }}
-			</UButton>
-			-->
+
 		</div>
 	</UForm>
 </template>
 
 <script setup lang="ts">
 import type { FormError } from '@nuxt/ui'
-import { CalendarDate, Time } from '@internationalized/date'
+import { CalendarDate, Time, today, getLocalTimeZone } from '@internationalized/date'
+import type { DateValue } from '@internationalized/date'
 import type { BirthDetails } from '~/shared/types/form.types';
-
 import { vMaska } from 'maska/vue'
+import type { DayAvailability, Candidate } from '~/shared/types/extra.types'
 
 
-defineProps<{
+
+const props = defineProps<{
 	loading?: boolean
 	submitLabel?: string
+	serviceDurationMinutes?: number
 }>()
+
+const serviceDurationMinutes = computed(() => props.serviceDurationMinutes ?? 30)
+
+const availability = ref<DayAvailability[]>([])
+const availabilityStatus = ref<'idle' | 'pending' | 'success' | 'error'>('idle')
+const fetchedMonths = new Set<string>()
+
+const calendarPage = shallowRef<CalendarDate>(today(getLocalTimeZone()))
+
+const fetchMonthSlots = async (page: CalendarDate) => {
+	const key = `${page.year}-${String(page.month).padStart(2, '0')}`
+	if (fetchedMonths.has(key)) return
+
+	// Block fetching beyond the 4-month window
+	const maxPage = today(getLocalTimeZone()).add({ months: 4 })
+	if (page.compare(new CalendarDate(maxPage.year, maxPage.month, 1)) >= 0) return
+
+	fetchedMonths.add(key)
+
+	const now = today(getLocalTimeZone())
+	const firstOfMonth = new CalendarDate(page.year, page.month, 1)
+	// last day of month = first day of next month minus 1
+	const firstOfNext = page.month === 12
+		? new CalendarDate(page.year + 1, 1, 1)
+		: new CalendarDate(page.year, page.month + 1, 1)
+	const lastOfMonth = firstOfNext.subtract({ days: 1 })
+
+	const fromDate = firstOfMonth.compare(now) > 0
+		? `${firstOfMonth.year}-${String(firstOfMonth.month).padStart(2, '0')}-${String(firstOfMonth.day).padStart(2, '0')}`
+		: `${now.year}-${String(now.month).padStart(2, '0')}-${String(now.day).padStart(2, '0')}`
+	const toDate = `${lastOfMonth.year}-${String(lastOfMonth.month).padStart(2, '0')}-${String(lastOfMonth.day).padStart(2, '0')}`
+
+	if (fromDate > toDate) return // entire month is in the past
+
+	availabilityStatus.value = 'pending'
+	try {
+		const data = await $fetch<DayAvailability[]>('/api/available-slots', { query: { fromDate, toDate } })
+		availability.value = [...availability.value, ...data]
+		availabilityStatus.value = 'success'
+	} catch {
+		fetchedMonths.delete(key) // allow retry
+		availabilityStatus.value = 'error'
+	}
+}
+
+watch(calendarPage, (page) => {
+	if (formStep.value === 'slotBooking') fetchMonthSlots(page)
+})
+
+// Build candidates for every returned day, using the composable per window
+const candidates = computed<Candidate[]>(() => {
+	if (!availability.value.length) return []
+
+	const all: Candidate[] = []
+	for (const day of availability.value) {
+		for (const window of day.windows) {
+			const dayCandidates = useSlotsGenerator(
+				new Date(window.start),
+				new Date(window.end),
+				serviceDurationMinutes.value,
+				day.bookings
+			)
+			all.push(...dayCandidates)
+		}
+	}
+	return all
+})
+// --- Slot booking ---
+const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+const calendarMinDate = today(getLocalTimeZone())
+// Block navigation beyond 4 months from today
+const calendarMaxDate = today(getLocalTimeZone()).add({ months: 4 }).subtract({ days: 1 })
+
+const datesWithSlots = computed(() => {
+	const set = new Set<string>()
+	for (const c of candidates.value) {
+		const d = c.start
+		const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+		set.add(key)
+	}
+	return set
+})
+
+const slotsForSelectedDate = computed(() => {
+	if (!selectedDate.value) return []
+	const { year, month, day } = selectedDate.value
+	return candidates.value.filter(c => {
+		const d = c.start
+		return d.getFullYear() === year && d.getMonth() + 1 === month && d.getDate() === day
+	})
+})
+const selectedDate = shallowRef<CalendarDate | undefined>(undefined)
+const selectedSlot = ref<{ start: Date; end: Date } | undefined>(undefined)
+
+watch(selectedSlot, (newSlot) => {
+	state.slotStart = newSlot?.start.toISOString()
+	state.slotEnd = newSlot?.end.toISOString()
+})
+
+
+const isDateDisabled = (date: DateValue): boolean => {
+	const key = `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`
+	return !datesWithSlots.value.has(key)
+}
+
+const slotsByPeriod = computed(() => {
+	const periods: { label: string; key: string; startHour: number; endHour: number; slots: Candidate[] }[] = [
+		{ label: 'Morning', key: 'morning', startHour: 9, endHour: 12, slots: [] },
+		{ label: 'Afternoon', key: 'afternoon', startHour: 12, endHour: 16, slots: [] },
+		{ label: 'Evening', key: 'evening', startHour: 16, endHour: 20, slots: [] },
+		{ label: 'Night', key: 'night', startHour: 20, endHour: 23, slots: [] },
+	]
+
+	for (const slot of slotsForSelectedDate.value) {
+		const hour = slot.start.getHours()
+		for (const period of periods) {
+			if (hour >= period.startHour && hour < period.endHour) {
+				period.slots.push(slot)
+				break
+			}
+		}
+	}
+
+	return periods.filter(p => p.slots.length > 0)
+})
+// console.log('availability:', availability.value)
+// console.log('candidates:', candidates.value.length)
+// console.log('datesWithSlots:', [...datesWithSlots.value])
+// Reset selected slot when date changes
+watch(selectedDate, () => {
+	selectedSlot.value = undefined
+})
+
+const timeFormatter = new Intl.DateTimeFormat(undefined, {
+	hour: '2-digit',
+	minute: '2-digit',
+	hour12: true,
+	timeZone: localTz,
+})
+
+const formatSlotTime = (date: Date): string => timeFormatter.format(date)
+
 
 const emits = defineEmits<{
-  (e: 'submit', details: BirthDetails): void
-  (e: 'cancel'): void
-  (e: 'slotBookingFormActive', value: boolean): void
+	(e: 'submit', details: BirthDetails): void
+	(e: 'cancel'): void
+	(e: 'slotBookingFormActive', value: boolean): void
 }>()
 
 
-const continueToNextStep = () => {
+const continueToNextStep = async () => {
 	if (formStep.value === 'birthDetails') {
 		const errors = validate(state)
 		if (errors.length > 0) {
@@ -240,9 +467,9 @@ const continueToNextStep = () => {
 			return
 		}
 		// TODO: Slot booking step - temporarily skipped, going directly to payment
-		// formStep.value = 'slotBooking'
-		// emits('slotBookingFormActive', true)
-		emits('submit', state)
+		formStep.value = 'slotBooking'
+		emits('slotBookingFormActive', true)
+		await fetchMonthSlots(calendarPage.value)
 	}
 }
 
@@ -303,6 +530,8 @@ const state = reactive<BirthDetails>({
 	instagramUsername: '',
 	needsBtr: false,
 	message: '',
+	slotStart: undefined,
+	slotEnd: undefined,
 })
 
 // const consultationMethodOptions = [

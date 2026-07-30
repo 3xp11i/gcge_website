@@ -136,7 +136,7 @@ export function usePaymentCheckout() {
 				name: "Galactic Gene",
 				order_id: order.order_id,
 				description: opts.description,
-				notes: { ...opts.metadata, receipt: opts.receipt },
+				notes: { ...opts.metadata},
 				theme: { color: "#d4a017" },
 
 				modal: {

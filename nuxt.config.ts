@@ -9,6 +9,11 @@ export default defineNuxtConfig({
 			"@tailwindcss/postcss": {},
 		},
 	},
+	turnstile: {
+		siteKey: process.env.SITE_KEY,
+		addValidateEndpoint: true,
+	},
+
 	runtimeConfig: {
 		razorpayKeyId: process.env.NUXT_RAZORPAY_KEY_ID,
 		razorpayKeySecret: process.env.NUXT_RAZORPAY_KEY_SECRET,
@@ -16,6 +21,11 @@ export default defineNuxtConfig({
 			razorpayKeyId: process.env.NUXT_PUBLIC_RAZORPAY_KEY_ID,
 			dodoMode: process.env.NUXT_PUBLIC_DODO_MODE || "test",
 			siteUrl,
+		},
+		turnstile: {
+			// This can be overridden at runtime via the NUXT_TURNSTILE_SECRET_KEY
+			// environment variable.
+			secretKey: process.env.SECRET_KEY,
 		},
 	},
 
@@ -84,6 +94,7 @@ export default defineNuxtConfig({
 		"@nuxtjs/seo",
 		"@nuxtjs/supabase",
 		"@nuxt/image",
+		"@nuxtjs/turnstile",
 	],
 
 	supabase: {
@@ -99,7 +110,12 @@ export default defineNuxtConfig({
 	},
 	vite: {
 		optimizeDeps: {
-			include: ["@unhead/schema-org/vue"],
+			include: [
+				"@internationalized/date",
+				"@unhead/schema-org/vue",
+				"dodopayments-checkout",
+				"maska/vue",
+			],
 		},
 		server: {
 			allowedHosts: [".ngrok-free.app", ".shares.zrok.io"], //ngrok http --url=relative-only-whale.ngrok-free.app localhost:3000

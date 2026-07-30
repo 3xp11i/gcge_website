@@ -17,6 +17,8 @@ export type BirthDetails = {
 	instagramUsername: string;
 	needsBtr: boolean;
 	message: string;
+	slotStart?: string; // ISO string
+	slotEnd?: string;   // ISO string
 };
 
 /**

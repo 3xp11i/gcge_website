@@ -11,14 +11,15 @@
             :title="title"
             :description="description"
             class="rounded-2xl"
-            scrollable
             :ui="{
               header: 'bg-black/20 rounded-t-2xl py-8',
-              title: 'text-3xl! font-semibold',
+              title: 'text-3xl! font-semibold font-serif!',
+              content: slotBookingFormActive ? 'w-[calc(100vw-2rem)] max-w-3xl' : '',
             }">
       <template #body>
         <BirthDetailsForm :key="formKey"
                           :loading="birthDetailsLoading"
+                          :service-duration-minutes="currentService?.durationMinutes"
                           submit-label="Continue to Payment"
                           @submit="handleBirthDetailsSubmit"
                           @cancel="closeBirthDetailsModal"
@@ -38,14 +39,17 @@
         <h1 class="text-4xl! leading-tight sm:text-5xl! lg:text-6xl!">
           Our Services
         </h1>
-        <p class="max-w-3xl text-base leading-7 text-white/75 sm:text-lg">
-          Click Book Consultation and complete the consultation form. Once submitted, you'll be redirected to the
+        <p class="max-w-4xl text-base leading-7 text-white/75 sm:text-lg">
+
+          Fill the form with your birth details and book a consultation with your preferred date and time.
+
+          <!-- Click Book Consultation and complete the consultation form. Once submitted, you'll be redirected to the
           payment page. After your payment is confirmed, we'll contact you via your email or Instagram (if provided)
           within 24 hours.
 
           No need to worry about scheduling, we'll personally coordinate a convenient consultation date and time with
           you
-          through email or Instagram.
+          through email or Instagram. -->
         </p>
       </div>
 
@@ -77,10 +81,11 @@
                 <div class="mb-5 flex flex-wrap items-end gap-3">
                   <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
-                      {{ regionPriceLabel }}
+                      <USkeleton v-if="!regionInitialized" class="h-3 w-12 rounded" />
+                      <span v-else>{{ regionPriceLabel }}</span>
                     </p>
                     <p class="mt-1 text-xl! font-semibold text-white">
-                      {{ getDisplayedPrice(service) }}
+                      <RegionPrice :inr="service.priceInr" :usd="service.priceUsd" />
                     </p>
                   </div>
                   <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
@@ -158,10 +163,11 @@
                 <div class="mb-5 flex flex-wrap items-end gap-3">
                   <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
-                      {{ regionPriceLabel }}
+                      <USkeleton v-if="!regionInitialized" class="h-3 w-12 rounded" />
+                      <span v-else>{{ regionPriceLabel }}</span>
                     </p>
                     <p class="mt-1 text-xl! font-semibold text-white">
-                      {{ getDisplayedPrice(service) }}
+                      <RegionPrice :inr="service.priceInr" :usd="service.priceUsd" />
                     </p>
                   </div>
                   <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
@@ -215,10 +221,11 @@
                 <div class="mb-5 flex flex-wrap items-end gap-3">
                   <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
-                      {{ regionPriceLabel }}
+                      <USkeleton v-if="!regionInitialized" class="h-3 w-12 rounded" />
+                      <span v-else>{{ regionPriceLabel }}</span>
                     </p>
                     <p class="mt-1 text-xl! font-semibold text-white">
-                      {{ getDisplayedPrice(service) }}
+                      <RegionPrice :inr="service.priceInr" :usd="service.priceUsd" />
                     </p>
                   </div>
                   <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
@@ -339,7 +346,7 @@ type ConsultationDetail = {
   copy: string
 }
 
-const { selectedRegion, initRegion } = useRegionSelection()
+const { selectedRegion, regionInitialized, initRegion } = useRegionSelection()
 
 
 const purchase = usePurchaseFlow<BirthDetails>()
@@ -374,6 +381,9 @@ watch(() => [purchase.formData.value, purchase.activeItemId.value] as const, ([d
     needsBtr: details.needsBtr,
     message: details.message,
     orderType: 'consultation',
+    serviceTypeId: service.serviceTypeId,
+    slotStart: details.slotStart,
+    slotEnd: details.slotEnd,
   }
 
   if (selectedRegion.value === 'India') {
@@ -448,9 +458,6 @@ const consultationDetails: ConsultationDetail[] = [
 
 const regionPriceLabel = computed(() => (selectedRegion.value === 'India' ? 'INR' : 'USD approx.'))
 
-const getDisplayedPrice = (service: ConsultationService) => {
-  return selectedRegion.value === 'India' ? service.priceInr : service.priceUsd
-}
 
 const isDodoLiveMode = computed(() => {
   const mode = String(runtimeConfig.public.dodoMode || 'test').toLowerCase()
@@ -471,9 +478,11 @@ const formKey = computed(() => purchase.formKey.value)
 
 
 const closeBirthDetailsModal = () => {
+  console.log("Modal closing")
   purchase.closeForm()
   birthDetails.value = null
   activeReceipt.value = null
+  slotBookingFormActive.value = false
 }
 
 onMounted(() => {

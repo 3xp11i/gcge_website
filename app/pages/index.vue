@@ -307,6 +307,7 @@ import sketch3 from '@/assets/images/sketch3.png'
 import sketch4 from '@/assets/images/sketch4.png'
 import sketch5 from '@/assets/images/sketch5.png'
 import blank_chart from '@/assets/images/blank_chart.jpg'
+import advance_astrology from '@/assets/images/advance_astrology.jpg'
 
 import review1 from '@/assets/images/review1.png'
 import review2 from '@/assets/images/review2.png'
@@ -448,6 +449,11 @@ const items: MediaItem[] = [
     type: 'image',
     src: blank_chart,
     alt: 'Blank Chart Predictions'
+  },
+  {
+    type: 'image',
+    src: advance_astrology,
+    alt: 'Advance Astrology'
   },
   {
     type: 'image',

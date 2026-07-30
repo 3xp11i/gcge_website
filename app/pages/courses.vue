@@ -66,7 +66,7 @@
                           class="text-2xl font-bold text-amber-400 opacity-90 hover:opacity-100 hover:text-amber-500  text-left leading-tight">
                   {{ course.title }}</NuxtLink>
                 <span class="course-price-tag py-1 text-xs font-semibold tracking-wide text-amber-100">
-                  {{ course.price }}
+                  <RegionPrice :inr="course.priceInr" :usd="course.priceUsdDisplay ?? `$${course.priceUsd}`" :text="course.priceText" />
                 </span>
               </div>
 
@@ -125,7 +125,10 @@ type CourseCard = {
   title: string
   level: string
   description: string
-  price: string
+  priceInr?: string
+  priceUsd?: string
+  priceUsdDisplay?: string
+  priceText?: string
   duration: string
   href: string
   media: CourseMedia[]
@@ -149,7 +152,8 @@ const courseGroups: CourseGroup[] = [
         title: 'BNN - Basic & Advance',
         level: 'Combined Program',
         description: 'A complete BNN journey from foundation to advanced application with guided practice and deep concept clarity.',
-        price: 'INR 25,000',
+        priceInr: 'INR 35,000',
+        priceUsd: '370',
         duration: '5 months',
         href: '/course/bnn-basic-advance',
         media: [
@@ -170,7 +174,8 @@ const courseGroups: CourseGroup[] = [
         title: 'Vedic - Basic',
         level: 'Basic',
         description: 'Perfect for beginners to build core understanding of houses, planets, signs, and reading fundamentals.',
-        price: 'INR 15,000',
+        priceInr: 'INR 15,000',
+        priceUsd: '150',
         duration: '2 months',
         href: '/course/vedic-basic',
         media: [
@@ -184,7 +189,8 @@ const courseGroups: CourseGroup[] = [
         title: 'Vedic - Intermediate',
         level: 'Intermediate',
         description: 'Develop interpretation confidence through layered chart analysis, yogas, and practical reading sessions.',
-        price: 'INR 30,000',
+        priceInr: 'INR 30,000',
+        priceUsd: '300',
         duration: '3 months',
         href: '/course/vedic-intermediate',
         media: [
@@ -198,7 +204,7 @@ const courseGroups: CourseGroup[] = [
         title: 'Vedic - Advance',
         level: 'Advance',
         description: 'Advanced-level mentoring with high-precision case studies and consultative frameworks.',
-        price: 'Fill form for pricing',
+        priceText: 'Fill form for pricing',
         duration: 'Custom',
         href: '/course/vedic-advance',
         media: [
@@ -219,7 +225,8 @@ const courseGroups: CourseGroup[] = [
         title: 'Vastu - Basic',
         level: 'Basic',
         description: 'Learn core Vastu principles, directional energies, and foundational corrections for living spaces.',
-        price: 'INR 20,000',
+        priceInr: 'INR 20,000',
+        priceUsd: '200',
         duration: '2 months',
         href: '/course/vastu-basic',
         media: [
@@ -233,7 +240,8 @@ const courseGroups: CourseGroup[] = [
         title: 'Vastu - Intermediate',
         level: 'Intermediate',
         description: 'Move into applied Vastu with practical layouts, corrections, and personalized case evaluations.',
-        price: 'INR 40,000',
+        priceInr: 'INR 40,000',
+        priceUsd: '400',
         duration: '3 months',
         href: '/course/vastu-intermediate',
         media: [
@@ -247,7 +255,7 @@ const courseGroups: CourseGroup[] = [
         title: 'Vastu - Advance',
         level: 'Advance',
         description: 'Master consulting-level Vastu diagnosis with advanced scenario handling and strategy design.',
-        price: 'Fill form for pricing',
+        priceText: 'Fill form for pricing',
         duration: 'Custom',
         href: '/course/vastu-advance',
         media: [
@@ -268,7 +276,8 @@ const courseGroups: CourseGroup[] = [
         title: 'Signature Analysis',
         level: 'Specialized',
         description: 'Decode personality and behavioral patterns through signature structures with practical interpretation.',
-        price: 'INR 15,000',
+        priceInr: 'INR 15,000',
+        priceUsd: '200',
         duration: '1 month',
         href: '/course/signature-analysis',
         media: [
@@ -284,15 +293,18 @@ const courseGroups: CourseGroup[] = [
 const totalCourses = computed(() => courseGroups.reduce((total, group) => total + group.courses.length, 0))
 const pageTitle = computed(() => `Courses (${totalCourses.value})`)
 
-useHead(() => ({
-  title: pageTitle.value
-}))
+useHead(() => ({ title: pageTitle.value }))
 
 useSeoMeta({
-  title: pageTitle,
+  title: pageTitle.value,
   ogTitle: computed(() => `${pageTitle.value} | Galactic Gene`),
   twitterTitle: computed(() => `${pageTitle.value} | Galactic Gene`)
 })
+
+const { initRegion } = useRegionSelection()
+
+
+onMounted(() => { initRegion() })
 </script>
 
 <style scoped>
