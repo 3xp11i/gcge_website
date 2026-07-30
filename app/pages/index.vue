@@ -308,6 +308,7 @@ import sketch4 from '@/assets/images/sketch4.png'
 import sketch5 from '@/assets/images/sketch5.png'
 import blank_chart from '@/assets/images/blank_chart.jpg'
 import advance_astrology from '@/assets/images/advance_astrology.jpg'
+import image2 from '@/assets/images/image2.jpg'
 
 import review1 from '@/assets/images/review1.png'
 import review2 from '@/assets/images/review2.png'
@@ -459,6 +460,11 @@ const items: MediaItem[] = [
     type: 'image',
     src: sketch2,
     alt: 'Sketch 2'
+  },
+  {
+    type: 'image',
+    src: image2,
+    alt: 'Learn with Personalised Guidance'
   },
   {
     type: 'video',
