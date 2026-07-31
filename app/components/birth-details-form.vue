@@ -416,10 +416,11 @@ const isDateDisabled = (date: DateValue): boolean => {
 
 const slotsByPeriod = computed(() => {
 	const periods: { label: string; key: string; startHour: number; endHour: number; slots: Candidate[] }[] = [
-		{ label: 'Morning', key: 'morning', startHour: 9, endHour: 12, slots: [] },
+		{ label: 'Late Night', key: 'late-night', startHour: 0, endHour: 6, slots: [] },
+		{ label: 'Morning', key: 'morning', startHour: 6, endHour: 12, slots: [] },
 		{ label: 'Afternoon', key: 'afternoon', startHour: 12, endHour: 16, slots: [] },
 		{ label: 'Evening', key: 'evening', startHour: 16, endHour: 20, slots: [] },
-		{ label: 'Night', key: 'night', startHour: 20, endHour: 23, slots: [] },
+		{ label: 'Night', key: 'night', startHour: 20, endHour: 24, slots: [] },
 	]
 
 	for (const slot of slotsForSelectedDate.value) {
