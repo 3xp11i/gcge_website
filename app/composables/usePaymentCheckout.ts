@@ -87,7 +87,7 @@ export function usePaymentCheckout() {
 
 		statusMessage.value = "Preparing checkout...";
 		const response = await $fetch<{ checkout_url: string }>(
-			"/api/dodo-checkout",
+			"/api/dodopayments/create-checkout",
 			{
 				method: "POST",
 				body: {
@@ -119,7 +119,7 @@ export function usePaymentCheckout() {
 			order_id: string;
 			amount: number;
 			currency: string;
-		}>("/api/create-order", {
+		}>("/api/razorpay/create-order", {
 			method: "POST",
 			body: {
 				amount: opts.amountPaise,
