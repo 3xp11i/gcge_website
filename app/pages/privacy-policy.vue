@@ -1,29 +1,17 @@
-<script lang="ts" setup>
-definePageMeta({
-  layout: 'legal',
-})
-
-useHead({
-  title: 'Privacy Policy | Galactic Gene',
-  meta: [
-    { name: 'description', content: 'Privacy policy for Galactic Gene astrology services and consultations.' },
-  ],
-})
-</script>
 
 <template>
   <div class="space-y-8 px-6 py-8 md:px-10 md:py-10">
     <div class="border-b border-amber-300/15 px-0 pb-8">
-      <p class="text-sm uppercase tracking-[0.35em] text-amber-200">Privacy Policy</p>
-      <h1 class="mt-4 text-4xl! font-semibold text-amber-200 md:text-6xl!">How we handle your information</h1>
-      <p class="mt-4 max-w-3xl text-base leading-7 text-white md:text-lg">
+      <p class="text-sm uppercase tracking-[0.35em] text-amber-200 light:text-gray-800">Privacy Policy</p>
+      <h1 class="mt-4 text-4xl! font-semibold light:text-gray-700 text-amber-200 md:text-6xl!">How we handle your information</h1>
+      <p class="mt-4 max-w-3xl text-base leading-7 text-white light:text-gray-800 md:text-lg">
         At Galactic Gene, we keep privacy simple. We only use the information you willingly provide for astrology consultations and
         service delivery, and we do not sell, rent, or share your personal data for marketing purposes.
       </p>
     </div>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">1. Information we collect</h3>
+      <h3 class="text-2xl font-semibold text-amber-200 light:text-gray-800">1. Information we collect</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           We collect only the information that is necessary to provide our services. This may include your name, contact details,
@@ -38,7 +26,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">2. No unnecessary tracking</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">2. No unnecessary tracking</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           The website does not track your activity for advertising or analytics purposes. We do not intentionally use invasive
@@ -53,7 +41,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">3. How your information is used</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">3. How your information is used</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>We use your information only for the following purposes:</p>
         <ul class="list-disc space-y-2 pl-6">
@@ -66,7 +54,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">4. Sharing of information</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">4. Sharing of information</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           We do not share your personal data with third parties for their own marketing or commercial use. Birth details provided for
@@ -80,7 +68,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">5. Data retention</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">5. Data retention</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           We keep information only for as long as reasonably required to provide the service, maintain records, resolve disputes,
@@ -90,7 +78,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">6. Security</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">6. Security</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           We take reasonable technical and organisational measures to protect the information you provide. However, no online system is
@@ -100,7 +88,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">7. Your rights and choices</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">7. Your rights and choices</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           You may contact us to request access to, correction of, or deletion of information you have shared, subject to legal and
@@ -110,7 +98,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">8. Contact</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">8. Contact</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           If you have questions about this Privacy Policy, please contact us through the contact details provided on the website.
@@ -119,3 +107,16 @@ useHead({
     </section>
   </div>
 </template>
+
+<script lang="ts" setup>
+definePageMeta({
+  layout: 'legal',
+})
+
+useHead({
+  title: 'Privacy Policy | Galactic Gene',
+  meta: [
+    { name: 'description', content: 'Privacy policy for Galactic Gene astrology services and consultations.' },
+  ],
+})
+</script>

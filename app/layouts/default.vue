@@ -1,5 +1,6 @@
 <template>
   <div class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
+
      <div ref="sunEl"
          class="bg_art sun left-60 md:-top-4 w-20 h-20 rounded-full not-md:left-1/2 not-md:-top-1/12"
          :style="sunStyle"></div>

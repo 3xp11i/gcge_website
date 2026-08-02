@@ -43,7 +43,7 @@ export default defineNuxtConfig({
 				{
 					name: "description",
 					content:
-						"Galactic Gene is an astrology community of wonderful people who are eager to learn and grow. We provide resources, discussions, and insights for those interested in exploring their cosmic path.",
+						"Galactic Gene is a learning platform for astrology and metaphysics for passionate learners, practitioners and enthusiasts with active communities on Discord, Reddit, and other platforms promote engaging conversations, learning together, and ongoing development.",
 				},
 				{ name: "apple-mobile-web-app-title", content: "Galactic Gene" },
 				{ property: "og:image", content: ogImageUrl },
@@ -101,12 +101,12 @@ export default defineNuxtConfig({
 		redirect: false,
 		redirectOptions: {
 			login: "/",
-			callback: "",
+			callback: "/confirm",
 			include: undefined,
 			exclude: [],
 			saveRedirectToCookie: false,
 		},
-		types: "~/shared/types/database.types.ts",
+		types: "~~/shared/types/database.types.ts",
 	},
 	vite: {
 		optimizeDeps: {

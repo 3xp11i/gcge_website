@@ -128,8 +128,6 @@ import { reactive, computed } from 'vue'
 import type { AccordionItem } from '@nuxt/ui'
 import video1 from '@/assets/media/video1.mp4'
 import video2 from '@/assets/media/video2.mp4'
-import type { CourseProduct } from '~/shared/utils/products'
-import { courses } from '~/shared/utils/products'
 
 definePageMeta({
   layout: 'course'

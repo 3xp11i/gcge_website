@@ -13,7 +13,7 @@
 
       <div class="mediaPart flex w-full flex-col items-center my-8 mt-10">
         <UCarousel class-names
-                   :auto-scroll="{speed:0.5}"
+                   :auto-scroll="{ speed: 0.5 }"
                    loop
                    arrows
                    :items="items"
@@ -35,7 +35,7 @@
                      class="pointer-events-none aspect-video w-full object-cover"
                      muted
                      autoplay
-                loop
+                     loop
                      playsinline
                      preload="metadata" />
               <Icon v-if="item.type === 'video'"
@@ -84,15 +84,60 @@
            class="bg_art w-80 -bottom-40 -left-70 rotate-30 opacity-30" />
 
 
-      <div class="textPart flex flex-col gap-4 w-fit px-10">
+   <div class="flex w-full flex-col items-center gap-12 lg:flex-row">
 
-        <h2>Who Are We?</h2>
-        <p>
-          Galactic Gene is a Vedic astrology community and content space with a premium, calm, space-inspired visual
-          identity. We provide resources, discussions, and insights for those interested in exploring their cosmic path.
-        </p>
-        <UButton class="button w-fit"
-                 to="/about">Read More</UButton>
+        <!-- Image -->
+        <div class="flex w-full justify-center lg:flex-1">
+          <!-- <img src="@/assets/images/logo_transparent.png"
+               alt="Galactic Gene logo"
+               class="w-full max-w-sm rounded-full" /> -->
+               <iframe width="600"
+                  height="338" class="rounded-2xl"
+                  src="https://www.youtube.com/embed/-FPeRyG5iJY?controls=0&rel=0"
+                  title="Introduction To Galactic Gene"
+                  frameborder="0"
+                  allow="autoplay; clipboard-write; encrypted-media; no-controls gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+        </div>
+
+        <!-- Text -->
+        <div class="w-full max-w-2xl lg:flex-[1.4]">
+
+          <h2 class="mb-6 text-3xl font-bold tracking-tight sm:text-4xl">
+            Who Are We?
+          </h2>
+
+          <div class="space-y-5 text-base leading-8 text-neutral-700 dark:text-neutral-300">
+
+            <p>
+              Galactic Gene is a leading learning platform for astrology and
+              metaphysics for passionate learners, practitioners and enthusiasts.
+              Our active communities on Discord, Reddit, and other platforms promote
+              engaging conversations, collaborative learning, and continuous growth.
+            </p>
+
+            <p>
+              We are here to resurrect the depth, authenticity, and quality of
+              traditional esoteric knowledge while inspiring the next generation of
+              thinkers and researchers.
+            </p>
+
+            <p>
+              Besides providing detailed consultations, we conduct comprehensive
+              courses in Graphology, Signature Analysis, Vastu, Modern Astrology,
+              Nadi Astrology, Vedic Astrology, and many other specialized subjects,
+              enabling students to learn, practice, and excel with confidence.
+            </p>
+
+          </div>
+
+          <UButton class="button mt-8 w-fit"
+                   to="/about">
+            Know More
+          </UButton>
+
+        </div>
 
       </div>
 
@@ -132,7 +177,10 @@
 
 
     <section id="reviews"
-             class="">
+             class=""
+             :style="{
+              'align-items': 'start'
+            }">
       <div class="upperText mb-4">
 
         <h2 class="text-left">Reviews</h2>
@@ -162,9 +210,9 @@
           <template #default="{ item }">
             <article class="overflow-hidden rounded-3xl  shadow-2xl shadow-black/20 hover:cursor-pointer active:cursor-grab"
                      @click="item.src ? openReviewMediaPreview(item) : null">
-                <div class="reviewCard home-review-card flex flex-col items-start justify-center gap-4 rounded-3xl shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
+              <div class="reviewCard home-review-card flex flex-col items-start justify-center gap-4 rounded-3xl shadow-2xl shadow-black/20 backdrop-blur-sm hover:cursor-pointer active:cursor-grab"
                    :class="{
-                  'home-review-text-card p-4 border border-white/10 bg-white/15': !item.src,
+                    'home-review-text-card p-4 border border-white/10 bg-white/15': !item.src,
                   }">
 
                 <h4 class="text-lg font-semibold">{{ item.name }}</h4>
@@ -228,7 +276,8 @@
           <img src="@/assets/images/discord_server.png"
                alt="Discord server image"
                class="w-full object-cover blur-[2px] rounded-3xl select-none pointer-events-none" />
-          <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full text-white">
+          <div
+               class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full text-white">
             <p class="">Connect, Talk & Learn! <br> We are waiting for you to join ♥️
             </p>
             <UButton icon="ic:baseline-discord"
@@ -241,7 +290,8 @@
           <img src="@/assets/images/reddit.png"
                alt="Reddit community image"
                class="w-full object-cover blur-[2px] rounded-3xl select-none pointer-events-none" />
-          <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full text-white">
+          <div
+               class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center gap-5 w-full text-white">
             <p class="">Feel free to ask any doubt or question 🌱
             </p>
             <UButton icon="ic:baseline-reddit"
@@ -293,8 +343,9 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue'
 import type { AccordionItem } from '@nuxt/ui'
-import video1 from '@/assets/media/video1.mp4'
+// import video1 from '@/assets/media/video1.mp4'
 import video2 from '@/assets/media/video2.mp4'
+import video3 from '@/assets/media/video3.mp4'
 import showcase1 from '@/assets/images/showcase1.jpg'
 import showcase2 from '@/assets/images/showcase2.jpg'
 import showcase3 from '@/assets/images/showcase3.jpg'
@@ -319,7 +370,11 @@ import review6 from '@/assets/images/review6.png'
 import review7 from '@/assets/images/review7.png'
 import review8 from '@/assets/images/review8.png'
 
-import { button } from '#build/ui'
+const toast = useToast()
+
+
+
+
 
 type MediaItem = {
   type: 'image' | 'video'
@@ -350,6 +405,9 @@ watch(activeCarouselIndex, (index) => {
     if (videoIndex !== index) {
       videoElement.pause()
       videoElement.currentTime = 0
+    } else {
+      videoElement.muted = true
+      videoElement.play().catch(() => {})
     }
   })
 })
@@ -393,6 +451,18 @@ onMounted(() => {
 
   }
 
+  // toast.add({
+  //   title: '📣 Get Free Astrology Consultation!',
+  //   description: 'We are giving free of cost astrology consultations for a limited time 🎁',
+  //   icon: '',
+  //   onClick: ()=>{
+  //     // Open /community-initiative page in a new tab
+  //     window.open('/community-initiative', '_blank')
+  //   },
+    
+  //   duration: 0
+  // })
+
 })
 
 function openMediaPreview(item: MediaItem) {
@@ -427,12 +497,19 @@ function setCarouselVideoRef(element: unknown, item: MediaItem) {
   }
 
   const videoElement = element
+  videoElement.muted = true // force the property, not just the attribute
+  videoElement.playsInline = true
+
   const itemIndex = items.findIndex(mediaItem => mediaItem === item)
 
   if (itemIndex !== -1) {
     carouselVideoRefs.set(itemIndex, videoElement)
 
-    if (itemIndex !== activeCarouselIndex.value) {
+    if (itemIndex === activeCarouselIndex.value) {
+      videoElement.play().catch(() => {
+        // Autoplay blocked — ignore, or retry on user interaction
+      })
+    } else {
       videoElement.pause()
       videoElement.currentTime = 0
     }
@@ -445,6 +522,11 @@ const items: MediaItem[] = [
     type: 'image',
     src: sketch1,
     alt: 'Sketch 1'
+  },
+  {
+    type: 'video',
+    src: video3,
+    alt: 'Planetary Nature'
   },
   {
     type: 'image',
@@ -636,4 +718,7 @@ const reviews = [
   box-shadow: 0 18px 30px -18px rgba(17, 32, 47, 0.45);
 }
 
+
+.textPart{
+}
 </style>

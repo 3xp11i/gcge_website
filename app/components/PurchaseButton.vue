@@ -2,7 +2,7 @@
 <template>
   <div class="flex flex-col gap-3 mt-3">
     <UButton type="button"
-             class="button rounded-2xl! cursor-pointer w-full justify-center"
+             class="button rounded-xl! cursor-pointer w-full justify-center"
              size="lg"
              :loading="loading"
              @click="$emit('click')">

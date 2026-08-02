@@ -1,10 +1,92 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+/* ==========================================================================
+   DESIGN TOKENS
+   All color decisions live here. :root = dark mode (default).
+   .light overrides the same variable names for light mode.
+   Nothing else in this file should use a raw color value —
+   every component should reference one of these variables.
+   ========================================================================== */
+
 :root {
 	/* --font-body: "Disney"; */
 	--font-body: "Quicksand";
 	/* --font-body: "Elms Sans"; */
+
+	/* --- Base page --- */
+	--gg-bg: #051320;
+	--gg-text-main: #ffffff;
+	--gg-text-soft: rgba(255, 255, 255, 0.85);
+	--gg-text-muted: rgba(255, 255, 255, 0.70);
+	--gg-text-faint: rgba(255, 255, 255, 0.45);
+
+	/* --- Surfaces (glass panels, cards, overlays) --- */
+	--gg-surface-glass: rgba(255, 255, 255, 0.05);
+	--gg-surface-soft: rgba(255, 255, 255, 0.10);
+	--gg-surface-deep: rgba(0, 0, 0, 0.20);
+	--gg-surface-deeper: rgba(0, 0, 0, 0.30);
+
+	/* --- Borders & shadows --- */
+	--gg-border-soft: rgba(255, 255, 255, 0.10);
+	--gg-border-muted: rgba(255, 255, 255, 0.15);
+	--gg-shadow-soft: 0 20px 35px -20px rgba(0, 0, 0, 0.55);
+
+	/* --- Accent / gold family ---
+	   Split into two tones so headings, links, and buttons can each
+	   pick the one with the right contrast against the current bg. */
+	--gg-accent: goldenrod;            /* used for links, .fancy, h3, buttons */
+	--gg-accent-strong: rgb(225, 174, 47); /* used for h2 (Cinzel Decorative) */
+	--gg-accent-soft: rgba(255, 214, 102, 0.35); /* selection highlight */
+
+	/* --- Headings (explicit, so they never silently inherit body color) --- */
+	--gg-heading-h1: var(--gg-text-main);
+	--gg-heading-h2: var(--gg-accent-strong);
+	--gg-heading-h3: var(--gg-accent);
+	--gg-heading-h4: var(--gg-text-main);
+
+	/* --- Buttons --- */
+	--gg-button-bg: var(--gg-accent);
+	--gg-button-text: #000000;
+
+	/* --- Navbar --- */
+	--gg-navbar-btn-border: rgba(255, 255, 255, 0.15);
+	--gg-navbar-btn-bg: rgba(0, 0, 0, 0.291);
+	--gg-navbar-btn-hover-bg: rgba(255, 255, 255, 0.15);
+	--gg-navbar-btn-shadow: none;
+	--gg-navbar-drawer-border: rgba(255, 255, 255, 0.1);
+	--gg-navbar-drawer-bg: #071625;
+	--gg-navbar-drawer-text: #ffffff;
+	--gg-navbar-muted: rgba(255, 255, 255, 0.6);
+	--gg-navbar-footer-border: rgba(255, 255, 255, 0.1);
+
+	/* --- Carousel dots --- */
+	--gg-carousel-dot: rgba(255, 255, 255, 0.45);
+	--gg-carousel-dot-active: rgba(255, 255, 255, 0.95);
+
+	/* --- Accordion --- */
+	--gg-accordion-border: rgba(255, 255, 255, 0.16);
+
+	/* --- Courses page specifics --- */
+	--gg-course-price: goldenrod;
+	--gg-course-chip-text: #ffffff;
+	--gg-course-chip-border: rgba(255, 255, 255, 0.24);
+	--gg-course-chip-bg: rgba(255, 255, 255, 0.06);
+	--gg-course-chip-emerald-text: #6ee7b7;
+	--gg-course-chip-emerald-border: rgba(16, 185, 129, 0.35);
+	--gg-course-chip-emerald-bg: rgba(16, 185, 129, 0.14);
+	--gg-course-chip-sky-text: #7dd3fc;
+	--gg-course-chip-sky-border: rgba(56, 189, 248, 0.35);
+	--gg-course-chip-sky-bg: rgba(56, 189, 248, 0.14);
+	--gg-course-chip-amber-text: #fcd34d;
+	--gg-course-chip-amber-border: rgba(245, 158, 11, 0.35);
+	--gg-course-chip-amber-bg: rgba(245, 158, 11, 0.14);
+	--gg-course-black-60: rgba(0, 0, 0, 0.60);
+
+	/* --- Legal layout --- */
+	--gg-legal-shell-bg: var(--gg-surface-glass);
+	--gg-legal-shell-border: rgba(255, 255, 255, 0.1);
+	--gg-legal-shell-shadow: var(--gg-shadow-soft);
 }
 
 /* Then Nuxt fonts will add declarations that look like this at the beginning of the CSS file: */
@@ -17,6 +99,84 @@
 } */
 /* ... plus more font-face declarations for other unicode ranges/weights */
 
+.light {
+	/* --- Base page --- */
+	--gg-bg: rgb(255, 241, 205);
+	--gg-text-main: #132436;
+	--gg-text-soft: rgba(19, 36, 54, 0.82);
+	--gg-text-muted: rgba(19, 36, 54, 0.70);
+	--gg-text-faint: rgba(19, 36, 54, 0.54);
+
+	/* --- Surfaces --- */
+	--gg-surface-glass: rgba(255, 255, 255, 0.80);
+	--gg-surface-soft: rgba(255, 255, 255, 0.66);
+	--gg-surface-deep: rgba(192, 192, 192, 0.264);
+	--gg-surface-deeper: rgba(248, 248, 248, 0.885);
+
+	/* --- Borders & shadows --- */
+	--gg-border-soft: rgba(19, 36, 54, 0.2);
+	--gg-border-muted: rgba(19, 36, 54, 0.16);
+	--gg-shadow-soft: 0 20px 35px -20px rgba(14, 30, 47, 0.38);
+
+	/* --- Accent / gold family ---
+	   Darkened so gold text keeps enough contrast on the cream bg. */
+	--gg-accent: #8a5c06;
+	--gg-accent-strong: #96690a;
+	--gg-accent-soft: rgba(154, 106, 8, 0.25);
+
+	/* --- Headings --- */
+	--gg-heading-h1: var(--gg-text-main);
+	--gg-heading-h2: var(--gg-text-main);
+	--gg-heading-h3: var(--gg-text-main);
+	--gg-heading-h4: var(--gg-text-main);
+
+	/* --- Buttons (kept legible: dark text on gold stays as-is) --- */
+	--gg-button-bg: goldenrod;
+	--gg-button-text: #000000;
+
+	/* --- Navbar --- */
+	--gg-navbar-btn-border: rgba(19, 36, 54, 0.2);
+	--gg-navbar-btn-bg: rgba(255, 255, 255, 0.84);
+	--gg-navbar-btn-hover-bg: rgba(19, 36, 54, 0.12);
+	--gg-navbar-btn-shadow: 0 10px 20px -12px rgba(14, 30, 47, 0.45);
+	--gg-navbar-drawer-border: rgba(19, 36, 54, 0.18);
+	--gg-navbar-drawer-bg: rgba(255, 248, 226, 0.98);
+	--gg-navbar-drawer-text: #132436;
+	--gg-navbar-muted: rgba(19, 36, 54, 0.62);
+	--gg-navbar-footer-border: rgba(19, 36, 54, 0.16);
+
+	/* --- Carousel dots --- */
+	--gg-carousel-dot: rgba(17, 32, 47, 0.38);
+	--gg-carousel-dot-active: rgba(17, 32, 47, 0.88);
+
+	/* --- Accordion --- */
+	--gg-accordion-border: rgba(17, 32, 47, 0.28);
+
+	/* --- Courses page specifics --- */
+	--gg-course-price: #8a5c06;
+	--gg-course-chip-text: #21374d;
+	--gg-course-chip-border: rgba(19, 36, 54, 0.24);
+	--gg-course-chip-bg: rgba(255, 255, 255, 0.72);
+	--gg-course-chip-emerald-text: #0d684f;
+	--gg-course-chip-emerald-border: rgba(16, 185, 129, 0.35);
+	--gg-course-chip-emerald-bg: rgba(16, 185, 129, 0.14);
+	--gg-course-chip-sky-text: #0f4f84;
+	--gg-course-chip-sky-border: rgba(56, 189, 248, 0.35);
+	--gg-course-chip-sky-bg: rgba(56, 189, 248, 0.14);
+	--gg-course-chip-amber-text: #8a5c06;
+	--gg-course-chip-amber-border: rgba(245, 158, 11, 0.35);
+	--gg-course-chip-amber-bg: rgba(245, 158, 11, 0.14);
+	--gg-course-black-60: rgba(19, 36, 54, 0.24);
+
+	/* --- Legal layout --- */
+	--gg-legal-shell-bg: var(--gg-surface-glass);
+	--gg-legal-shell-border: rgba(178, 124, 20, 0.26);
+	--gg-legal-shell-shadow: var(--gg-shadow-soft);
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
 
 html,
 body,
@@ -34,20 +194,13 @@ html {
 
 body {
 	margin: 0;
-	/* background-color:#181818; */
-	background-color: #051320;
-	/* color: rgb(249, 221, 127); */
-	color:white;
+	background-color: var(--gg-bg);
+	color: var(--gg-text-main);
 	font-weight: 500;
 	font-family: var(--font-body);
 	text-rendering: optimizeLegibility;
 	overflow-x: clip;
-}
-
-
-.light body {
-  background-color: rgb(255, 241, 205);
-  color: #051320;
+	transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .fancy {
@@ -56,12 +209,11 @@ body {
 	/* font-family: "Cormorant Garamond"; */
 	font-family: "Tangerine";
 	padding: 1rem;
-	color: goldenrod;
-	/* color: white; */
+	color: var(--gg-accent);
 	/* text-shadow: 0.1rem 0.1rem 0.3rem rgba(255, 255, 0, 0.42); */
 }
 .fancy2 {
-	color: goldenrod;
+	color: var(--gg-accent);
 	font-family: "Tangerine";
 }
 
@@ -70,10 +222,9 @@ a {
 }
 a:hover {
 	transition: 0.2s ease;
-	color: goldenrod;
+	color: var(--gg-accent);
 	/* text-shadow: 0rem 0rem 0.2rem rgba(255, 255, 0, 0.482); */
 }
-
 
 img,
 video,
@@ -84,8 +235,8 @@ svg {
 }
 
 ::selection {
-	background: rgba(255, 214, 102, 0.35);
-	color: #fff8dc;
+	background: var(--gg-accent-soft);
+	color: var(--gg-text-main);
 }
 
 section {
@@ -99,74 +250,79 @@ section {
 	height: fit-content;
 	width: min(100%, 80rem);
 	max-width: calc(100vw - 2rem);
-
 }
 
 .separator {
 	display: block;
 	width: 80%;
 	height: 1px;
-	/* background-color: goldenrod; */
 	margin-block: 2rem;
 
-	border-top: .2rem solid rgba(78, 78, 78, 0.151);
+	border-top: .2rem solid var(--gg-border-muted);
 	border-radius: 100%;
 }
 
-.button{
-	background-color: goldenrod;
-	color: black;
+.button {
+	background-color: var(--gg-button-bg);
+	color: var(--gg-button-text);
 	transition: 0.2s ease;
 }
-.button:hover{
+.button:hover {
 	transform: scale(1.05);
 	transition: 0.2s ease;
-	background-color: goldenrod;
-	color: black;
+	background-color: var(--gg-button-bg);
+	color: var(--gg-button-text);
 }
+
+/* ==========================================================================
+   HEADINGS
+   Each level now has its own token, so light/dark never fall back to
+   a color that was only tuned for one theme.
+   ========================================================================== */
 
 h1 {
 	font-size: clamp(4.5rem, 8vw, 6rem);
+	color: var(--gg-heading-h1);
 	/* font-weight: 700; */
 }
+
 h2 {
 	font-size: clamp(1.75rem, 5vw, 3rem);
 	font-family: "Cinzel Decorative";
 	font-weight: 600;
-	color: rgb(225, 174, 47);
-
+	color: var(--gg-heading-h2);
 }
+
 h3 {
 	font-size: clamp(1.25rem, 4vw, 2rem);
-	color: goldenrod;
-
+	color: var(--gg-heading-h3);
 }
 h4 {
 	font-size: clamp(1rem, 3vw, 1.5rem);
+	color: var(--gg-heading-h4);
 }
-
 
 .lines-on-sides:before,
 .lines-on-sides:after {
-  content: "";
-  position: absolute;
-  height: 2px;
-  border-radius:15px;
-  border-bottom: 1px solid goldenrod;
-  border-top: 1px solid goldenrod;
-  background-color:goldenrod;
-  opacity: 0.6;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
+	content: "";
+	position: absolute;
+	height: 2px;
+	border-radius: 15px;
+	border-bottom: 1px solid var(--gg-accent);
+	border-top: 1px solid var(--gg-accent);
+	background-color: var(--gg-accent);
+	opacity: 0.6;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 100%;
 }
 .lines-on-sides:before {
-  right: 100%;
-  margin-right: 15px;
+	right: 100%;
+	margin-right: 15px;
 }
 .lines-on-sides:after {
-  left: 100%;
-  margin-left: 15px;
+	left: 100%;
+	margin-left: 15px;
 }
 
 @media (max-width: 768px) {
@@ -186,176 +342,143 @@ h4 {
 	}
 }
 
-.light {
-	--gg-text-main: #132436;
-	--gg-text-soft: rgba(19, 36, 54, 0.82);
-	--gg-text-muted: rgba(19, 36, 54, 0.7);
-	--gg-text-faint: rgba(19, 36, 54, 0.54);
-	--gg-surface-glass: rgba(255, 255, 255, 0.8);
-	--gg-surface-soft: rgba(255, 255, 255, 0.66);
-	--gg-surface-deep: rgba(19, 36, 54, 0.1);
-	--gg-surface-deeper: rgba(19, 36, 54, 0.14);
-	--gg-border-soft: rgba(19, 36, 54, 0.2);
-	--gg-border-muted: rgba(19, 36, 54, 0.16);
-	--gg-shadow-soft: 0 20px 35px -20px rgba(14, 30, 47, 0.38);
-}
+/* ==========================================================================
+   PAGE-LEVEL SURFACES
+   (about / consultation / courses / course-detail / legal)
+   These previously only had rules under .light — they now work for both
+   themes because the underlying Tailwind opacity classes map to tokens.
+   ========================================================================== */
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) {
 	color: var(--gg-text-main);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='bg-white/5'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='bg-white/5'] {
 	background-color: var(--gg-surface-glass);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='bg-white/10'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='bg-white/10'] {
 	background-color: var(--gg-surface-soft);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='bg-black/20'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='bg-black/20'] {
 	background-color: var(--gg-surface-deep);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='bg-black/30'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='bg-black/30'] {
 	background-color: var(--gg-surface-deeper);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='border-white/10'],
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='border-white/15'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='border-white/10'],
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='border-white/15'] {
 	border-color: var(--gg-border-soft);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='shadow-black/20'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='shadow-black/20'] {
 	box-shadow: var(--gg-shadow-soft);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/85'],
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/90'],
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/80'],
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/75'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/85'],
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/90'],
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/80'],
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/75'] {
 	color: var(--gg-text-soft);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/70'],
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/60'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/70'],
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/60'] {
 	color: var(--gg-text-muted);
 }
 
-.light :is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/45'] {
+:is(.about-page, .consultation-page, .courses-page, .course-detail-page, .legal-layout) [class*='text-white/45'] {
 	color: var(--gg-text-faint);
 }
 
-.light :is(.about-page, .consultation-page, .course-detail-page) [class~='text-white'] {
+:is(.about-page, .consultation-page, .course-detail-page) [class~='text-white'] {
 	color: var(--gg-text-main);
 }
 
-.light .courses-page [class*='bg-black/60'] {
-	background-color: rgba(19, 36, 54, 0.24);
+.courses-page [class*='bg-black/60'] {
+	background-color: var(--gg-course-black-60);
 }
 
-.light .legal-layout .legal-shell {
-	background-color: var(--gg-surface-glass);
-	border-color: rgba(178, 124, 20, 0.26);
-	box-shadow: var(--gg-shadow-soft);
+.legal-layout .legal-shell {
+	background-color: var(--gg-legal-shell-bg);
+	border-color: var(--gg-legal-shell-border);
+	box-shadow: var(--gg-legal-shell-shadow);
 }
 
-.light .courses-page .course-price-tag {
-	color: #8a5c06;
+.courses-page .course-price-tag {
+	color: var(--gg-course-price);
 }
 
-.light .courses-page .course-chip {
-	color: #21374d;
-	border-color: rgba(19, 36, 54, 0.24);
-	background-color: rgba(255, 255, 255, 0.72);
+.courses-page .course-chip {
+	color: var(--gg-course-chip-text);
+	border-color: var(--gg-course-chip-border);
+	background-color: var(--gg-course-chip-bg);
 }
 
-.light .courses-page .course-chip[class*='text-emerald-100'] {
-	color: #0d684f;
-	border-color: rgba(16, 185, 129, 0.35);
-	background-color: rgba(16, 185, 129, 0.14);
+.courses-page .course-chip[class*='text-emerald-100'] {
+	color: var(--gg-course-chip-emerald-text);
+	border-color: var(--gg-course-chip-emerald-border);
+	background-color: var(--gg-course-chip-emerald-bg);
 }
 
-.light .courses-page .course-chip[class*='text-sky-100'] {
-	color: #0f4f84;
-	border-color: rgba(56, 189, 248, 0.35);
-	background-color: rgba(56, 189, 248, 0.14);
+.courses-page .course-chip[class*='text-sky-100'] {
+	color: var(--gg-course-chip-sky-text);
+	border-color: var(--gg-course-chip-sky-border);
+	background-color: var(--gg-course-chip-sky-bg);
 }
 
-.light .courses-page .course-chip[class*='text-amber-100'] {
-	color: #8a5c06;
-	border-color: rgba(245, 158, 11, 0.35);
-	background-color: rgba(245, 158, 11, 0.14);
+.courses-page .course-chip[class*='text-amber-100'] {
+	color: var(--gg-course-chip-amber-text);
+	border-color: var(--gg-course-chip-amber-border);
+	background-color: var(--gg-course-chip-amber-bg);
 }
+
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
 
 .site-navbar .navbar-menu-button,
 .site-navbar .navbar-close-button {
-	border-color: rgba(255, 255, 255, 0.15);
-	background-color: rgba(255, 255, 255, 0.1);
+	border-color: var(--gg-navbar-btn-border);
+	background-color: var(--gg-navbar-btn-bg);
+	box-shadow: var(--gg-navbar-btn-shadow);
 }
 
 .site-navbar .navbar-menu-button:hover,
 .site-navbar .navbar-close-button:hover,
 .site-navbar .navbar-link:hover {
-	background-color: rgba(255, 255, 255, 0.15);
+	background-color: var(--gg-navbar-btn-hover-bg);
 }
 
 .site-navbar .navbar-drawer {
-	border-left-color: rgba(255, 255, 255, 0.1);
-	background-color: #071625;
-	color: #ffffff;
+	border-left-color: var(--gg-navbar-drawer-border);
+	background-color: var(--gg-navbar-drawer-bg);
+	color: var(--gg-navbar-drawer-text);
 }
 
 .site-navbar .navbar-muted {
-	/* color: rgba(255, 255, 255, 0.6); */
+	color: var(--gg-navbar-muted);
 }
 
 .site-navbar .navbar-footer {
-	border-top-color: rgba(255, 255, 255, 0.1);
+	border-top-color: var(--gg-navbar-footer-border);
 }
 
-.light .site-navbar .navbar-menu-button,
-.light .site-navbar .navbar-close-button {
-	border-color: rgba(19, 36, 54, 0.2);
-	background-color: rgba(255, 255, 255, 0.84);
-	box-shadow: 0 10px 20px -12px rgba(14, 30, 47, 0.45);
-}
-
-.light .site-navbar .navbar-menu-button:hover,
-.light .site-navbar .navbar-close-button:hover,
-.light .site-navbar .navbar-link:hover {
-	background-color: rgba(19, 36, 54, 0.12);
-}
-
-.light .site-navbar .navbar-drawer {
-	border-left-color: rgba(19, 36, 54, 0.18);
-	background-color: rgba(255, 248, 226, 0.98);
-	color: #132436;
-}
-
-.light .site-navbar .navbar-muted {
-	color: rgba(19, 36, 54, 0.62);
-}
-
-.light .site-navbar .navbar-footer {
-	border-top-color: rgba(19, 36, 54, 0.16);
-}
+/* ==========================================================================
+   CAROUSEL / ACCORDION
+   ========================================================================== */
 
 .theme-carousel-dot {
-	background-color: rgba(255, 255, 255, 0.45);
+	background-color: var(--gg-carousel-dot);
 }
 
 .theme-carousel-dot[data-state='active'] {
-	background-color: rgba(255, 255, 255, 0.95);
+	background-color: var(--gg-carousel-dot-active);
 }
 
-.light .theme-carousel-dot {
-	background-color: rgba(17, 32, 47, 0.38);
-}
-
-.light .theme-carousel-dot[data-state='active'] {
-	background-color: rgba(17, 32, 47, 0.88);
-}
-
-.light .theme-accordion-item {
-	border-bottom-color: rgba(17, 32, 47, 0.28);
+.theme-accordion-item {
+	border-bottom-color: var(--gg-accordion-border);
 }

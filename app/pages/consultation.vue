@@ -35,7 +35,7 @@
         <!-- Header banner image -->
         <img src="@/assets/images/consultations_banner.png"
              alt="Consultation banner"
-             class="mx-auto w-full max-h-44 rounded-3xl border border-white/10 bg-black/20 shadow-2xl shadow-black/20 backdrop-blur-sm object-cover" />
+             class="mx-auto w-full max-h-44 rounded-3xl  bg-black/20 shadow-2xl shadow-black/20 backdrop-blur-sm object-cover" />
         <h1 class="text-4xl! leading-tight sm:text-5xl! lg:text-6xl!">
           Our Services
         </h1>
@@ -55,7 +55,7 @@
 
 
       <div
-           class="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-6 max-w-full">
+           class="rounded-3xl  bg-white/5 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-6 max-w-full">
 
 
         <UTabs :items="consultationTabs"
@@ -66,7 +66,7 @@
             <div class="grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
               <article v-for="service in personalRelationshipServices"
                        :key="service.title"
-                       class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm">
+                       class="group flex h-full flex-col rounded-3xl  bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm">
                 <div class="mb-5 flex items-start justify-between gap-4">
                   <div>
                     <p class="text-sm uppercase tracking-[0.28em] text-white/45">
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="mb-5 flex flex-wrap items-end gap-3">
-                  <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+                  <div class="rounded-2xl  bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       <USkeleton v-if="!regionInitialized" class="h-3 w-12 rounded" />
                       <span v-else>{{ regionPriceLabel }}</span>
@@ -88,7 +88,7 @@
                       <RegionPrice :inr="service.priceInr" :usd="service.priceUsd" />
                     </p>
                   </div>
-                  <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+                  <div class="rounded-2xl  bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
@@ -102,7 +102,7 @@
                   {{ service.description }}
                 </p>
 
-                <div class="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4">
+                <div class="mt-6 rounded-2xl  bg-black/30 p-4">
                   <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                     Includes
                   </p>
@@ -110,30 +110,6 @@
                     {{ service.includes }}
                   </p>
                 </div>
-
-                <!-- <RazorpayCheckoutButton v-if="selectedRegion === 'India'"
-                                        class="mt-6"
-                                        :amount-paise="service.amountPaise"
-                                        :description="service.title"
-                                        :receipt="service.receipt"
-                                        :label="service.ctaLabel"
-                                        :birth-details="birthDetails"
-                                        :active-receipt="activeReceipt"
-                                        @need-details="handleCheckoutClick(service.receipt)"
-                                        @checkout-started="handleCheckoutStarted"
-                                        @payment-success="handlePaymentSuccess"
-                                        @payment-dismissed="handlePaymentDismissed" />
-                <DodoCheckoutButton v-else
-                                    class="mt-6"
-                                    :amount-usd="parseFloat(service.priceUsd.replace(/[^\d.]/g, ''))"
-                                    :description="service.title"
-                                    :receipt="service.receipt"
-                                    :dodo-product-id="getDodoProductId(service)"
-                                    :label="service.ctaLabel"
-                                    :birth-details="birthDetails"
-                                    :active-receipt="activeReceipt"
-                                    @need-details="handleCheckoutClick(service.receipt)"
-                                    @checkout-started="handleCheckoutStarted" /> -->
 
                 <PurchaseButton :label="service.ctaLabel"
                                 :loading="checkout.loading.value && purchase.activeItemId.value === service.receipt"
@@ -148,7 +124,7 @@
             <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
               <article v-for="service in careerBusinessServices"
                        :key="service.title"
-                       class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm">
+                       class="group flex h-full flex-col rounded-3xl  bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm">
                 <div class="mb-5 flex items-start justify-between gap-4">
                   <div>
                     <p class="text-sm uppercase tracking-[0.28em] text-white/45">
@@ -161,7 +137,7 @@
                 </div>
 
                 <div class="mb-5 flex flex-wrap items-end gap-3">
-                  <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+                  <div class="rounded-2xl  bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       <USkeleton v-if="!regionInitialized" class="h-3 w-12 rounded" />
                       <span v-else>{{ regionPriceLabel }}</span>
@@ -170,7 +146,7 @@
                       <RegionPrice :inr="service.priceInr" :usd="service.priceUsd" />
                     </p>
                   </div>
-                  <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+                  <div class="rounded-2xl  bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
@@ -184,7 +160,7 @@
                   {{ service.description }}
                 </p>
 
-                <div class="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4">
+                <div class="mt-6 rounded-2xl  bg-black/30 p-4">
                   <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                     Includes
                   </p>
@@ -206,7 +182,7 @@
             <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
               <article v-for="service in otherServices"
                        :key="service.title"
-                       class="group flex h-full flex-col rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm">
+                       class="group flex h-full flex-col rounded-3xl  bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm">
                 <div class="mb-5 flex items-start justify-between gap-4">
                   <div>
                     <p class="text-sm uppercase tracking-[0.28em] text-white/45">
@@ -219,7 +195,7 @@
                 </div>
 
                 <div class="mb-5 flex flex-wrap items-end gap-3">
-                  <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+                  <div class="rounded-2xl  bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       <USkeleton v-if="!regionInitialized" class="h-3 w-12 rounded" />
                       <span v-else>{{ regionPriceLabel }}</span>
@@ -228,11 +204,11 @@
                       <RegionPrice :inr="service.priceInr" :usd="service.priceUsd" />
                     </p>
                   </div>
-                  <div class="rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
+                  <div class="rounded-2xl  bg-black/30 px-4 py-3">
                     <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                       Session
                     </p>
-                    <p class="mt-1 text-2xl! font-semibold text-[rgb(225,174,47)] light:text-gray-800">
+                    <p class="mt-1 text-2xl! font-semibold text-(--gg-text-main) light:text-gray-800">
                       {{ service.badge || 'Included' }}
                     </p>
                   </div>
@@ -242,7 +218,7 @@
                   {{ service.description }}
                 </p>
 
-                <div class="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4">
+                <div class="mt-6 rounded-2xl  bg-black/30 p-4">
                   <p class="text-xs uppercase tracking-[0.24em] text-white/45">
                     Includes
                   </p>
@@ -264,21 +240,21 @@
 
       <div class="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
         <article
-                 class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
+                 class="rounded-3xl  bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
           <h3 class="text-3xl sm:text-4xl">Consultation Details</h3>
 
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
             <div v-for="detail in consultationDetails"
                  :key="detail.title"
-                 class="rounded-2xl border border-white/10 bg-black/20 p-4">
-              <p class="text-lg font-semibold text-[rgb(225,174,47)]">{{ detail.title }}</p>
+                 class="rounded-2xl  bg-black/20 p-4">
+              <p class="text-lg font-semibold text-(--gg-text-main)">{{ detail.title }}</p>
               <p class="mt-2 text-sm leading-6 text-white/70">{{ detail.copy }}</p>
             </div>
           </div>
 
           <div
                class="mt-6 rounded-2xl border border-[rgb(225,174,47)]/25 bg-[rgb(225,174,47)]/10 p-4 text-sm leading-6 text-white/80">
-            <p class="font-semibold text-[rgb(225,174,47)]">Important note</p>
+            <p class="font-semibold text-(--gg-text-main)">Important note</p>
             <p class="mt-2">
               All of these consultations are for one horoscope only and are individually reviewed. Remedies will be
               provided
@@ -288,31 +264,31 @@
         </article>
 
         <article
-                 class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
+                 class="rounded-3xl  bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
           <h3 class="text-3xl sm:text-4xl">Contact Us</h3>
           <p class="mt-4 text-sm leading-6 text-white/70">
             Reach out directly for support, booking help, and consultation-related questions.
           </p>
 
           <div class="mt-6 space-y-4">
-            <div class="rounded-2xl border border-white/10 bg-black/20 p-4">
+            <div class="rounded-2xl  bg-black/20 p-4">
               <p class="text-xs uppercase tracking-[0.24em] text-white/45">Phone</p>
               <a href="tel:+917678698072"
-                 class="mt-2 inline-block text-lg font-semibold text-[rgb(225,174,47)] transition hover:text-[rgb(235,194,90)]">
+                 class="mt-2 inline-block text-lg font-semibold text-(--gg-text-main) transition hover:text-[rgb(235,194,90)]">
                 +91 7678698072
               </a>
             </div>
 
-            <div class="rounded-2xl border border-white/10 bg-black/20 p-4">
+            <div class="rounded-2xl  bg-black/20 p-4">
               <p class="text-xs uppercase tracking-[0.24em] text-white/45">Email</p>
               <a href="mailto:consultations@galacticgene.com"
-                 class="mt-2 inline-block text-lg font-semibold text-[rgb(225,174,47)] transition hover:text-[rgb(235,194,90)]">
+                 class="mt-2 inline-block text-lg font-semibold text-(--gg-text-main) transition hover:text-[rgb(235,194,90)]">
                 consultations@galacticgene.com
               </a>
             </div>
           </div>
 
-          <div class="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm leading-6 text-white/70">
+          <div class="mt-6 rounded-2xl  bg-black/20 p-4 text-sm leading-6 text-white/70">
             <p class="font-semibold text-white">Consultation format</p>
             <p class="mt-2">
               Sessions can be conducted via voice call, video call, or text, based on your preference.
@@ -325,12 +301,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { BirthDetails } from '~/shared/types/form.types';
-import { serializeCalendarDate, serializeTime } from '~/shared/utils/dateSerializers';
-
-import { personalRelationshipServices, careerBusinessServices, otherServices } from '~/shared/utils/products';
-import type { ConsultationService } from '~/shared/utils/products';
-
 useHead({
   title: 'Consultation Packages | Galactic Gene',
   meta: [
@@ -378,7 +348,7 @@ watch(() => [purchase.formData.value, purchase.activeItemId.value] as const, ([d
     zipcode: details.zipcode,
     consultationMethod: details.consultationMethod,
     instagramUsername: details.instagramUsername,
-    needsBtr: details.needsBtr,
+    accuracy: details.accuracy,
     message: details.message,
     orderType: 'consultation',
     serviceTypeId: service.serviceTypeId,

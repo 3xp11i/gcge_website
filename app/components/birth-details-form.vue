@@ -119,12 +119,12 @@
 						placeholder="City, state, and country"
 						class="w-full" />
 			</UFormField>
-			<UFormField label="Zipcode"
+			<UFormField label="Birth Place Zipcode"
 						name="zipcode"
 						class="">
 				<UInput v-model="state.zipcode"
 						required
-						placeholder="Birth location zipcode"
+						placeholder="Birth Place zipcode"
 						class="w-full" />
 			</UFormField>
 
@@ -153,11 +153,19 @@
 						content: 'max-w-xs sm:max-w-sm bg-amber-200',
 						text: 'text-black'
 					}"> -->
-			<UFormField name="needsBtr"
-						class="sm:col-span-2 rounded-2xl border border-white/10 bg-black/10 p-4">
-				<UCheckbox v-model="state.needsBtr"
+			<!-- <UFormField name="needsBtr"
+						class="sm:col-span-2 rounded-2xl border border-white/10 bg-black/10 p-4"> -->
+			<UFormField name="needsBtr" label="Choose birth time accuracy level"
+						class="sm:col-span-2 w-full">
+				<!-- <UCheckbox v-model="state.needsBtr"
 						   label="Requires Birth Time Rectification"
-						   description="Tick this if you are unsure about the birth time" />
+						   description="Tick this if you are unsure about the birth time" /> -->
+				<USelectMenu v-model="state.accuracy"
+							 :items="Object.entries(accuracyOptions).map(([value, label]) => ({ value, label }))"
+							 value-key="value"
+							 required
+							 class=" w-full"
+							 placeholder="Choose birth time accuracy level" />
 			</UFormField>
 			<!-- </UTooltip> -->
 
@@ -168,7 +176,7 @@
 				<UTextarea v-model="state.message"
 						   placeholder="Write your question here..."
 						   class="w-full"
-						   maxlength="500" />
+						   maxlength="256" />
 
 			</UFormField>
 
@@ -183,7 +191,9 @@
 
 			<div v-if="availabilityStatus === 'error'"
 				 class="text-sm text-red-400 pt-1">
-				Failed to load slots. <button type="button" class="underline" @click="fetchMonthSlots(calendarPage)">Retry</button>
+				Failed to load slots. <button type="button"
+						class="underline"
+						@click="fetchMonthSlots(calendarPage)">Retry</button>
 			</div>
 
 			<div class="flex flex-col gap-6 sm:flex-row sm:items-start">
@@ -197,10 +207,14 @@
 							<USkeleton class="h-6 w-6 rounded-md" />
 						</div>
 						<div class="grid grid-cols-7 gap-1">
-							<USkeleton v-for="i in 7" :key="i" class="h-5 rounded" />
+							<USkeleton v-for="i in 7"
+									   :key="i"
+									   class="h-5 rounded" />
 						</div>
 						<div class="grid grid-cols-7 gap-1">
-							<USkeleton v-for="i in 35" :key="i" class="h-8 w-8 rounded-full" />
+							<USkeleton v-for="i in 35"
+									   :key="i"
+									   class="h-8 w-8 rounded-full" />
 						</div>
 					</div>
 					<UCalendar v-else
@@ -217,7 +231,9 @@
 					<div v-if="availabilityStatus === 'idle' || availabilityStatus === 'pending'"
 						 class="space-y-3 pr-4">
 						<USkeleton class="h-5 w-20 rounded-md" />
-						<USkeleton v-for="i in 6" :key="i" class="h-14 rounded-xl" />
+						<USkeleton v-for="i in 6"
+								   :key="i"
+								   class="h-14 rounded-xl" />
 					</div>
 					<template v-else>
 						<div v-if="!selectedDate"
@@ -233,7 +249,8 @@
 							<div v-for="period in slotsByPeriod"
 								 :key="period.key"
 								 class="space-y-2">
-								<span class="text-lg font-semibold uppercase tracking-wider text-white/50">{{ period.label
+								<span class="text-lg font-semibold uppercase tracking-wider text-white/50">{{
+									period.label
 									}}</span>
 								<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-2 pr-4">
 									<button v-for="slot in period.slots"
@@ -273,7 +290,13 @@
 					 v-if="formStep === 'birthDetails'">
 				Cancel
 			</UButton>
-			<!-- TODO: Slot booking step - temporarily skipped -->
+
+			<UButton type="button"
+					 v-if="formStep === 'slotBooking'"
+					 class="button justify-center"
+					 :loading="loading" @click="confirmSlot">
+				{{ 'Confirm Slot' }}
+			</UButton>
 			<UButton type="submit"
 					 v-if="formStep === 'slotBooking'"
 					 class="button justify-center"
@@ -301,6 +324,13 @@ import type { BirthDetails } from '~/shared/types/form.types';
 import { vMaska } from 'maska/vue'
 import type { DayAvailability, Candidate } from '~/shared/types/extra.types'
 
+
+
+const slotConfirmed = ref(false);
+
+function confirmSlot(){
+	slotConfirmed.value = true;
+}
 
 
 const props = defineProps<{
@@ -529,21 +559,24 @@ const state = reactive<BirthDetails>({
 	zipcode: '',
 	consultationMethod: 'googleMeet',
 	instagramUsername: '',
-	needsBtr: false,
+	// needsBtr: false,
+	accuracy: 'high',
 	message: '',
 	slotStart: undefined,
 	slotEnd: undefined,
 })
 
-// const consultationMethodOptions = [
-// 	'Call over Google Meet',
-// 	'Text at your email',
-// 	'Text at your Instagram ID',
-// ]
 const consultationMethodOptions = {
 	googleMeet: 'Call over Google Meet',
-	email: 'Text at your email',
+	email: 'Get PDF Report to your email address',
 	instagram: 'Text at your Instagram ID',
+}
+
+
+const accuracyOptions = {
+	high: 'Highly Accurate - Within a minute',
+	medium: 'Moderately Accurate - Off by ~15-30 minutes',
+	low: 'Not Accurate - Off by >30 minutes',
 }
 
 const validate = (formState: Partial<BirthDetails>): FormError[] => {

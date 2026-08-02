@@ -3,7 +3,8 @@
     <Navbar />
 
     <main class="mx-auto w-full max-w-5xl px-5 py-12 md:px-8 lg:py-16">
-      <div class="legal-shell overflow-hidden rounded-3xl border border-amber-300/20 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur-sm">
+      <div
+           class="legal-shell overflow-hidden rounded-3xl border border-amber-300/20 bg-white/5 shadow-2xl shadow-black/20 backdrop-blur-sm">
         <slot />
       </div>
     </main>
@@ -15,9 +16,12 @@
 <script lang="ts" setup>
 </script>
 
-<style>
-section{
-    align-items: start !important;
-    justify-content: flex-start !important;
+<style scoped>
+section {
+  align-items: start !important;
+  justify-content: flex-start !important;
+  margin-block: 1rem !important;
+  padding: 0 !important;
+  margin-top: 2rem !important;
 }
 </style>

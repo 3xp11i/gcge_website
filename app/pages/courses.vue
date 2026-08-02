@@ -15,7 +15,7 @@
              class="mx-auto mb-10 w-7xl">
       <div class="w-full mb-4 flex flex-wrap items-center justify-center gap-3 px-1">
         <h2 class="w-fit text-center flex justify-center items-center relative lines-on-sides">{{ group.heading }}</h2>
-        <!-- <p class="text-sm font-semibold tracking-wide text-amber-200/90">{{ group.subheading }}</p> -->
+        <!-- <p class="text-sm font-semibold tracking-wide light:text-gray-700 text-amber-200/90">{{ group.subheading }}</p> -->
       </div>
 
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -164,130 +164,130 @@ const courseGroups: CourseGroup[] = [
       },
     ],
   },
-  {
-    id: 'vedic',
-    heading: 'Vedic Astrology',
-    subheading: 'Choose Your Level',
-    courses: [
-      {
-        id: 'vedic-basic',
-        title: 'Vedic - Basic',
-        level: 'Basic',
-        description: 'Perfect for beginners to build core understanding of houses, planets, signs, and reading fundamentals.',
-        priceInr: 'INR 15,000',
-        priceUsd: '150',
-        duration: '2 months',
-        href: '/course/vedic-basic',
-        media: [
-          { type: 'image', src: showcase2, alt: 'Vedic basic course showcase image one' },
-          { type: 'image', src: blankChart, alt: 'Blank chart for Vedic basics' },
-          { type: 'video', src: video2, alt: 'Vedic basics introduction video' },
-        ],
-      },
-      {
-        id: 'vedic-intermediate',
-        title: 'Vedic - Intermediate',
-        level: 'Intermediate',
-        description: 'Develop interpretation confidence through layered chart analysis, yogas, and practical reading sessions.',
-        priceInr: 'INR 30,000',
-        priceUsd: '300',
-        duration: '3 months',
-        href: '/course/vedic-intermediate',
-        media: [
-          { type: 'image', src: sketch2, alt: 'Vedic intermediate worksheet' },
-          { type: 'image', src: showcase3, alt: 'Vedic intermediate class highlight' },
-          { type: 'video', src: video1, alt: 'Intermediate class clip' },
-        ],
-      },
-      {
-        id: 'vedic-advance',
-        title: 'Vedic - Advance',
-        level: 'Advance',
-        description: 'Advanced-level mentoring with high-precision case studies and consultative frameworks.',
-        priceText: 'Fill form for pricing',
-        duration: 'Custom',
-        href: '/course/vedic-advance',
-        media: [
-          { type: 'image', src: showcase4, alt: 'Vedic advanced seminar image' },
-          { type: 'video', src: video2, alt: 'Advanced training clip' },
-          { type: 'image', src: sketch3, alt: 'Advanced chart analysis notes' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'vastu',
-    heading: 'Vastu',
-    subheading: 'Structured Progression',
-    courses: [
-      {
-        id: 'vastu-basic',
-        title: 'Vastu - Basic',
-        level: 'Basic',
-        description: 'Learn core Vastu principles, directional energies, and foundational corrections for living spaces.',
-        priceInr: 'INR 20,000',
-        priceUsd: '200',
-        duration: '2 months',
-        href: '/course/vastu-basic',
-        media: [
-          { type: 'image', src: showcase5, alt: 'Vastu basic interior example' },
-          { type: 'image', src: sketch4, alt: 'Vastu basic directional map' },
-          { type: 'video', src: video1, alt: 'Vastu basic lesson video' },
-        ],
-      },
-      {
-        id: 'vastu-intermediate',
-        title: 'Vastu - Intermediate',
-        level: 'Intermediate',
-        description: 'Move into applied Vastu with practical layouts, corrections, and personalized case evaluations.',
-        priceInr: 'INR 40,000',
-        priceUsd: '400',
-        duration: '3 months',
-        href: '/course/vastu-intermediate',
-        media: [
-          { type: 'image', src: sketch5, alt: 'Vastu intermediate worksheet' },
-          { type: 'video', src: video2, alt: 'Vastu intermediate demo video' },
-          { type: 'image', src: showcase2, alt: 'Vastu intermediate showcase image' },
-        ],
-      },
-      {
-        id: 'vastu-advance',
-        title: 'Vastu - Advance',
-        level: 'Advance',
-        description: 'Master consulting-level Vastu diagnosis with advanced scenario handling and strategy design.',
-        priceText: 'Fill form for pricing',
-        duration: 'Custom',
-        href: '/course/vastu-advance',
-        media: [
-          { type: 'image', src: showcase3, alt: 'Vastu advanced studio session' },
-          { type: 'image', src: blankChart, alt: 'Vastu advanced planning chart' },
-          { type: 'video', src: video1, alt: 'Vastu advanced practicals clip' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'signature-analysis',
-    heading: 'Signature Analysis',
-    subheading: 'Focused Specialist Course',
-    courses: [
-      {
-        id: 'signature-analysis',
-        title: 'Signature Analysis',
-        level: 'Specialized',
-        description: 'Decode personality and behavioral patterns through signature structures with practical interpretation.',
-        priceInr: 'INR 15,000',
-        priceUsd: '200',
-        duration: '1 month',
-        href: '/course/signature-analysis',
-        media: [
-          { type: 'image', src: sketch1, alt: 'Signature analysis handwriting sample' },
-          { type: 'video', src: video2, alt: 'Signature analysis mini class video' },
-          { type: 'image', src: showcase4, alt: 'Signature analysis session snapshot' },
-        ],
-      },
-    ],
-  },
+  // {
+  //   id: 'vedic',
+  //   heading: 'Vedic Astrology',
+  //   subheading: 'Choose Your Level',
+  //   courses: [
+  //     {
+  //       id: 'vedic-basic',
+  //       title: 'Vedic - Basic',
+  //       level: 'Basic',
+  //       description: 'Perfect for beginners to build core understanding of houses, planets, signs, and reading fundamentals.',
+  //       priceInr: 'INR 15,000',
+  //       priceUsd: '150',
+  //       duration: '2 months',
+  //       href: '/course/vedic-basic',
+  //       media: [
+  //         { type: 'image', src: showcase2, alt: 'Vedic basic course showcase image one' },
+  //         { type: 'image', src: blankChart, alt: 'Blank chart for Vedic basics' },
+  //         { type: 'video', src: video2, alt: 'Vedic basics introduction video' },
+  //       ],
+  //     },
+  //     {
+  //       id: 'vedic-intermediate',
+  //       title: 'Vedic - Intermediate',
+  //       level: 'Intermediate',
+  //       description: 'Develop interpretation confidence through layered chart analysis, yogas, and practical reading sessions.',
+  //       priceInr: 'INR 30,000',
+  //       priceUsd: '300',
+  //       duration: '3 months',
+  //       href: '/course/vedic-intermediate',
+  //       media: [
+  //         { type: 'image', src: sketch2, alt: 'Vedic intermediate worksheet' },
+  //         { type: 'image', src: showcase3, alt: 'Vedic intermediate class highlight' },
+  //         { type: 'video', src: video1, alt: 'Intermediate class clip' },
+  //       ],
+  //     },
+  //     {
+  //       id: 'vedic-advance',
+  //       title: 'Vedic - Advance',
+  //       level: 'Advance',
+  //       description: 'Advanced-level mentoring with high-precision case studies and consultative frameworks.',
+  //       priceText: 'Fill form for pricing',
+  //       duration: 'Custom',
+  //       href: '/course/vedic-advance',
+  //       media: [
+  //         { type: 'image', src: showcase4, alt: 'Vedic advanced seminar image' },
+  //         { type: 'video', src: video2, alt: 'Advanced training clip' },
+  //         { type: 'image', src: sketch3, alt: 'Advanced chart analysis notes' },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 'vastu',
+  //   heading: 'Vastu',
+  //   subheading: 'Structured Progression',
+  //   courses: [
+  //     {
+  //       id: 'vastu-basic',
+  //       title: 'Vastu - Basic',
+  //       level: 'Basic',
+  //       description: 'Learn core Vastu principles, directional energies, and foundational corrections for living spaces.',
+  //       priceInr: 'INR 20,000',
+  //       priceUsd: '200',
+  //       duration: '2 months',
+  //       href: '/course/vastu-basic',
+  //       media: [
+  //         { type: 'image', src: showcase5, alt: 'Vastu basic interior example' },
+  //         { type: 'image', src: sketch4, alt: 'Vastu basic directional map' },
+  //         { type: 'video', src: video1, alt: 'Vastu basic lesson video' },
+  //       ],
+  //     },
+  //     {
+  //       id: 'vastu-intermediate',
+  //       title: 'Vastu - Intermediate',
+  //       level: 'Intermediate',
+  //       description: 'Move into applied Vastu with practical layouts, corrections, and personalized case evaluations.',
+  //       priceInr: 'INR 40,000',
+  //       priceUsd: '400',
+  //       duration: '3 months',
+  //       href: '/course/vastu-intermediate',
+  //       media: [
+  //         { type: 'image', src: sketch5, alt: 'Vastu intermediate worksheet' },
+  //         { type: 'video', src: video2, alt: 'Vastu intermediate demo video' },
+  //         { type: 'image', src: showcase2, alt: 'Vastu intermediate showcase image' },
+  //       ],
+  //     },
+  //     {
+  //       id: 'vastu-advance',
+  //       title: 'Vastu - Advance',
+  //       level: 'Advance',
+  //       description: 'Master consulting-level Vastu diagnosis with advanced scenario handling and strategy design.',
+  //       priceText: 'Fill form for pricing',
+  //       duration: 'Custom',
+  //       href: '/course/vastu-advance',
+  //       media: [
+  //         { type: 'image', src: showcase3, alt: 'Vastu advanced studio session' },
+  //         { type: 'image', src: blankChart, alt: 'Vastu advanced planning chart' },
+  //         { type: 'video', src: video1, alt: 'Vastu advanced practicals clip' },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 'signature-analysis',
+  //   heading: 'Signature Analysis',
+  //   subheading: 'Focused Specialist Course',
+  //   courses: [
+  //     {
+  //       id: 'signature-analysis',
+  //       title: 'Signature Analysis',
+  //       level: 'Specialized',
+  //       description: 'Decode personality and behavioral patterns through signature structures with practical interpretation.',
+  //       priceInr: 'INR 15,000',
+  //       priceUsd: '200',
+  //       duration: '1 month',
+  //       href: '/course/signature-analysis',
+  //       media: [
+  //         { type: 'image', src: sketch1, alt: 'Signature analysis handwriting sample' },
+  //         { type: 'video', src: video2, alt: 'Signature analysis mini class video' },
+  //         { type: 'image', src: showcase4, alt: 'Signature analysis session snapshot' },
+  //       ],
+  //     },
+  //   ],
+  // },
 ]
 
 const totalCourses = computed(() => courseGroups.reduce((total, group) => total + group.courses.length, 0))

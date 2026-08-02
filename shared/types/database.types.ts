@@ -75,6 +75,7 @@ export type Database = {
           ends_at: string
           hold_expires_at: string | null
           id: string
+          payment_id: string | null
           service_type_id: string
           starts_at: string
           status: string
@@ -85,6 +86,7 @@ export type Database = {
           ends_at: string
           hold_expires_at?: string | null
           id?: string
+          payment_id?: string | null
           service_type_id: string
           starts_at: string
           status?: string
@@ -95,6 +97,7 @@ export type Database = {
           ends_at?: string
           hold_expires_at?: string | null
           id?: string
+          payment_id?: string | null
           service_type_id?: string
           starts_at?: string
           status?: string
@@ -107,10 +110,25 @@ export type Database = {
             referencedRelation: "consultations"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "bookings_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments_logs"
+            referencedColumns: ["payment_id"]
+          },
+          {
+            foreignKeyName: "bookings_service_type_id_fkey"
+            columns: ["service_type_id"]
+            isOneToOne: false
+            referencedRelation: "service_types"
+            referencedColumns: ["id"]
+          },
         ]
       }
       consultations: {
         Row: {
+          accuracy: string
           birth_date: string
           birth_location: string
           birth_time: string
@@ -122,14 +140,11 @@ export type Database = {
           id: string
           instagramUsername: string | null
           message: string | null
-          needsBtr: boolean
           package: string
-          payment_id: string
-          payment_provider: string
-          payment_status: string
           phone: string
         }
         Insert: {
+          accuracy: string
           birth_date: string
           birth_location: string
           birth_time: string
@@ -141,14 +156,11 @@ export type Database = {
           id?: string
           instagramUsername?: string | null
           message?: string | null
-          needsBtr: boolean
           package: string
-          payment_id: string
-          payment_provider: string
-          payment_status?: string
           phone: string
         }
         Update: {
+          accuracy?: string
           birth_date?: string
           birth_location?: string
           birth_time?: string
@@ -160,11 +172,7 @@ export type Database = {
           id?: string
           instagramUsername?: string | null
           message?: string | null
-          needsBtr?: boolean
           package?: string
-          payment_id?: string
-          payment_provider?: string
-          payment_status?: string
           phone?: string
         }
         Relationships: []
@@ -178,7 +186,6 @@ export type Database = {
           id: number
           last_name: string
           payment_id: string
-          payment_provider: string
         }
         Insert: {
           created_at?: string
@@ -187,8 +194,7 @@ export type Database = {
           first_name: string
           id?: number
           last_name: string
-          payment_id: string
-          payment_provider: string
+          payment_id?: string
         }
         Update: {
           created_at?: string
@@ -198,7 +204,127 @@ export type Database = {
           id?: number
           last_name?: string
           payment_id?: string
-          payment_provider?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_purchases_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments_logs"
+            referencedColumns: ["payment_id"]
+          },
+        ]
+      }
+      free_consultations: {
+        Row: {
+          accuracy: string
+          birth_date: string
+          birth_location: string
+          birth_time: string
+          birth_zipcode: string
+          category: string
+          client_name: string
+          created_at: string
+          gender: string
+          id: string
+          message: string | null
+          profile_id: string
+        }
+        Insert: {
+          accuracy: string
+          birth_date: string
+          birth_location: string
+          birth_time: string
+          birth_zipcode: string
+          category: string
+          client_name: string
+          created_at?: string
+          gender: string
+          id?: string
+          message?: string | null
+          profile_id: string
+        }
+        Update: {
+          accuracy?: string
+          birth_date?: string
+          birth_location?: string
+          birth_time?: string
+          birth_zipcode?: string
+          category?: string
+          client_name?: string
+          created_at?: string
+          gender?: string
+          id?: string
+          message?: string | null
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "free_consultations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      payments_logs: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          payment_id: string
+          product_name: string
+          product_type: string
+          provider: string
+          status: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency: string
+          payment_id?: string
+          product_name: string
+          product_type: string
+          provider: string
+          status: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          payment_id?: string
+          product_name?: string
+          product_type?: string
+          provider?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          last_name: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          last_name: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          last_name?: string
+          role?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -223,6 +349,33 @@ export type Database = {
         }
         Relationships: []
       }
+      website_information: {
+        Row: {
+          created_at: string
+          description: string | null
+          expiry: string | null
+          id: number
+          title: string | null
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          expiry?: string | null
+          id?: number
+          title?: string | null
+          type?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          expiry?: string | null
+          id?: number
+          title?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       daily_open_windows: {
@@ -239,6 +392,7 @@ export type Database = {
     }
     Enums: {
       "Slot Status": "available" | "pending" | "booked"
+      user_type: "admin" | "user" | "consultant"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -367,6 +521,7 @@ export const Constants = {
   public: {
     Enums: {
       "Slot Status": ["available", "pending", "booked"],
+      user_type: ["admin", "user", "consultant"],
     },
   },
 } as const

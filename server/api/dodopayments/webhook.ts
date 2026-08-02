@@ -1,14 +1,13 @@
 import { Webhook } from "standardwebhooks";
 import { serverSupabaseServiceRole } from "#supabase/server";
-import { sendToDiscord } from "../utils/discordNotifier";
+import { sendToDiscord } from "#imports";
+
 
 export default defineEventHandler(async (event) => {
 	const rawBody = (await readRawBody(event, "utf8")) || "";
 	const headers = getRequestHeaders(event);
 
 	const webhookKey = process.env.DODO_PAYMENTS_WEBHOOK_KEY;
-
-	console.log("Dodo webhook key: ", webhookKey);
 
 	if (!webhookKey) {
 		throw createError({
@@ -26,25 +25,16 @@ export default defineEventHandler(async (event) => {
 			"webhook-timestamp": headers["webhook-timestamp"] as string,
 		});
 
-		const payload = JSON.parse(rawBody);
-		const evtType: string | undefined = (payload?.event_type ||
-			payload?.type) as string | undefined;
-		const data = payload?.data ?? payload;
+		const payload = JSON.parse(rawBody) as DodoWebhookPayload;
+		const evtType = payload.event_type ?? payload.type;
+		const data = payload.data ?? payload;
 
 		if (evtType === "payment.succeeded") {
-			const md = (data?.metadata ?? payload?.metadata ?? {}) as Record<
-				string,
-				any
-			>;
-			const paymentId = data?.payment_id || payload?.payment_id;
-			const status = data?.status || payload?.status;
-			const orderType = md.orderType || "consultation";
-
-			console.log("[verify-dodo-payment] processing succeeded payment", {
-				paymentId,
-				status,
-				orderType,
-			});
+			const md: DodoWebhookMetadata = data.metadata ?? payload.metadata ?? {};
+			const paymentId = data.payment_id ?? payload.payment_id ?? "";
+			const status = data.status ?? payload.status ?? "";
+			const orderType: DodoOrderType =
+				(md.orderType as DodoOrderType) || "consultation";
 
 			const supabase = serverSupabaseServiceRole(event);
 
@@ -54,7 +44,7 @@ export default defineEventHandler(async (event) => {
 					.insert({
 						first_name: md.firstName || "",
 						last_name: md.lastName || "",
-						email: md.email || data?.customer?.email || "",
+						email: md.email || data.customer?.email || "",
 						experience: md.experience || "",
 						payment_id: paymentId,
 						payment_provider: "dodo_payments",
@@ -65,10 +55,6 @@ export default defineEventHandler(async (event) => {
 						"[verify-dodo-payment] failed to insert into course_purchases",
 						insertError,
 					);
-				} else {
-					console.log("[verify-dodo-payment] inserted into course_purchases", {
-						paymentId,
-					});
 				}
 
 				try {
@@ -86,9 +72,6 @@ export default defineEventHandler(async (event) => {
 						},
 						paymentProvider: "dodo",
 					});
-					console.log("[verify-dodo-payment] sent discord notification", {
-						paymentId,
-					});
 				} catch (discordErr) {
 					console.error(
 						"[verify-dodo-payment] failed to send discord notification",
@@ -99,12 +82,12 @@ export default defineEventHandler(async (event) => {
 				return { received: true };
 			}
 
-			// --- Consultation flow (unchanged) ---
+			// --- Consultation flow ---
 			const { data: consultationData, error: insertError } = await supabase
 				.from("consultations")
 				.insert({
-					client_name: md.fullName || data?.customer?.name || "",
-					email: md.email || data?.customer?.email || "",
+					client_name: md.fullName || data.customer?.name || "",
+					email: md.email || data.customer?.email || "",
 					phone: md.phone || "",
 					birth_location: md.location || "",
 					birth_zipcode: md.zipcode || "",
@@ -112,11 +95,8 @@ export default defineEventHandler(async (event) => {
 					birth_date: md.dateOfBirth || "",
 					consultationMethod: md.consultationMethod || "email",
 					instagramUsername: md.instagramUsername || "",
-					needsBtr: md.needsBtr || false,
+					accuracy: md.accuracy || "medium",
 					message: md.message || null,
-					payment_id: paymentId,
-					payment_provider: "dodo_payments",
-					payment_status: status,
 					package: md.description || "consultation",
 				})
 				.select("id")
@@ -127,14 +107,14 @@ export default defineEventHandler(async (event) => {
 					"[verify-dodo-payment] failed to insert into consultations",
 					insertError,
 				);
-			} else {
-				console.log("[verify-dodo-payment] inserted into consultations", {
-					paymentId,
-					consultationId: consultationData.id,
-				});
 			}
 
-			if (consultationData?.id && md.serviceTypeId && md.slotStart && md.slotEnd) {
+			if (
+				consultationData?.id &&
+				md.serviceTypeId &&
+				md.slotStart &&
+				md.slotEnd
+			) {
 				const { error: bookingError } = await supabase.from("bookings").insert({
 					consultation_id: consultationData.id,
 					service_type_id: md.serviceTypeId,
@@ -144,11 +124,41 @@ export default defineEventHandler(async (event) => {
 					hold_expires_at: null,
 				});
 				if (bookingError) {
-					console.error("[verify-dodo-payment] failed to insert into bookings", bookingError);
-				} else {
-					console.log("[verify-dodo-payment] inserted into bookings", { consultationId: consultationData.id });
+					console.error(
+						"[verify-dodo-payment] failed to insert into bookings",
+						bookingError,
+					);
 				}
 			}
+
+			let serviceTypeName = md.description || "";
+			if (md.serviceTypeId) {
+				const { data: serviceTypeData, error: serviceTypeError } =
+					await supabase
+						.from("service_types")
+						.select("name")
+						.eq("id", md.serviceTypeId)
+						.single();
+
+				if (serviceTypeError) {
+					console.error(
+						"[verify-dodo-payment] failed to fetch service type name",
+						serviceTypeError,
+					);
+				} else if (serviceTypeData?.name) {
+					serviceTypeName = serviceTypeData.name;
+				}
+			}
+
+			await supabase.from("payments_logs").insert({
+				product_type: orderType,
+				product_name: serviceTypeName,
+				currency: payload.currency ?? "",
+				amount: payload.amount ?? 0,
+				payment_id: paymentId,
+				provider: "dodo_payments",
+				status,
+			});
 
 			try {
 				await sendToDiscord({
@@ -170,9 +180,6 @@ export default defineEventHandler(async (event) => {
 						receipt: md.receipt,
 					},
 					paymentProvider: "dodo",
-				});
-				console.log("[verify-dodo-payment] sent discord notification", {
-					paymentId,
 				});
 			} catch (discordErr) {
 				console.error(

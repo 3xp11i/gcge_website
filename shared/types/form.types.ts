@@ -15,7 +15,7 @@ export type BirthDetails = {
 		| "email"
 		| "instagram";
 	instagramUsername: string;
-	needsBtr: boolean;
+	accuracy: "high" | "medium" | "low";
 	message: string;
 	slotStart?: string; // ISO string
 	slotEnd?: string;   // ISO string
@@ -38,7 +38,7 @@ export type SerializedBirthDetails = {
 		| "email"
 		| "instagram";
 	instagramUsername: string;
-	needsBtr: boolean;
+	accuracy: "high" | "medium" | "low";
 	message: string;
 };
 

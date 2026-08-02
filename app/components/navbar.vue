@@ -5,9 +5,9 @@
     <NuxtLink to="/"
                class="flex items-center gap-3">
       <img src="@/assets/images/logo_transparent.png"
-           alt="Galactic Gene home"
+           alt="Galactic Gene Logo"
            width="50"
-           height="50" />
+           height="50"/>
       <span class="sr-only">Galactic Gene</span>
     </NuxtLink>
 
@@ -17,20 +17,57 @@
       <NuxtLink to="/consultation">Consultation</NuxtLink>
       <NuxtLink to="/courses">Courses</NuxtLink>
 
+      <NuxtLink to="/community-initiative"
+                class="navbar-cta-pulse relative inline-flex items-center gap-1.5 rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-sm font-semibold text-amber-300">
+        <span aria-hidden="true">✨</span>
+        <span>Community Offering</span>
+        <span class="navbar-cta-ping absolute -right-1 -top-1 flex h-2.5 w-2.5">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+          <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400"></span>
+        </span>
+      </NuxtLink>
+
       <UColorModeSwitch v-model="colorTheme"
                         title="Toggle Dark/Light Theme"
                         color="secondary"
                         class="cursor-pointer!" />
+
+      <UPopover v-if="user" mode="click" :ui="{ content: 'p-1 min-w-36' }">
+        <UButton variant="ghost" color="neutral" class="rounded-full p-0.5" aria-label="Account menu">
+          <UAvatar
+            :alt="userInitials"
+            size="sm"
+            :ui="{ fallback: 'text-xs font-semibold' }"
+          />
+        </UButton>
+
+        <template #content>
+          <UButton
+            variant="ghost"
+            color="error"
+            class="w-full justify-start gap-2"
+            :loading="loggingOut"
+            leading-icon="i-lucide-log-out"
+            @click="logout"
+          >
+            Sign out
+          </UButton>
+        </template>
+      </UPopover>
+
+      <NuxtLink v-else to="/login">
+        <UButton variant="outline" color="neutral" size="sm">Sign in</UButton>
+      </NuxtLink>
     </div>
 
     <button type="button"
           ref="menuButton"
-            class="navbar-menu-button inline-flex items-center justify-center rounded-full p-3 text-inherit transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300 md:hidden fixed right-4 top-4 z-50"
+            class="navbar-menu-button inline-flex items-center justify-center rounded-full p-3 text-inherit transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300 md:hidden right-4 top-4 z-50"
             :aria-expanded="menuOpen"
             aria-controls="mobile-navigation"
             aria-label="Open navigation menu"
             @click="menuOpen = true">
-      <Icon name="mdi:menu" class="text-2xl" />
+      <Icon name="mdi:menu" class="text-2xl text-white" />
     </button>
 
     <Transition enter-active-class="transition duration-200 ease-out"
@@ -42,7 +79,7 @@
       <div v-if="menuOpen"
            class="fixed inset-0 z-50 md:hidden"
            @click.self="menuOpen = false">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="absolute inset-0 bg-black backdrop-blur-sm"></div>
 
          <aside id="mobile-navigation"
            class="navbar-drawer relative ml-auto flex h-full w-[min(88vw,20rem)] flex-col border-l px-5 py-5 shadow-2xl"
@@ -65,12 +102,37 @@
                       :key="link.to"
                       :to="link.to"
                       class="navbar-link rounded-2xl px-4 py-3 text-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
+                      :class="{ 'navbar-cta-pulse relative flex items-center gap-2 border border-amber-400/40 bg-amber-400/10 text-amber-300!': link.cta }"
                       @click="menuOpen = false">
-              {{ link.label }}
+              <span v-if="link.icon"
+                    aria-hidden="true">{{ link.icon }}</span>
+              <span>{{ link.label }}</span>
+              <span v-if="link.cta"
+                    class="navbar-cta-ping relative ml-auto flex h-2.5 w-2.5">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400"></span>
+              </span>
             </NuxtLink>
           </nav>
 
-          <div class="navbar-footer mt-auto border-t pt-6">
+          <div class="navbar-footer mt-auto border-t pt-6 space-y-4">
+            <UButton
+              v-if="user"
+              variant="ghost"
+              color="error"
+              class="w-full justify-start gap-2"
+              :loading="loggingOut"
+              leading-icon="i-lucide-log-out"
+              @click="logout"
+            >
+              Sign out
+            </UButton>
+            <NuxtLink v-else to="/login" @click="menuOpen = false">
+              <UButton variant="outline" color="neutral" class="w-full justify-start" leading-icon="i-lucide-log-in">
+                Sign in
+              </UButton>
+            </NuxtLink>
+
             <UColorModeSwitch v-model="colorTheme"
                               title="Toggle Dark/Light Theme"
                               color="neutral"
@@ -95,6 +157,7 @@ const links = [
   { label: 'Community', to: '/#community' },
   { label: 'Consultation', to: '/consultation' },
   { label: 'Courses', to: '/courses' },
+  { label: 'Community Offering', to: '/community-initiative', icon: '✨', cta: true },
 ]
 
 
@@ -105,6 +168,25 @@ const colorTheme = computed({
     colorMode.preference = isDark ? 'dark' : 'light'
   }
 })
+
+const user = useSupabaseUser()
+const supabase = useSupabaseClient()
+const router = useRouter()
+const loggingOut = ref(false)
+
+const userInitials = computed(() => {
+  const meta = user.value?.user_metadata
+  if (meta?.first_name) return `${meta.first_name[0]}${meta.last_name?.[0] ?? ''}`.toUpperCase()
+  return (user.value?.email?.[0] ?? '?').toUpperCase()
+})
+
+async function logout() {
+  loggingOut.value = true
+  await supabase.auth.signOut()
+  loggingOut.value = false
+  menuOpen.value = false
+  router.push('/login')
+}
 
 watch(menuOpen, async (isOpen) => {
   if (!import.meta.client) {
@@ -149,6 +231,36 @@ a{
 .light a:hover {
   color: goldenrod;
   text-decoration: none;
+}
+
+/* Subtle attention-getter for the community-initiative CTA link.
+   Slow, gentle glow pulse instead of scaling/shaking, so it's
+   noticeable but not distracting. */
+.navbar-cta-pulse {
+  animation: navbar-cta-glow 2.6s ease-in-out infinite;
+}
+
+.navbar-cta-pulse:hover {
+  animation-play-state: paused;
+}
+
+@keyframes navbar-cta-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(251, 191, 36, 0);
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .navbar-cta-pulse {
+    animation: none;
+  }
+  .navbar-cta-ping .animate-ping {
+    animation: none;
+  }
 }
 
 </style>

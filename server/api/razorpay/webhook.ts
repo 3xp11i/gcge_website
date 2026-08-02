@@ -154,15 +154,14 @@ export default defineEventHandler(async (event) => {
 			birth_date: notes.dateOfBirth || "",
 			consultationMethod: notes.consultationMethod || "email",
 			instagramUsername: notes.instagramUsername || "",
-			needsBtr: notes.needsBtr === "true" || notes.needsBtr === true,
+			accuracy: notes.accuracy || "medium",
 			message: notes.message || null,
-			payment_id: payment.id,
-			payment_provider: "razorpay",
-			payment_status: payment.status,
 			package: notes.description || "consultation",
 		})
 		.select("id")
 		.single();
+
+	
 	if (error) {
 		console.error(
 			"[razorpay-webhook] failed to insert into consultations",
@@ -220,6 +219,20 @@ export default defineEventHandler(async (event) => {
 		}
 	}
 
+
+	
+	const { data: paymentData, error: paymentError } = await supabase
+		.from("payments_logs")
+		.insert({
+			product_type: orderType,
+			product_name: serviceTypeName,
+			currency: payment.currency,
+			amount: payment.amount,
+			payment_id: payment.id,
+			provider: "razorpay",
+			status: payment.status,
+		});
+
 	try {
 		await sendBirthDetailsToDiscord(
 			{
@@ -232,7 +245,7 @@ export default defineEventHandler(async (event) => {
 				zipcode: notes.zipcode || "",
 				consultationMethod: notes.consultationMethod || "email",
 				instagramUsername: notes.instagramUsername || "",
-				needsBtr: notes.needsBtr === "true" || notes.needsBtr === true,
+				needsBtr: notes.accuracy || "medium",
 				message: notes.message || "",
 				amountPaise: payment.amount,
 				description: notes.description || "",

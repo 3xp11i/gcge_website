@@ -14,16 +14,16 @@ useHead({
 <template>
   <div class="space-y-8 px-6 py-8 md:px-10 md:py-10">
     <div class="border-b border-amber-300/15 px-0 pb-8">
-      <p class="text-sm uppercase tracking-[0.35em] text-amber-200">Terms &amp; Conditions</p>
-      <h1 class="mt-4 text-4xl! font-semibold text-amber-200 md:text-6xl!">Website and service terms</h1>
-      <p class="mt-4 max-w-3xl text-base leading-7 text-white md:text-lg">
+      <p class="text-sm uppercase tracking-[0.35em] light:text-gray-700 text-amber-200 light:text-gray-800">Terms &amp; Conditions</p>
+      <h1 class="mt-4 text-4xl! font-semibold light:text-gray-700 text-amber-200 md:text-6xl!">Website and service terms</h1>
+      <p class="mt-4 max-w-3xl text-base leading-7 text-white light:text-gray-800 md:text-lg">
         Please read these Terms &amp; Conditions carefully before using Galactic Gene. By accessing the website or booking a service,
         you agree to these terms and to the policies published on the site.
       </p>
     </div>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">1. Acceptance of terms</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">1. Acceptance of terms</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           These Terms &amp; Conditions govern your use of this website and the astrology services, consultations, and courses offered by
@@ -33,7 +33,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">2. Services offered</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">2. Services offered</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           We offer astrology consultations, educational courses, and related content. The exact scope, price, and delivery format of a
@@ -43,7 +43,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">3. User responsibilities</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">3. User responsibilities</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>You agree to provide accurate and complete information when booking a service, especially:</p>
         <ul class="list-disc space-y-2 pl-6">
@@ -60,7 +60,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">4. Use of birth details</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">4. Use of birth details</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           The astrologer uses only the birth details you provide for the purpose of preparing predictions and consultation guidance.
@@ -70,7 +70,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">5. Payments and bookings</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">5. Payments and bookings</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           Payment is required in advance unless we state otherwise. A booking is confirmed only after successful payment and booking
@@ -84,7 +84,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">6. Consultation timelines</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">6. Consultation timelines</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           We aim to provide consultations promptly. If we are unable to deliver a consultation within 15 days of payment, the refund
@@ -94,7 +94,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">7. Intellectual property</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">7. Intellectual property</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           All content on this website, including text, graphics, course materials, consultation content, logos, and design elements,
@@ -108,7 +108,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">8. No guaranteed outcomes</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">8. No guaranteed outcomes</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           Astrology services are interpretive in nature. We do not guarantee any specific outcome, financial result, relationship result,
@@ -119,7 +119,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">9. Limitation of liability</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">9. Limitation of liability</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           To the maximum extent permitted under applicable Indian law, Galactic Gene shall not be liable for indirect, incidental,
@@ -130,7 +130,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">10. Refunds and cancellations</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">10. Refunds and cancellations</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           Refund and cancellation rights are governed by our Refund Policy. By purchasing a service, you agree to those refund terms.
@@ -139,7 +139,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">11. Prohibited use</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">11. Prohibited use</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>You agree not to misuse the website, including by:</p>
         <ul class="list-disc space-y-2 pl-6">
@@ -152,7 +152,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">12. Governing law and jurisdiction</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">12. Governing law and jurisdiction</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           These Terms &amp; Conditions are governed by and interpreted in accordance with the laws of India, including applicable
@@ -163,7 +163,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">13. Changes to these terms</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">13. Changes to these terms</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           We may update these Terms &amp; Conditions from time to time. The revised version will be effective when posted on the website.
@@ -173,7 +173,7 @@ useHead({
     </section>
 
     <section>
-      <h3 class="text-2xl font-semibold text-amber-200">14. Contact</h3>
+      <h3 class="text-2xl font-semibold light:text-gray-700 text-amber-200">14. Contact</h3>
       <div class="mt-4 space-y-4 text-white/80 leading-7">
         <p>
           For any questions about these Terms &amp; Conditions, please use the contact information available on the website.
