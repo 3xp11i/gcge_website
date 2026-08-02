@@ -59,18 +59,17 @@ export default defineEventHandler(async (event) => {
 
 				try {
 					await sendToDiscord({
-						type: "course-purchase",
-						data: {
-							firstName: md.firstName,
-							lastName: md.lastName,
-							email: md.email,
-							experience: md.experience,
-							courseTitle: md.courseTitle || md.description,
-							amountUsd: md.amountUsd,
-							receipt: md.receipt,
-							paymentId,
-						},
-						paymentProvider: "dodo",
+						title: "🎓 New course purchase",
+						fields: [
+							{ label: "Name", value: [md.firstName, md.lastName].filter(Boolean).join(" ") || "" },
+							{ label: "Email", value: md.email || data.customer?.email },
+							{ label: "Experience level", value: md.experience },
+							{ label: "Course", value: md.courseTitle || md.description },
+							{ label: "Amount", value: md.amountUsd != null ? `$${Number(md.amountUsd).toFixed(2)}` : undefined },
+							{ label: "Receipt", value: md.receipt },
+							{ label: "Payment ID", value: paymentId },
+						],
+						provider: "dodo",
 					});
 				} catch (discordErr) {
 					console.error(
@@ -162,24 +161,25 @@ export default defineEventHandler(async (event) => {
 
 			try {
 				await sendToDiscord({
-					type: "birth-details",
-					data: {
-						fullName: md.fullName,
-						email: md.email,
-						phone: md.phone,
-						dateOfBirth: md.dateOfBirth,
-						timeOfBirth: md.timeOfBirth,
-						location: md.location,
-						zipcode: md.zipcode,
-						consultationMethod: md.consultationMethod,
-						instagramUsername: md.instagramUsername,
-						needsBtr: md.needsBtr,
-						message: md.message,
-						amountUsd: md.amountUsd,
-						description: md.description,
-						receipt: md.receipt,
-					},
-					paymentProvider: "dodo",
+					title: "🌌 New consultation purchase",
+					fields: [
+						{ label: "Name", value: md.fullName || data.customer?.name },
+						{ label: "Email", value: md.email || data.customer?.email },
+						{ label: "Phone", value: md.phone },
+						{ label: "Date of birth", value: md.dateOfBirth },
+						{ label: "Time of birth", value: md.timeOfBirth },
+						{ label: "Location", value: md.location },
+						{ label: "Zipcode", value: md.zipcode },
+						{ label: "Consultation preference", value: md.consultationMethod },
+						{ label: "Instagram username", value: md.instagramUsername },
+						{ label: "BTR required", value: md.needsBtr },
+						{ label: "Consultation notes", value: md.message },
+						{ label: "Service", value: serviceTypeName },
+						{ label: "Amount", value: md.amountUsd != null ? `$${Number(md.amountUsd).toFixed(2)}` : undefined },
+						{ label: "Receipt", value: md.receipt },
+						{ label: "Payment ID", value: paymentId },
+					],
+					provider: "dodo",
 				});
 			} catch (discordErr) {
 				console.error(

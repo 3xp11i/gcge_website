@@ -1,5 +1,6 @@
 import Razorpay from "razorpay";
 import { serverSupabaseServiceRole } from "#supabase/server";
+import { sendToDiscord } from "../../utils/discordNotifier";
 
 interface RazorpayWebhookPayload {
 	entity: "event";
@@ -117,17 +118,18 @@ export default defineEventHandler(async (event) => {
 		}
 
 		try {
-			await sendCoursePurchaseToDiscord(
-				{
-					firstName: notes.firstName || "",
-					lastName: notes.lastName || "",
-					email: notes.email || payment.email || "",
-					experience: notes.experience || "",
-					courseTitle: notes.courseTitle || notes.description || "",
-					amountPaise: payment.amount,
-				},
-				payment.id,
-			);
+			await sendToDiscord({
+				title: "🎓 New course purchase",
+				fields: [
+					{ label: "Name", value: [notes.firstName, notes.lastName].filter(Boolean).join(" ") || "" },
+					{ label: "Email", value: notes.email || payment.email },
+					{ label: "Experience level", value: notes.experience },
+					{ label: "Course", value: notes.courseTitle || notes.description },
+					{ label: "Amount", value: `₹${(payment.amount / 100).toFixed(2)}` },
+					{ label: "Payment ID", value: payment.id },
+				],
+				provider: "razorpay",
+			});
 			console.log("[razorpay-webhook] sent course purchase to Discord", {
 				paymentId: payment.id,
 			});
@@ -234,25 +236,26 @@ export default defineEventHandler(async (event) => {
 		});
 
 	try {
-		await sendBirthDetailsToDiscord(
-			{
-				fullName: notes.fullName || "",
-				email: notes.email || payment.email || "",
-				phone: notes.phone || payment.contact || "",
-				dateOfBirth: notes.dateOfBirth || null,
-				timeOfBirth: notes.timeOfBirth || null,
-				location: notes.location || "",
-				zipcode: notes.zipcode || "",
-				consultationMethod: notes.consultationMethod || "email",
-				instagramUsername: notes.instagramUsername || "",
-				needsBtr: notes.accuracy || "medium",
-				message: notes.message || "",
-				amountPaise: payment.amount,
-				description: notes.description || "",
-				serviceTypeName,
-			},
-			payment.id,
-		);
+		await sendToDiscord({
+			title: "🌌 New consultation purchase",
+			fields: [
+				{ label: "Name", value: notes.fullName },
+				{ label: "Email", value: notes.email || payment.email },
+				{ label: "Phone", value: notes.phone || payment.contact },
+				{ label: "Date of birth", value: notes.dateOfBirth },
+				{ label: "Time of birth", value: notes.timeOfBirth },
+				{ label: "Location", value: notes.location },
+				{ label: "Zipcode", value: notes.zipcode },
+				{ label: "Consultation preference", value: notes.consultationMethod },
+				{ label: "Instagram username", value: notes.instagramUsername },
+				{ label: "BTR required", value: notes.accuracy },
+				{ label: "Consultation notes", value: notes.message },
+				{ label: "Service", value: serviceTypeName },
+				{ label: "Amount", value: `₹${(payment.amount / 100).toFixed(2)}` },
+				{ label: "Payment ID", value: payment.id },
+			],
+			provider: "razorpay",
+		});
 		console.log("[razorpay-webhook] sent birth details to Discord", {
 			paymentId: payment.id,
 		});
@@ -267,24 +270,3 @@ export default defineEventHandler(async (event) => {
 });
 
 
-const sendBirthDetailsToDiscord = async (details: any, paymentId: string) => {
-	await $fetch("/api/discord", {
-		method: "POST",
-		body: {
-			type: "birth-details",
-			data: { ...details, paymentId },
-			paymentProvider: "razorpay",
-		},
-	});
-};
-
-const sendCoursePurchaseToDiscord = async (details: any, paymentId: string) => {
-	await $fetch("/api/discord", {
-		method: "POST",
-		body: {
-			type: "course-purchase",
-			data: { ...details, paymentId },
-			paymentProvider: "razorpay",
-		},
-	});
-};

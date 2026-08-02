@@ -59,8 +59,8 @@
         <UButton class="button w-fit"
                  to="/consultation">Book a Consultation</UButton>
 
-        <UButton class="button w-fit"
-                 to="/resources">Explore Resources</UButton>
+        <!-- <UButton class="button w-fit"
+                 to="/resources">Explore Resources</UButton> -->
       </div>
 
 
@@ -462,6 +462,9 @@ onMounted(() => {
     
   //   duration: 0
   // })
+
+  const user = useSupabaseUser()
+  console.log('User:', user.value)
 
 })
 

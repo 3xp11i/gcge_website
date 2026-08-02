@@ -1,4 +1,6 @@
 export type AuthStep = 'email' | 'otp'
+// Whether the email-step UI is in the name-collection sub-stage
+export const useAuthIsNewUser = () => useLocalStorage<boolean>('gg-auth-is-new', false)
 
 export type AuthEmailMeta = {
   firstName: string
@@ -24,14 +26,22 @@ export function useAuthFlow() {
 
   const otpSentAt = useOtpSentAt()
 
-  async function sendOtp() {
+  async function checkEmail(email: string): Promise<boolean> {
+    const data = await $fetch<{ exists: boolean }>('/api/check-email', {
+      method: 'POST',
+      body: { email }
+    })
+    return data.exists
+  }
+
+  async function sendOtp(isNewUser: boolean) {
     const { error } = await supabase.auth.signInWithOtp({
       email: meta.value.email,
       options: {
-        data: {
-          first_name: meta.value.firstName,
-          last_name: meta.value.lastName
-        }
+        shouldCreateUser: isNewUser,
+        data: isNewUser
+          ? { first_name: meta.value.firstName, last_name: meta.value.lastName }
+          : undefined
       }
     })
     if (error) throw error
@@ -64,7 +74,8 @@ export function useAuthFlow() {
     step.value = 'email'
     meta.value = { firstName: '', lastName: '', email: '' }
     otpSentAt.value = null
+    useAuthIsNewUser().value = false
   }
 
-  return { sendOtp, verifyOtp, loginWithGoogle, resetFlow, meta }
+  return { checkEmail, sendOtp, verifyOtp, loginWithGoogle, resetFlow, meta }
 }

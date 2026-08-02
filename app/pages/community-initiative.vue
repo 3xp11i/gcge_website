@@ -488,7 +488,7 @@ type InitiativeForm = {
 	timeOfBirth: ShallowRef<Time>;
 	location: string;
 	zipcode: string;
-	gender: "male" | "female" | "other";
+	gender: "male" | "female" | "lgtbqa+" | "other";
 	accuracy: "high" | "medium" | "low";
 	message: string;
 };
@@ -660,8 +660,9 @@ const consultationCategories = {
 };
 
 const genderOptions = {
-	male: "Male",
 	female: "Female",
+	male: "Male",
+  lgtbqa: "LGBTQA+",
 	other: "Other",
 };
 

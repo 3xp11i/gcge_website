@@ -1,123 +1,37 @@
-type BirthDetailsPayload = {
-	type?: "birth-details";
-	data?: {
-		serviceTypeName?: string;
-		fullName?: string;
-		email?: string;
-		phone?: string;
-		dateOfBirth?: string | null; // Now serialized as YYYY-MM-DD
-		timeOfBirth?: string | null; // Now serialized as HH:mm:ss
-		location?: string;
-		zipcode?: string;
-		consultationMethod?: string;
-		instagramUsername?: string;
-		needsBtr?: boolean;
-		message?: string;
-		amountPaise?: number;
-		amountUsd?: number;
-		description?: string;
-		receipt?: string;
-		paymentId?: string;
-	};
-	paymentProvider: "dodo" | "razorpay";
+export type DiscordField = {
+	label: string;
+	value: string | number | boolean | null | undefined;
 };
 
-type CoursePurchasePayload = {
-	type: "course-purchase";
-	data?: {
-		firstName?: string;
-		lastName?: string;
-		email?: string;
-		experience?: string;
-		courseTitle?: string;
-		amountPaise?: number;
-		amountUsd?: number;
-		receipt?: string;
-		paymentId?: string;
-	};
-	paymentProvider: "dodo" | "razorpay";
+export type DiscordPayload = {
+	title: string;
+	fields: DiscordField[];
+	provider: "dodo" | "razorpay";
 };
 
-type DiscordPayload = BirthDetailsPayload | CoursePurchasePayload;
-
-const formatAmount = (payload: {
-	amountPaise?: number;
-	amountUsd?: number;
-}) => {
-	if (
-		typeof payload.amountPaise === "number" &&
-		!Number.isNaN(payload.amountPaise)
-	) {
-		return `₹${(payload.amountPaise / 100).toFixed(2)}`;
-	}
-	if (
-		typeof payload.amountUsd === "number" &&
-		!Number.isNaN(payload.amountUsd)
-	) {
-		return `$${payload.amountUsd.toFixed(2)}`;
-	}
-	return "N/A";
+const formatValue = (value: DiscordField["value"]): string => {
+	if (value === null || value === undefined || value === "") return "N/A";
+	if (typeof value === "boolean") return value ? "Yes" : "No";
+	return String(value);
 };
 
-const formatBirthDetailsMessage = (payload: BirthDetailsPayload) => {
-	const details = payload.data ?? {};
-
-	const dateOfBirthFormatted = details.dateOfBirth
-		? `${details.dateOfBirth}`
-		: "N/A";
-	const timeOfBirthFormatted = details.timeOfBirth
-		? `${details.timeOfBirth}`
-		: "N/A";
-
+const formatPayload = (payload: DiscordPayload): string => {
 	return [
-		"🌌 New birth details submitted",
-		`**Name:** ${details.fullName ?? "N/A"}`,
-		`**Email:** ${details.email ?? "N/A"}`,
-		`**Phone:** ${details.phone ?? "N/A"}`,
-		`**Date of birth:** ${dateOfBirthFormatted}`,
-		`**Time of birth:** ${timeOfBirthFormatted}`,
-		`**Location:** ${details.location ?? "N/A"}`,
-		`**Zipcode:** ${details.zipcode ?? "N/A"}`,
-		`**Consultation preference:** ${details.consultationMethod ?? "N/A"}`,
-		`**Instagram username:** ${details.instagramUsername ?? "N/A"}`,
-		`**BTR required:** ${details.needsBtr ? "Yes" : "No"}`,
-		`**Consultation notes:** ${details.message ?? "N/A"}`,
-		`**Receipt:** ${details.receipt ?? details.serviceTypeName ?? "N/A"}`,
-		`**Amount:** ${formatAmount(details)}`,
+		payload.title,
+		...payload.fields.map((f) => `**${f.label}:** ${formatValue(f.value)}`),
 	].join("\n");
-};
-
-const formatCoursePurchaseMessage = (payload: CoursePurchasePayload) => {
-	const details = payload.data ?? {};
-
-	return [
-		"🎓 New course purchase",
-		`**Name:** ${[details.firstName, details.lastName].filter(Boolean).join(" ") || "N/A"}`,
-		`**Email:** ${details.email ?? "N/A"}`,
-		`**Experience level:** ${details.experience ?? "N/A"}`,
-		`**Course:** ${details.courseTitle ?? "N/A"}`,
-		`**Receipt:** ${details.receipt ?? "N/A"}`,
-		`**Amount:** ${formatAmount(details)}`,
-		`**Payment ID:** ${details.paymentId ?? "N/A"}`,
-	].join("\n");
-};
-
-const formatMessage = (payload: DiscordPayload) => {
-	if (payload.type === "course-purchase") {
-		return formatCoursePurchaseMessage(payload);
-	}
-	return formatBirthDetailsMessage(payload);
 };
 
 export async function sendToDiscord(message: string | DiscordPayload) {
 	try {
+		const provider =
+			typeof message === "string" ? "dodo" : message.provider;
+
 		const DISCORD_WEBHOOK_URL =
 			process.env[
-				typeof message === "string"
-					? "DODO_DISCORD_WEBHOOK_URL"
-					: message.paymentProvider === "dodo"
-						? "DODO_DISCORD_WEBHOOK_URL"
-						: "RAZORPAY_DISCORD_WEBHOOK_URL"
+				provider === "razorpay"
+					? "RAZORPAY_DISCORD_WEBHOOK_URL"
+					: "DODO_DISCORD_WEBHOOK_URL"
 			];
 
 		if (!DISCORD_WEBHOOK_URL) {
@@ -125,7 +39,7 @@ export async function sendToDiscord(message: string | DiscordPayload) {
 		}
 
 		const content =
-			typeof message === "string" ? message : formatMessage(message);
+			typeof message === "string" ? message : formatPayload(message);
 
 		await fetch(DISCORD_WEBHOOK_URL, {
 			method: "POST",

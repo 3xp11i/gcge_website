@@ -9,7 +9,7 @@
     <div class="flex justify-center py-2">
       <UPinInput
         v-model="otp"
-        :length="8"
+        :length="6"
         type="number"
         size="xl"
         otp
@@ -20,7 +20,7 @@
       size="xl"
       class="button w-full justify-center font-semibold"
       :loading="loading"
-      :disabled="otp.length < 8"
+      :disabled="otp.length < 6"
       @click="submit"
     >
       Verify Code
@@ -68,12 +68,12 @@ onUnmounted(() => pause())
 
 // Auto-submit when all 6 digits are filled
 watch(otp, (val) => {
-  if (val.length === 8 && val.every(Boolean)) submit()
+  if (val.length === 6 && val.every(Boolean)) submit()
 })
 
 async function submit() {
   const value = otp.value.join('')
-  if (value.length < 8) return
+  if (value.length < 6) return
   loading.value = true
   try {
     await verifyOtp(value)
