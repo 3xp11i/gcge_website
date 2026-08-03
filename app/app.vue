@@ -1,6 +1,6 @@
 <template>
 	<UApp :toaster="{ position: 'bottom-center' }">
-		<!-- <UBanner to="/community-initiative"
+		<!-- <UBanner to="/community/medical-consultation"
              target="_blank"
              title="🩺 Apply: Medical Astrology Reviews"
              color="info"
@@ -8,7 +8,7 @@
               container: 'h-10',
             }" /> -->
 		<UBanner
-			to="/community-initiative"
+			to="/community/medical-consultation"
 			icon="i-lucide-info"
 			id="medical-astrology-banner"
 			close

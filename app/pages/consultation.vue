@@ -5,6 +5,25 @@
     <div
          class="pointer-events-none absolute left-1/2 top-0 h-80 w-80 not-md:w-full -translate-x-1/2 rounded-full opacity-40 blur-3xl" />
 
+    <!-- Payment Success Modal -->
+    <UModal v-model:open="showPaymentSuccess" :dismissible="true" class="rounded-2xl" :ui="{ content: 'max-w-sm' }">
+      <template #body>
+        <div class="flex flex-col items-center gap-6 px-4 py-8 text-center">
+          <div class="payment-success-checkmark">
+            <svg viewBox="0 0 52 52" class="h-20 w-20">
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="rgb(74,222,128)" stroke-width="2" />
+              <path class="checkmark-check" fill="none" stroke="rgb(74,222,128)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M14 27l8 8 16-16" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-2xl font-semibold">Payment Successful!</h3>
+            <p class="mt-2 text-sm leading-6 text-white/70">Your consultation has been booked. You will receive a confirmation on your email shortly.</p>
+          </div>
+          <UButton label="Close" color="neutral" variant="soft" class="w-full" @click="showPaymentSuccess = false" />
+        </div>
+      </template>
+    </UModal>
+
     <!-- Birth Details Modal -->
     <UModal v-model:open="purchase.formOpen.value"
             @close:prevent="closeBirthDetailsModal"
@@ -61,7 +80,8 @@
         <UTabs :items="consultationTabs"
                variant="link"
                color="neutral"
-               class="mt-2 w-full mb-1 gap-8">
+               class="mt-2 w-full mb-1 gap-8"
+               :ui="{ list: 'flex-col sm:flex-row sm:overflow-x-auto sm:scrollbar-none sm:flex-nowrap' }">
           <template #personal-relationships>
             <div class="grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
               <article v-for="service in personalRelationshipServices"
@@ -440,6 +460,10 @@ const getDodoProductId = (service: ConsultationService) => {
     : service.dodoProductID
 }
 
+// Payment success modal
+const route = useRoute()
+const showPaymentSuccess = ref(false)
+
 // Birth details state management
 const birthDetailsLoading = ref(false)
 const birthDetails = ref<BirthDetails | null>(null)
@@ -458,6 +482,10 @@ const closeBirthDetailsModal = () => {
 onMounted(() => {
   initRegion()
 
+  if (route.query.paymentStatus === 'Success') {
+    showPaymentSuccess.value = true
+  }
+
   if (personalRelationshipServices[0]) {
     console.log(getDodoProductId(personalRelationshipServices[0]))
     console.log(isDodoLiveMode.value)
@@ -470,5 +498,32 @@ onMounted(() => {
 <style scoped>
 div[data-slot="header"] h2 {
   font-size: 3rem;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
+}
+
+@keyframes stroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.payment-success-checkmark {
+  animation: scale-in 0.3s ease 0.2s both;
+}
+
+@keyframes scale-in {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 </style>

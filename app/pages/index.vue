@@ -456,8 +456,8 @@ onMounted(() => {
   //   description: 'We are giving free of cost astrology consultations for a limited time 🎁',
   //   icon: '',
   //   onClick: ()=>{
-  //     // Open /community-initiative page in a new tab
-  //     window.open('/community-initiative', '_blank')
+  //     // Open /community/medical-consultation page in a new tab
+  //     window.open('/community/medical-consultation', '_blank')
   //   },
     
   //   duration: 0

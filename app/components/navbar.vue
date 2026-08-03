@@ -157,7 +157,7 @@ const links = [
   { label: 'Community', to: '/#community' },
   { label: 'Consultation', to: '/consultation' },
   { label: 'Courses', to: '/courses' },
-  { label: 'Community Offering', to: '/community-initiative', icon: '✨', cta: true },
+  { label: 'Community Offering', to: '/community/medical-consultation', icon: '✨', cta: true },
 ]
 
 

@@ -215,6 +215,45 @@ export type Database = {
           },
         ]
       }
+      free_consultation_responses: {
+        Row: {
+          author: string
+          consultation_id: string
+          created_at: string
+          id: string
+          response_text: string
+        }
+        Insert: {
+          author: string
+          consultation_id: string
+          created_at?: string
+          id?: string
+          response_text: string
+        }
+        Update: {
+          author?: string
+          consultation_id?: string
+          created_at?: string
+          id?: string
+          response_text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "free_consultation_responses_author_fkey"
+            columns: ["author"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "free_consultation_responses_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "free_consultations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       free_consultations: {
         Row: {
           accuracy: string
