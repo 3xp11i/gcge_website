@@ -95,7 +95,19 @@ export default defineNuxtConfig({
 		"@nuxtjs/supabase",
 		"@nuxt/image",
 		"@nuxtjs/turnstile",
+		"@nuxt/content",
 	],
+
+	content: {
+		build: {
+			markdown: {
+				toc: {
+					depth: 3,
+					searchDepth: 3,
+				},
+			},
+		},
+	},
 
 	supabase: {
 		redirect: false,

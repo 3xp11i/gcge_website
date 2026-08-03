@@ -16,6 +16,7 @@
       <NuxtLink to="/#community">Community</NuxtLink>
       <NuxtLink to="/consultation">Consultation</NuxtLink>
       <NuxtLink to="/courses">Courses</NuxtLink>
+      <NuxtLink to="/blog">Blog</NuxtLink>
 
       <NuxtLink to="/community/medical-consultation"
                 class="navbar-cta-pulse relative inline-flex items-center gap-1.5 rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-sm font-semibold text-amber-300">
