@@ -1,9 +1,9 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center px-4 py-12">
+  <div class="flex min-h-[80vh] items-start justify-center px-4 py-12">
     <div class="w-full max-w-md space-y-6">
 
       <!-- Header -->
-      <div class="text-center">
+      <div class="text-center mt-12">
         <NuxtLink to="/" class="inline-block">
           <p class="text-xs font-semibold uppercase tracking-[0.32em] text-white/50">Galactic Gene</p>
         </NuxtLink>

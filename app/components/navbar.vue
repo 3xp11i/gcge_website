@@ -17,7 +17,7 @@
       <NuxtLink to="/consultation">Consultation</NuxtLink>
       <NuxtLink to="/courses">Courses</NuxtLink>
 
-      <NuxtLink to="/community-initiative"
+      <NuxtLink to="/community/medical-consultation"
                 class="navbar-cta-pulse relative inline-flex items-center gap-1.5 rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-sm font-semibold text-amber-300">
         <span aria-hidden="true">✨</span>
         <span>Community Offering</span>
@@ -60,15 +60,56 @@
       </NuxtLink>
     </div>
 
-    <button type="button"
-          ref="menuButton"
-            class="navbar-menu-button inline-flex items-center justify-center rounded-full p-3 text-inherit transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300 md:hidden right-4 top-4 z-50"
-            :aria-expanded="menuOpen"
-            aria-controls="mobile-navigation"
-            aria-label="Open navigation menu"
-            @click="menuOpen = true">
-      <Icon name="mdi:menu" class="text-2xl text-white" />
-    </button>
+    <!-- Mobile quick actions: CTA + account control, visible next to the menu button -->
+    <div class="flex items-center gap-2 md:hidden">
+      <NuxtLink to="/community/medical-consultation"
+                class="navbar-cta-pulse relative inline-flex items-center gap-1 rounded-full border border-amber-400/40 bg-amber-400/10 px-2.5 py-1.5 text-xs font-semibold text-amber-300"
+                aria-label="Community Offering">
+        <span aria-hidden="true">Community Offering ✨</span>
+        <span class="hidden sm:inline">Offering</span>
+        <span class="navbar-cta-ping absolute -right-1 -top-1 flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-400"></span>
+        </span>
+      </NuxtLink>
+
+      <UPopover v-if="user" mode="click" :ui="{ content: 'p-1 min-w-36' }">
+        <UButton variant="ghost" color="neutral" class="rounded-full p-0.5" aria-label="Account menu">
+          <UAvatar
+            :alt="userInitials"
+            size="xs"
+            :ui="{ fallback: 'text-[10px] font-semibold' }"
+          />
+        </UButton>
+
+        <template #content>
+          <UButton
+            variant="ghost"
+            color="error"
+            class="w-full justify-start gap-2"
+            :loading="loggingOut"
+            leading-icon="i-lucide-log-out"
+            @click="logout"
+          >
+            Sign out
+          </UButton>
+        </template>
+      </UPopover>
+
+      <NuxtLink v-else to="/login">
+        <UButton variant="outline" color="neutral" size="xs">Sign in</UButton>
+      </NuxtLink>
+
+      <button type="button"
+            ref="menuButton"
+              class="navbar-menu-button inline-flex items-center justify-center rounded-full p-3 text-inherit transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
+              :aria-expanded="menuOpen"
+              aria-controls="mobile-navigation"
+              aria-label="Open navigation menu"
+              @click="menuOpen = true">
+        <Icon name="mdi:menu" class="text-2xl text-white" />
+      </button>
+    </div>
 
     <Transition enter-active-class="transition duration-200 ease-out"
                 enter-from-class="opacity-0"
@@ -102,36 +143,12 @@
                       :key="link.to"
                       :to="link.to"
                       class="navbar-link rounded-2xl px-4 py-3 text-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
-                      :class="{ 'navbar-cta-pulse relative flex items-center gap-2 border border-amber-400/40 bg-amber-400/10 text-amber-300!': link.cta }"
                       @click="menuOpen = false">
-              <span v-if="link.icon"
-                    aria-hidden="true">{{ link.icon }}</span>
               <span>{{ link.label }}</span>
-              <span v-if="link.cta"
-                    class="navbar-cta-ping relative ml-auto flex h-2.5 w-2.5">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
-                <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400"></span>
-              </span>
             </NuxtLink>
           </nav>
 
           <div class="navbar-footer mt-auto border-t pt-6 space-y-4">
-            <UButton
-              v-if="user"
-              variant="ghost"
-              color="error"
-              class="w-full justify-start gap-2"
-              :loading="loggingOut"
-              leading-icon="i-lucide-log-out"
-              @click="logout"
-            >
-              Sign out
-            </UButton>
-            <NuxtLink v-else to="/login" @click="menuOpen = false">
-              <UButton variant="outline" color="neutral" class="w-full justify-start" leading-icon="i-lucide-log-in">
-                Sign in
-              </UButton>
-            </NuxtLink>
 
             <UColorModeSwitch v-model="colorTheme"
                               title="Toggle Dark/Light Theme"
@@ -157,7 +174,7 @@ const links = [
   { label: 'Community', to: '/#community' },
   { label: 'Consultation', to: '/consultation' },
   { label: 'Courses', to: '/courses' },
-  { label: 'Community Offering', to: '/community/medical-consultation', icon: '✨', cta: true },
+  { label: 'Blog', to: '/blog' },
 ]
 
 

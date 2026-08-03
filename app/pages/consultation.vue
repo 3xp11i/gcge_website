@@ -19,7 +19,6 @@
             <h3 class="text-2xl font-semibold">Payment Successful!</h3>
             <p class="mt-2 text-sm leading-6 text-white/70">Your consultation has been booked. You will receive a confirmation on your email shortly.</p>
           </div>
-          <UButton label="Close" color="neutral" variant="soft" class="w-full" @click="showPaymentSuccess = false" />
         </div>
       </template>
     </UModal>

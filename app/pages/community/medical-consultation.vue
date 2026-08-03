@@ -31,7 +31,7 @@
 						v-if="!user"
 						class="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-200 mb-5">
 						You must be
-						<NuxtLink to="/login" class="underline font-semibold"
+						<NuxtLink to="/login" class="underline font-semibold pulse-animation"
 							>logged in</NuxtLink
 						>
 						to submit an application.
@@ -139,7 +139,7 @@
 							</div>
 
 							<div class="grid gap-4 sm:grid-cols-2">
-								<UFormField label="Date of birth" name="dateOfBirth" required>
+								<UFormField label="Date of birth (MM:DD:YYYY)" name="dateOfBirth" required>
 									<UInputDate
 										ref="inputDate"
 										v-model="state.dateOfBirth"
@@ -163,10 +163,10 @@
 									</UInputDate>
 								</UFormField>
 
-								<UFormField label="Time of birth" name="timeOfBirth" required>
+								<UFormField label="Time of birth (HH:MM:SS, 24-hour format)" name="timeOfBirth" required>
 									<UInputTime
 										v-model="state.timeOfBirth"
-										type="time"
+										type="time" :hour-cycle="24"
 										granularity="second"
 										:disabled="!user" />
 								</UFormField>
@@ -818,4 +818,6 @@ header {
 	background-size: cover;
 	background-position: center; */
 }
+
+
 </style>
