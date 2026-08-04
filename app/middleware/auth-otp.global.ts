@@ -21,6 +21,6 @@ export default defineNuxtRouteMiddleware((to) => {
       otpSentAt.value = null
       return
     }
-    return navigateTo('/login')
+    // return navigateTo('/login')
   }
 })

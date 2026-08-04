@@ -15,10 +15,10 @@
 					</p>
 					<h1
 						class="mt-3 text-3xl! font-semibold text-(--gg-heading-h3)! sm:text-3xl!">
-						Community Initiative Application
+						Medical Consultation Application
 					</h1>
 					<p class="mt-3 text-sm text-white/85 sm:text-base">
-						Applying for our current astrology initiative is easy. <br />
+						This is a community initiative, focused on providing medical consultations. <br />
 						Please fill this form with your details and submit your application.
 					</p>
 
