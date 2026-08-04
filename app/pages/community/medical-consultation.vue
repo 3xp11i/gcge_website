@@ -49,7 +49,7 @@
 						:state="state"
 						:validate="validate"
 						class="space-y-5"
-						@submit="handleSubmit">
+						@submit="onFormSubmit">
 						<article class="p-4 sm:p-5">
 							<div class="mb-4 flex items-start gap-3">
 								<div
@@ -81,51 +81,6 @@
 										class="w-full"
 										:disabled="!user" />
 								</UFormField>
-
-								<!-- <UFormField label="Email address" name="email" required>
-                  <UInput v-model="state.email" type="email" placeholder="Enter your email address" size="lg"
-                          class="w-full" />
-                </UFormField>
-
-                <UFormField label="Mobile number" name="phone">
-                  <UFieldGroup>
-                    <USelectMenu v-model="countryCode" :items="phoneCodes" value-key="code"
-                                 :disabled="selectedRegion === 'India'" :search-input="{
-                                  placeholder: 'Search country...',
-                                  icon: 'i-lucide-search',
-                                  loading: false
-                                }" :filter-fields="['name', 'code', 'dialCode']" :content="{ align: 'start' }" :ui="{
-                                  base: 'pe-8',
-                                  content: 'w-48',
-                                  placeholder: 'hidden',
-                                  trailingIcon: 'size-4'
-                                }" trailing-icon="i-lucide-chevrons-up-down" @update:open="onOpen">
-                      <span class="size-5 flex items-center text-lg">
-                        {{ country?.emoji || '\u{1F1EE}\u{1F1F3}' }}
-                      </span>
-
-                      <template #item-leading="{ item }">
-                        <span class="size-5 flex items-center text-lg">
-                          {{ item.emoji }}
-                        </span>
-                      </template>
-
-<template #item-label="{ item }">
-                        {{ item.name }} ({{ item.dialCode }})
-                      </template>
-</USelectMenu>
-
-<UInput v-model="phone" v-maska="mask" :placeholder="mask.replaceAll('#', '_')" size="lg" class="w-full"
-  :style="{ '--dial-code-length': `${dialCode.length + 1.5}ch` }" :ui="{
-                              base: 'ps-(--dial-code-length)',
-                              leading: 'pointer-events-none text-base text-white/55'
-                            }">
-  <template #leading>
-                        {{ dialCode }}
-                      </template>
-</UInput>
-</UFieldGroup>
-</UFormField> -->
 							</div>
 						</article>
 
@@ -474,6 +429,64 @@
 				</div>
 			</section>
 		</div>
+
+		<!-- Confirmation modal: shown once validation passes, before the real submit fires -->
+		<UModal
+			v-model:open="showConfirmModal"
+			title="Confirm your application" :ui="{
+				title:'text-3xl! font-serif!'
+			}" class="p-3 pt-5"
+			description="Please review your details carefully before submitting.">
+			<template #body>
+				<div class="space-y-4">
+					<div
+						class="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-200 flex items-start gap-2">
+						<UIcon
+							name="material-symbols:warning-outline"
+							class="mt-0.5 text-lg shrink-0" />
+						<span>
+							Once submitted, these details
+							<strong>cannot be edited</strong>. Please make sure everything
+							below is correct.
+						</span>
+					</div>
+
+					<div class="rounded-xl border border-white/10 divide-y divide-white/10">
+						<div
+							v-for="item in summaryItems"
+							:key="item.label"
+							class="flex flex-col gap-0.5 px-4 py-2.5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+							<span class="text-sm text-white/60 shrink-0 sm:w-40">{{
+								item.label
+							}}</span>
+							<span class="text-sm text-white break-words sm:text-right">{{
+								item.value || "—"
+							}}</span>
+						</div>
+					</div>
+				</div>
+			</template>
+
+			<template #footer>
+				<div class="flex w-full justify-end gap-3">
+					<UButton
+						color="neutral"
+						variant="soft"
+						icon="i-lucide-arrow-left"
+						:disabled="submitting"
+						@click="()=>{showConfirmModal = false}">
+						Go back &amp; edit
+					</UButton>
+					<UButton
+						color="primary"
+						icon="i-lucide-check"
+						:loading="submitting"
+						@click="confirmAndSubmit">
+						Confirm &amp; submit
+					</UButton>
+				</div>
+			</template>
+		</UModal>
 	</div>
 </template>
 
@@ -510,6 +523,7 @@ type InitiativeForm = {
 
 const toast = useToast();
 const submitting = ref(false);
+const showConfirmModal = ref(false);
 const inputDate = useTemplateRef("inputDate");
 const user = useSupabaseUser();
 
@@ -538,148 +552,14 @@ const accuracyOptions = {
 	low: "Not accurate - Off by >30 minutes",
 };
 
-const now = new Date();
-
-const consultationCategories = {
-	medical: {
-		label: "Medical Consultation",
-		description: "Insights into health and wellness based on your birth chart.",
-		subCategories: [
-			{
-				category: "General Categories",
-				options: [
-					{
-						value: "general-health-wellness",
-						label: "General Health & Wellness",
-					},
-					{ value: "chronic-illness", label: "Chronic Illness" },
-					{ value: "acute-illness", label: "Acute Illness" },
-					{ value: "undiagnosed-symptoms", label: "Undiagnosed Symptoms" },
-					{
-						value: "multiple-health-concerns",
-						label: "Multiple Health Concerns",
-					},
-				],
-			},
-
-			{
-				category: "Body Systems",
-				options: [
-					{ value: "nervous-system", label: "Nervous System" },
-					{ value: "digestive-system", label: "Digestive System" },
-					{ value: "respiratory", label: "Respiratory (Breathing)" },
-					{
-						value: "cardiovascular",
-						label: "Cardiovascular (Heart & Blood Vessels)",
-					},
-					{ value: "endocrine-hormonal", label: "Endocrine & Hormonal" },
-					{ value: "immune-system", label: "Immune System" },
-					{ value: "lymphatic-system", label: "Lymphatic System" },
-					{ value: "blood-disorders", label: "Blood Disorders" },
-					{ value: "urinary-kidney", label: "Urinary & Kidney" },
-					{ value: "liver-gallbladder", label: "Liver & Gallbladder" },
-					{ value: "reproductive-health", label: "Reproductive Health" },
-					{
-						value: "musculoskeletal",
-						label: "Musculoskeletal (Bones, Muscles & Joints)",
-					},
-					{ value: "skin-hair-nails", label: "Skin, Hair & Nails" },
-					{ value: "eye-vision", label: "Eye & Vision" },
-					{ value: "ear-hearing", label: "Ear & Hearing" },
-					{ value: "ent", label: "Nose, Sinus & Throat (ENT)" },
-					{ value: "dental-oral-health", label: "Dental & Oral Health" },
-				],
-			},
-
-			{
-				category: "Specialized Conditions",
-				options: [
-					{
-						value: "blood-pressure",
-						label: "Blood Pressure (Hypertension / Hypotension)",
-					},
-					{ value: "diabetes", label: "Diabetes" },
-					{ value: "thyroid-disorders", label: "Thyroid Disorders" },
-					{ value: "cancer-oncology", label: "Cancer & Oncology" },
-					{ value: "autoimmune-disorders", label: "Autoimmune Disorders" },
-					{
-						value: "genetic-congenital",
-						label: "Genetic / Congenital Conditions",
-					},
-					{ value: "infectious-diseases", label: "Infectious Diseases" },
-					{ value: "allergies", label: "Allergies" },
-					{ value: "neurological-disorders", label: "Neurological Disorders" },
-					{ value: "mental-emotional", label: "Mental & Emotional Well-being" },
-					{ value: "sleep-disorders", label: "Sleep Disorders" },
-					{ value: "pain-management", label: "Pain Management" },
-					{ value: "weight-metabolism", label: "Weight & Metabolism" },
-				],
-			},
-
-			{
-				category: "Medical Events",
-				options: [
-					{ value: "surgery-recovery", label: "Surgery & Recovery" },
-					{ value: "hospitalization", label: "Hospitalization" },
-					{ value: "coma-critical-care", label: "Coma / Critical Care" },
-					{ value: "injury-trauma", label: "Injury / Trauma" },
-					{ value: "fractures", label: "Fractures" },
-					{
-						value: "rehabilitation-physiotherapy",
-						label: "Rehabilitation / Physiotherapy",
-					},
-				],
-			},
-
-			{
-				category: "Women's Health",
-				options: [
-					{ value: "pregnancy", label: "Pregnancy" },
-					{ value: "fertility", label: "Fertility" },
-					{ value: "menstrual-health", label: "Menstrual Health" },
-					{ value: "menopause", label: "Menopause" },
-				],
-			},
-
-			{
-				category: "Men's Health",
-				options: [
-					{ value: "male-fertility", label: "Male Fertility" },
-					{ value: "prostate-health", label: "Prostate Health" },
-					{ value: "sexual-health", label: "Sexual Health" },
-				],
-			},
-
-			{
-				category: "Children's Health",
-				options: [
-					{ value: "child-development", label: "Child Development" },
-					{ value: "pediatric-health", label: "Pediatric Health" },
-				],
-			},
-
-			{
-				category: "Other",
-				options: [
-					{
-						value: "lifestyle-related-concerns",
-						label: "Lifestyle-Related Concerns",
-					},
-					{ value: "preventive-health", label: "Preventive Health" },
-					{ value: "second-opinion", label: "Second Opinion" },
-					{ value: "other", label: "Other (Please Specify)" },
-				],
-			},
-		],
-	},
-};
-
 const genderOptions = {
 	female: "Female",
 	male: "Male",
 	lgtbqa: "LGBTQA+",
 	other: "Other",
 };
+
+const now = new Date();
 
 const state = reactive<InitiativeForm>({
 	fullName: "",
@@ -705,22 +585,12 @@ watch(countryCode, () => {
 	phone.value = "";
 });
 
-// watch([phone, dialCode], () => {
-//   state.phone = dialCode.value + phone.value
-// })
-
 const validate = (formState: Partial<InitiativeForm>): FormError[] => {
 	const errors: FormError[] = [];
 
 	if (!formState.fullName) {
 		errors.push({ name: "fullName", message: "Name is required." });
 	}
-
-	// if (!formState.email) {
-	//   errors.push({ name: 'email', message: 'Email address is required.' })
-	// } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
-	//   errors.push({ name: 'email', message: 'Enter a valid email address.' })
-	// }
 
 	if (formState.gender === "other" && !formState.customGender) {
 		errors.push({
@@ -755,12 +625,31 @@ const validate = (formState: Partial<InitiativeForm>): FormError[] => {
 	return errors;
 };
 
+// Human-readable snapshot of the form, shown in the confirmation modal.
+// Computed so it always reflects state at the moment the modal is opened.
+const summaryItems = computed(() => [
+	{ label: "Name", value: state.fullName },
+	{ label: "Date of birth (YYYY-MM-DD)", value: serializeCalendarDate(state.dateOfBirth) },
+	{ label: "Time of birth (HH:MM:SS)", value: serializeTime(state.timeOfBirth) },
+	{ label: "Birth location", value: state.location },
+	{ label: "Birth place zipcode", value: state.zipcode },
+	{
+		label: "Birth time accuracy",
+		value: accuracyOptions[state.accuracy as keyof typeof accuracyOptions],
+	},
+	{
+		label: "Gender",
+		value:
+			state.gender === "other"
+				? state.customGender
+				: genderOptions[state.gender as keyof typeof genderOptions],
+	},
+	{ label: "Question / message", value: state.message },
+]);
+
 const resetState = () => {
 	const current = new Date();
 	state.fullName = "";
-	// state.email = ''
-	// state.phone = dialCode.value
-	// phone.value = ''
 	state.dateOfBirth = shallowRef(
 		new CalendarDate(
 			current.getFullYear(),
@@ -779,7 +668,10 @@ const resetState = () => {
 	state.message = "";
 };
 
-const handleSubmit = async (_event: FormSubmitEvent<InitiativeForm>) => {
+// UForm only fires @submit once validation passes, so at this point the
+// data is already known-good. We just open the confirmation modal instead
+// of hitting the API right away.
+const onFormSubmit = async (_event: FormSubmitEvent<InitiativeForm>) => {
 	if (!user.value) {
 		toast.add({
 			title: "Login required",
@@ -790,6 +682,11 @@ const handleSubmit = async (_event: FormSubmitEvent<InitiativeForm>) => {
 		return;
 	}
 
+	showConfirmModal.value = true;
+};
+
+// Fires only when the user explicitly confirms in the modal.
+const confirmAndSubmit = async () => {
 	submitting.value = true;
 
 	try {
@@ -815,6 +712,7 @@ const handleSubmit = async (_event: FormSubmitEvent<InitiativeForm>) => {
 			icon: "i-lucide-check-circle-2",
 		});
 
+		showConfirmModal.value = false;
 		resetState();
 	} catch (error: any) {
 		const message =

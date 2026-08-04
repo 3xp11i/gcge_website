@@ -5,7 +5,7 @@
 				<h1 class="text-3xl! font-semibold text-white mt-10">
 					My Consultations
 				</h1>
-				<p class="mt-1 text-sm text-white/60">
+				<p class="mt-1 text-sm text-center text-white/60">
 					Your submitted consultation requests and their responses.
 				</p>
 			</div>
