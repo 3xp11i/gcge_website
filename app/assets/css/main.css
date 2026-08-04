@@ -482,3 +482,28 @@ h4 {
 .theme-accordion-item {
 	border-bottom-color: var(--gg-accordion-border);
 }
+
+
+
+
+
+
+/* ==========================================================================
+   PAGE TRANSITIONS
+   ========================================================================== */
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.15s ease;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active {
+    transition: none;
+  }
+}

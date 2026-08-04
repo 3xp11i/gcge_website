@@ -23,13 +23,13 @@
           <div v-else key="email" class="space-y-5">
             <AuthEmailLoginForm />
 
-            <!-- <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3">
               <div class="h-px flex-1 bg-white/10" />
               <span class="text-xs text-white/40">or</span>
               <div class="h-px flex-1 bg-white/10" />
-            </div> -->
+            </div>
 
-            <!-- <AuthGoogleLoginButton /> -->
+            <AuthGoogleLoginButton />
           </div>
         </Transition>
 

@@ -4,8 +4,6 @@ export default defineEventHandler(async (event) => {
 	const supabase = await serverSupabaseClient<Database>(event);
 	const serverUser = await serverSupabaseUser(event);
 
-	console.log("serverUser", serverUser);
-
 	if (!serverUser) {
 		throw createError({
 			statusCode: 401,

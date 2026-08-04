@@ -1,8 +1,10 @@
 <template>
 	<div class="w-full px-4 py-6 sm:px-6 lg:px-16 mt-10">
 		<div class="mx-auto w-full space-y-6 flex justify-center flex-col">
-			<div>
-				<h1 class="text-3xl! font-semibold text-white mt-10">My Consultations</h1>
+			<div class="flex flex-col items-center">
+				<h1 class="text-3xl! font-semibold text-white mt-10">
+					My Consultations
+				</h1>
 				<p class="mt-1 text-sm text-white/60">
 					Your submitted consultation requests and their responses.
 				</p>
@@ -39,7 +41,7 @@
 				</NuxtLink>
 			</div>
 
-			<div v-else class="flex space-y-3 max-w-5xl">
+			<div v-else class="flex space-y-3 max-w-5xl gap-5">
 				<NuxtLink
 					v-for="item in consultations"
 					:key="item.id"
@@ -82,13 +84,18 @@
 </template>
 
 <script lang="ts" setup>
-
 const user = useSupabaseUser();
+const requestFetch = useRequestFetch(); // forwards cookies on SSR, behaves like $fetch on client
 
 const { data: consultations, pending } = await useLazyAsyncData(
 	"my-consultations",
-	() => $fetch("/api/free-consultations"),
-	{ watch: [user] },
+	() => requestFetch("/api/free-consultations"),
+	{
+		watch: [() => user.value?.id], // don't refetch on token-refresh events, only on actual login/logout
+		getCachedData(key, nuxtApp) {
+			return nuxtApp.payload.data[key] ?? nuxtApp.static.data[key];
+		},
+	},
 );
 
 function formatDate(iso: string) {

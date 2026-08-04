@@ -19,7 +19,7 @@
 				],
 				container: 'h-10',
 				title: 'text-md sm:text-base text-white font-bold',
-        close: 'text-white'
+				close: 'text-white',
 			}">
 			<template #title>
 				<span class="hidden sm:inline">
@@ -31,7 +31,8 @@
 		</UBanner>
 		<UMain>
 			<NuxtLayout>
-				<NuxtPage />
+				<NuxtLoadingIndicator />
+				<NuxtPage :keepalive="{ include: ['ConsultationsList'] }" />
 				<ClientOnly>
 					<NuxtRouteAnnouncer />
 				</ClientOnly>
