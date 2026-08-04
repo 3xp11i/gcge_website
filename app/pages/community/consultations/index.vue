@@ -1,8 +1,8 @@
 <template>
-	<div class="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
-		<div class="mx-auto w-full max-w-3xl space-y-6">
+	<div class="w-full px-4 py-6 sm:px-6 lg:px-16 mt-10">
+		<div class="mx-auto w-full space-y-6 flex justify-center flex-col">
 			<div>
-				<h1 class="text-2xl font-semibold text-white">My Consultations</h1>
+				<h1 class="text-3xl! font-semibold text-white mt-10">My Consultations</h1>
 				<p class="mt-1 text-sm text-white/60">
 					Your submitted consultation requests and their responses.
 				</p>
@@ -39,7 +39,7 @@
 				</NuxtLink>
 			</div>
 
-			<div v-else class="space-y-3">
+			<div v-else class="flex space-y-3 max-w-5xl">
 				<NuxtLink
 					v-for="item in consultations"
 					:key="item.id"

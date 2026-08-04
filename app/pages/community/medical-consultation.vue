@@ -1,14 +1,14 @@
 <template>
-	<div class="consultation-page min-h-screen px-4 py-2 sm:px-6 lg:px-8">
+	<div class="consultation-page px-4 py-2 sm:px-6 lg:px-8">
 		<div class="mx-auto flex w-full max-w-7xl flex-col gap-6">
 			<header
-				class="relative overflow-hidden rounded-3xl border border-white/10 bg-black/20 px-6 py-6 sm:px-2 mb-0!">
+				class="rounded-3xl border border-white/10 bg-black/20 px-6 py-6 sm:px-2 mb-0!">
 				<div
 					class="pointer-events-none absolute -left-12 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full border border-white/10" />
 				<div
 					class="pointer-events-none absolute -right-12 bottom-1/2 h-56 w-56 -translate-y-1/2 rounded-full border border-white/90" />
 
-				<div class="relative z-10 mx-auto max-w-3xl text-center">
+				<div class="mx-auto max-w-3xl text-center">
 					<p
 						class="text-xs font-semibold uppercase tracking-[0.32em] text-(--gg-accent-strong)">
 						Galactic Gene
@@ -21,6 +21,11 @@
 						Applying for our current astrology initiative is easy. <br />
 						Please fill this form with your details and submit your application.
 					</p>
+
+					<!-- Already Submitted Nuxt Link to /community/consultations -->
+					<NuxtLink to="/community/consultations" class="mt-5 inline-block text-sm text-(--gg-accent) underline rounded-xl border border-amber-400/40 bg-amber-400/10 p-3 text-md font-semibold hover:bg-amber-300/10 hover:text-amber-400 transition-colors">
+						Already submitted an application? Check your submissions here.
+					</NuxtLink>
 				</div>
 			</header>
 
