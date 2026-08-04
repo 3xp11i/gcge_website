@@ -2,11 +2,11 @@
 	<div class="consultation-page px-4 py-2 sm:px-6 lg:px-8">
 		<div class="mx-auto flex w-full max-w-7xl flex-col gap-6">
 			<header
-				class="rounded-3xl border border-white/10 bg-black/20 px-6 py-6 sm:px-2 mb-0!">
+				class="relative rounded-3xl border border-white/10 bg-black/20 px-6 py-6 sm:px-2 mb-0!">
 				<div
 					class="pointer-events-none absolute -left-12 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full border border-white/10" />
 				<div
-					class="pointer-events-none absolute -right-12 bottom-1/2 h-56 w-56 -translate-y-1/2 rounded-full border border-white/90" />
+					class="pointer-events-none absolute -right-12 top-1/2 h-56 w-56 rounded-full border -z-1 border-white/10" />
 
 				<div class="mx-auto max-w-3xl text-center">
 					<p
@@ -23,7 +23,9 @@
 					</p>
 
 					<!-- Already Submitted Nuxt Link to /community/consultations -->
-					<NuxtLink to="/community/consultations" class="mt-5 inline-block text-sm text-(--gg-accent) underline rounded-xl border border-amber-400/40 bg-amber-400/10 p-3 text-md font-semibold hover:bg-amber-300/10 hover:text-amber-400 transition-colors">
+					<NuxtLink
+						to="/community/consultations"
+						class="mt-5 inline-block text-sm text-(--gg-accent) underline rounded-xl border border-amber-400/40 bg-amber-400/10 p-3 text-md font-semibold hover:bg-amber-300/10 hover:text-amber-400 transition-colors">
 						Already submitted an application? Check your submissions here.
 					</NuxtLink>
 				</div>
@@ -36,7 +38,9 @@
 						v-if="!user"
 						class="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-200 mb-5">
 						You must be
-						<NuxtLink to="/login" class="underline font-semibold pulse-animation"
+						<NuxtLink
+							to="/login"
+							class="underline font-semibold pulse-animation"
 							>logged in</NuxtLink
 						>
 						to submit an application.
@@ -144,7 +148,10 @@
 							</div>
 
 							<div class="grid gap-4 sm:grid-cols-2">
-								<UFormField label="Date of birth (MM:DD:YYYY)" name="dateOfBirth" required>
+								<UFormField
+									label="Date of birth (MM:DD:YYYY)"
+									name="dateOfBirth"
+									required>
 									<UInputDate
 										ref="inputDate"
 										v-model="state.dateOfBirth"
@@ -168,10 +175,14 @@
 									</UInputDate>
 								</UFormField>
 
-								<UFormField label="Time of birth (HH:MM:SS, 24-hour format)" name="timeOfBirth" required>
+								<UFormField
+									label="Time of birth (HH:MM:SS, 24-hour format)"
+									name="timeOfBirth"
+									required>
 									<UInputTime
 										v-model="state.timeOfBirth"
-										type="time" :hour-cycle="24"
+										type="time"
+										:hour-cycle="24"
 										granularity="second"
 										:disabled="!user" />
 								</UFormField>
@@ -242,7 +253,7 @@
 									required
 									class="sm:col-span-2">
 									<UInput
-										v-model="state.gender"
+										v-model="state.customGender"
 										placeholder="Enter your custom gender"
 										size="lg"
 										class="w-full"
@@ -487,13 +498,12 @@ type PhoneCode = {
 
 type InitiativeForm = {
 	fullName: string;
-	// email: string
-	// phone: string
 	dateOfBirth: ShallowRef<CalendarDate>;
 	timeOfBirth: ShallowRef<Time>;
 	location: string;
 	zipcode: string;
 	gender: "male" | "female" | "lgtbqa+" | "other";
+	customGender: string; // ← new
 	accuracy: "high" | "medium" | "low";
 	message: string;
 };
@@ -667,15 +677,14 @@ const consultationCategories = {
 const genderOptions = {
 	female: "Female",
 	male: "Male",
-  lgtbqa: "LGBTQA+",
+	lgtbqa: "LGBTQA+",
 	other: "Other",
 };
 
 const state = reactive<InitiativeForm>({
 	fullName: "",
-	// email: '',
-	// phone: dialCode.value + phone.value,
 	gender: "",
+	customGender: "", // ← new
 	dateOfBirth: shallowRef(
 		new CalendarDate(now.getFullYear(), now.getMonth() + 1, now.getDate()),
 	),
@@ -712,6 +721,13 @@ const validate = (formState: Partial<InitiativeForm>): FormError[] => {
 	// } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
 	//   errors.push({ name: 'email', message: 'Enter a valid email address.' })
 	// }
+
+	if (formState.gender === "other" && !formState.customGender) {
+		errors.push({
+			name: "customGender",
+			message: "Please specify your gender.",
+		});
+	}
 
 	if (!formState.dateOfBirth) {
 		errors.push({ name: "dateOfBirth", message: "Date of birth is required." });
@@ -758,6 +774,7 @@ const resetState = () => {
 	state.location = "";
 	state.zipcode = "";
 	state.gender = "";
+	state.customGender = "";
 	state.accuracy = "high";
 	state.message = "";
 };
@@ -785,7 +802,7 @@ const handleSubmit = async (_event: FormSubmitEvent<InitiativeForm>) => {
 				location: state.location,
 				zipcode: state.zipcode,
 				accuracy: state.accuracy,
-				gender: state.gender,
+				gender: state.gender === "other" ? state.customGender : state.gender,
 				message: state.message,
 			},
 		});
@@ -823,6 +840,4 @@ header {
 	background-size: cover;
 	background-position: center; */
 }
-
-
 </style>
