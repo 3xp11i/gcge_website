@@ -483,6 +483,112 @@ h4 {
 	border-bottom-color: var(--gg-accordion-border);
 }
 
+/* ==========================================================================
+   BLOG PROSE
+   Scoped to .blog-prose so global heading/section rules don't bleed in.
+   ========================================================================== */
+
+.blog-prose {
+	color: var(--gg-text-soft);
+	line-height: 1.75;
+}
+
+.blog-prose h1,
+.blog-prose h2,
+.blog-prose h3,
+.blog-prose h4 {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+	font-size: revert;
+	font-family: revert;
+}
+
+.blog-prose h2 {
+	font-size: 1.5rem;
+	font-family: "Cinzel Decorative", serif;
+	color: var(--gg-heading-h2);
+}
+
+.blog-prose h3 {
+	font-size: 1.2rem;
+	color: var(--gg-heading-h3);
+}
+
+.blog-prose h4 {
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--gg-heading-h4);
+}
+
+.blog-prose p {
+	margin-bottom: 1.2em;
+}
+
+.blog-prose a {
+	color: var(--gg-accent);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.blog-prose ul,
+.blog-prose ol {
+	padding-left: 1.5em;
+	margin-bottom: 1.2em;
+}
+
+.blog-prose ul {
+	list-style: disc;
+}
+
+.blog-prose ol {
+	list-style: decimal;
+}
+
+.blog-prose li {
+	margin-bottom: 0.4em;
+}
+
+.blog-prose blockquote {
+	border-left: 3px solid var(--gg-accent);
+	padding-left: 1em;
+	margin-left: 0;
+	opacity: 0.75;
+	font-style: italic;
+}
+
+.blog-prose code {
+	background-color: var(--gg-surface-soft);
+	border-radius: 0.25rem;
+	padding: 0.1em 0.35em;
+	font-size: 0.875em;
+}
+
+.blog-prose pre {
+	background-color: var(--gg-surface-soft);
+	border: 1px solid var(--gg-border-soft);
+	border-radius: 0.75rem;
+	padding: 1rem 1.25rem;
+	overflow-x: auto;
+	margin-bottom: 1.2em;
+}
+
+.blog-prose pre code {
+	background: none;
+	padding: 0;
+	font-size: 0.875em;
+}
+
+.blog-prose hr {
+	border: none;
+	border-top: 1px solid var(--gg-border-soft);
+	margin-block: 2em;
+}
+
+.blog-prose img {
+	border-radius: 0.75rem;
+	margin-block: 1.5em;
+}
+
 
 
 
