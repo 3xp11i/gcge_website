@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen">
+  <div class="relative flex min-h-screen flex-col items-center justify-center">
     <Navbar />
 
     <main class="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -10,29 +10,36 @@
         </article>
 
         <!-- Table of contents -->
-        <aside v-if="toc && toc.links?.length" class="hidden w-56 shrink-0 xl:block">
-          <div class="sticky top-10">
-            <p class="mb-3 text-xs font-semibold tracking-widest uppercase opacity-50">On this page</p>
-            <nav>
-              <ul class="space-y-1 border-l border-white/10">
-                <template v-for="link in toc.links" :key="link.id">
-                  <li>
-                    <a
-                      :href="`#${link.id}`"
-                      class="block border-l-2 border-transparent py-0.5 pl-3 text-sm leading-snug opacity-60 transition-colors hover:border-amber-400/60 hover:opacity-100 -ml-px"
-                    >{{ link.text }}</a>
-                  </li>
+
+      <!-- <aside v-if="toc?.links?.length" class="mb-8 lg:sticky lg:top-6 lg:order-2 lg:mb-0 lg:self-start">
+        <div class="max-h-[calc(100vh-3rem)] overflow-y-auto rounded-xl border border-white/10 bg-white/5 p-5">
+          <p class="text-sm font-semibold uppercase tracking-wide opacity-60">
+            Table of Contents
+          </p>
+          <nav class="mt-4">
+            <ul class="space-y-3 text-base">
+              <li v-for="link in toc.links" :key="link.id">
+                
+                  :href="`#${link.id}`"
+                  class="opacity-70 transition-colors hover:text-amber-300 hover:opacity-100">
+                  {{ link.text }}
+                </a>
+                <ul
+                  v-if="link.children?.length"
+                  class="mt-2 space-y-2 border-l border-white/10 pl-3">
                   <li v-for="child in link.children" :key="child.id">
-                    <a
+                    
                       :href="`#${child.id}`"
-                      class="block border-l-2 border-transparent py-0.5 pl-6 text-xs leading-snug opacity-50 transition-colors hover:border-amber-400/40 hover:opacity-90 -ml-px"
-                    >{{ child.text }}</a>
+                      class="text-sm opacity-60 transition-colors hover:text-amber-300 hover:opacity-100">
+                      {{ child.text }}
+                    </a>
                   </li>
-                </template>
-              </ul>
-            </nav>
-          </div>
-        </aside>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside> -->
       </div>
     </main>
 

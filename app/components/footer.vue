@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-80 bg-gray-800 w-full relative">
+<div class="flex flex-col min-h-80 bg-gray-800 w-full relative overflow-hidden">
     <!-- Footer content -->
 
     <img src="@/assets/images/footer_art.png"
