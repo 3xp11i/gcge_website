@@ -109,6 +109,15 @@ export default defineNuxtConfig({
 				},
 			},
 		},
+		database: process.env.NUXT_CONTENT_DATABASE_URL
+			? {
+					type: "postgres",
+					url: process.env.NUXT_CONTENT_DATABASE_URL,
+				}
+			: {
+					type: "sqlite",
+					filename: ".data/content/contents.sqlite", // Nuxt Content's default local path
+				},
 	},
 
 	supabase: {

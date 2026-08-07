@@ -66,7 +66,7 @@ Although Rahu and Ketu are opposite in nature, **both impart the liberation of s
 
 ### The Remedy: Donation
 
-This section ends with a lecture that reminds us that **donation is one of the most common treatments for both nodes**. Selfless giving can be done in these four ways: time, effort, knowledge, money and service, and this neutralizes the intensity of Rahu and Ketu. Both are shadow planets that operate behind the scenes, unobtrusively serving the needs of others, which is very similar to their deeper symbolic roles.
+This section ends with a lecture that reminds us that **donation is one of the most common treatments for both nodes**. Selfless giving can be done in these five ways: time, effort, knowledge, money and service, and this neutralizes the intensity of Rahu and Ketu. Both are shadow planets that operate behind the scenes, unobtrusively serving the needs of others, which is very similar to their deeper symbolic roles.
 
 ## Example
 
