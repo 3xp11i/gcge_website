@@ -30,6 +30,7 @@
     "dodopayments-checkout": "^1.9.4",
     "maska": "^3.2.0",
     "nuxt": "^4.4.8",
+    "pg": "^8.22.0",
     "playwright-core": "^1.61.1",
     "razorpay": "^2.9.6",
     "standardwebhooks": "^1.0.0",
@@ -45,6 +46,7 @@
     "@iconify-json/mdi": "^1.2.3",
     "@types/cloudflare-turnstile": "^0.2.2",
     "@types/node": "^26.0.1",
+    "@types/pg": "^8.21.0",
     "vue-tsc": "^3.3.7"
   }
 }
