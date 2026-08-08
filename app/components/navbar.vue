@@ -15,6 +15,7 @@
 			<NuxtLink to="/about">About</NuxtLink>
 			<NuxtLink to="/#community">Community</NuxtLink>
 			<NuxtLink to="/blog">Blog</NuxtLink>
+			<NuxtLink to="/consultation">Consultation</NuxtLink>
 			<NuxtLink to="/courses">Courses</NuxtLink>
 
 			<NuxtLink
