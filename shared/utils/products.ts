@@ -28,24 +28,24 @@ export interface CourseProduct {
 }
 
 export const personalRelationshipServices: ConsultationService[] = [
-	{
-		kicker: "Relationship life guidance",
-		title: "Relationship consultation",
-		priceInr: "₹5,100",
-		priceUsd: "$60",
-		badge: "30 mins",
-		description:
-			"This consultation is focused on relationship guidance, compatibility, and understanding the dynamics of the relationship.",
-		includes: "30 minutes for one horoscope, individually reviewed.",
-		amountPaise: 510000,
-		receipt: "relationship-consultation",
-		ctaLabel: "Book Relationship Consultation",
-		category: "Personal & Relationships",
-		durationMinutes: 30,
-		dodoProductID: "pdt_0Nif7NpelxSATp0uIQ6l9",
-		dodoProductIDLive: "pdt_0NifmXPQ0wgrs7sfPOHtT",
-		serviceTypeId: "028f9a7e-d96a-46cf-845a-f2d64b8702dc",
-	},
+	// {
+	// 	kicker: "Relationship life guidance",
+	// 	title: "Relationship consultation",
+	// 	priceInr: "₹5,100",
+	// 	priceUsd: "$60",
+	// 	badge: "30 mins",
+	// 	description:
+	// 		"This consultation is focused on relationship guidance, compatibility, and understanding the dynamics of the relationship.",
+	// 	includes: "30 minutes for one horoscope, individually reviewed.",
+	// 	amountPaise: 510000,
+	// 	receipt: "relationship-consultation",
+	// 	ctaLabel: "Book Relationship Consultation",
+	// 	category: "Personal & Relationships",
+	// 	durationMinutes: 30,
+	// 	dodoProductID: "pdt_0Nif7NpelxSATp0uIQ6l9",
+	// 	dodoProductIDLive: "pdt_0NifmXPQ0wgrs7sfPOHtT",
+	// 	serviceTypeId: "028f9a7e-d96a-46cf-845a-f2d64b8702dc",
+	// },
 	{
 		kicker: "Core reading",
 		title: "Full consultation",
@@ -86,23 +86,23 @@ export const personalRelationshipServices: ConsultationService[] = [
 ];
 
 export const careerBusinessServices: ConsultationService[] = [
-	{
-		kicker: "Career focus",
-		title: "Career/Business consultation",
-		priceInr: "₹5,100",
-		priceUsd: "$60",
-		badge: "30 mins",
-		description:
-			"Career-focused guidance for questions about work, progress, direction, and blockages.",
-		includes: "30 minutes for one horoscope, individually reviewed.",
-		amountPaise: 510000,
-		receipt: "career-consultation",
-		ctaLabel: "Book Career Consultation",
-		category: "Career & Business",
-		durationMinutes: 30,
-		dodoProductID: "pdt_0Nifn35LmCYTBU9e9QUcf",
-		serviceTypeId: "1e8f0976-7704-47f1-8931-7c53b76e8fc5",
-	},
+	// {
+	// 	kicker: "Career focus",
+	// 	title: "Career/Business consultation",
+	// 	priceInr: "₹5,100",
+	// 	priceUsd: "$60",
+	// 	badge: "30 mins",
+	// 	description:
+	// 		"Career-focused guidance for questions about work, progress, direction, and blockages.",
+	// 	includes: "30 minutes for one horoscope, individually reviewed.",
+	// 	amountPaise: 510000,
+	// 	receipt: "career-consultation",
+	// 	ctaLabel: "Book Career Consultation",
+	// 	category: "Career & Business",
+	// 	durationMinutes: 30,
+	// 	dodoProductID: "pdt_0Nifn35LmCYTBU9e9QUcf",
+	// 	serviceTypeId: "1e8f0976-7704-47f1-8931-7c53b76e8fc5",
+	// },
 	{
 		// Logo Designing package
 		kicker: "Design focus",
